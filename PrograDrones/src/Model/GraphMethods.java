@@ -381,4 +381,32 @@ public class GraphMethods {
         
     }
    
+    public void setShortestPath(){
+        
+        Graph copy = this.graph;
+        Path path = new Path();
+        Set<Node> nodes = new HashSet<>();
+        
+        for(Node temporalCalc:this.graph.getNodes()){
+            path.path.clear();
+            this.graph = calculateShortestPathFromSource(this.graph,temporalCalc);
+            
+            path.path.add(temporalCalc.getName());
+            
+            for(Node getPath: this.graph.getNodes()){
+                path.totalWeight = getPath.getDistance();
+                
+                for(Node getShortest: getPath.getShortestPath()){
+                    path.path.add(getShortest.getName());
+                }
+                temporalCalc.path.add(path);
+                path.path.clear();
+            }        
+            nodes.add(temporalCalc);
+            this.graph = copy;
+        }
+        
+        graph.setNodes(nodes);
+        
+    }
 }

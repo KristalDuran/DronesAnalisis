@@ -5,6 +5,7 @@
  */
 package Model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +24,8 @@ public class Node {
     private Integer distance = Integer.MAX_VALUE;
      
     Map<Node, Integer> adjacentNodes = new HashMap<>();
+    
+    ArrayList<Path> path = new ArrayList();
  
     private int x, y;
     

@@ -16,7 +16,16 @@ public class Graph {
     
     
     private Set<Node> nodes = new HashSet<>();
-     
+    
+    public Graph(){
+    
+    }
+    
+    public Graph(Graph copia){
+        this.nodes = copia.nodes;
+    }
+    
+    
     public void addNode(Node nodeA) {
         nodes.add(nodeA);
     }
