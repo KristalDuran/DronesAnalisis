@@ -110,7 +110,7 @@ public class GraphMethods {
                 if (nodes[subNode].getName().compareTo(nodes[destineNode].getName()) != 0 ) {
                     if (arrayList.size()+1 == cantStation) { 
                         defineTheClosets(subNode);
-                        break;
+                        cantPista--;
                     }else{   
                         if (  (nodes[destineNode].adjacentNodes.size() < 1) ){
                             addArrayTemp(destineNode, arrayList);
@@ -220,7 +220,7 @@ public class GraphMethods {
         int destineNode = defineBestNode(currentNode);
         int distancia = defineDistance(nodes[currentNode], nodes[destineNode]);
         nodes[currentNode].addDestination(nodes[destineNode], distancia);
-        
+        nodes[destineNode].addDestination(nodes[currentNode], distancia);
     }
         
     public static void mergesort(Node[ ] matrix, int init, int n)
