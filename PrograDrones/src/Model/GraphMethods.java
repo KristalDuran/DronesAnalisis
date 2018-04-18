@@ -150,16 +150,16 @@ public class GraphMethods {
         }
         
         for(Node tmp : graph.getNodes()){
-            System.out.println("Nodo:" + tmp.getName());
+            //System.out.println("Nodo:" + tmp.getName());
             for(Node j : tmp.getShortestPath()){
-                System.out.println("from:" + tmp.getName() + " to " + j.getName() + " distance = " + j.getDistance());
+                //System.out.println("from:" + tmp.getName() + " to " + j.getName() + " distance = " + j.getDistance());
             }
         }
         graph = calculateShortestPathFromSource(graph, nodes[0]);
         
-        System.out.println("from 1:");
+        //System.out.println("from 1:");
         for(Node tmp : graph.getNodes()){
-            System.out.println("to:" + tmp.getName() + " distance: " + tmp.getDistance());
+            //System.out.println("to:" + tmp.getName() + " distance: " + tmp.getDistance());
         }
     }
     
@@ -364,6 +364,16 @@ public class GraphMethods {
         return pistaWidth;
     }
 
+    public Graph getGraph() {
+        return graph;
+    }
+
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+    }
+
+    
+    
     public void setPistaWidth(int pistaWidth) {
         this.pistaWidth = pistaWidth;
     }
@@ -381,32 +391,74 @@ public class GraphMethods {
         
     }
    
+    public GraphMethods copy(){
+        GraphMethods nuevo;
+                
+        nuevo = new GraphMethods();
+        
+        nuevo.setCant(this.cantTrips);
+        nuevo.setCantStation(cantStation);
+        nuevo.setNodes();
+        for(Node copy: this.nodes){
+            nuevo.MakeStation(copy.getName(), copy.getX(), copy.getY());
+        }
+        nuevo.MakeGraph();
+        return nuevo;
+    }
+    
+    public Node getNode(Node toFind){
+        for(Node toGet:this.nodes){
+            if(toGet.getName() == toFind.getName()){
+                return toGet;
+            }
+        }
+        return null;
+    }
+    
+    
     public void setShortestPath(){
         
-        Graph copy = this.graph;
         Path path = new Path();
         Set<Node> nodes = new HashSet<>();
+        GraphMethods resultado = copy();
+        
+        
+        System.out.println("Prueba1___________________");
+        for(Node i:this.nodes){
+            
+            System.out.println(i.getDistance());
+        }
+        
         
         for(Node temporalCalc:this.graph.getNodes()){
-            path.path.clear();
-            this.graph = calculateShortestPathFromSource(this.graph,temporalCalc);
             
+            GraphMethods nuevo = copy();
+            System.out.println("Prueba"+ temporalCalc.getName() +"___________________");
+            for(Node i:this.nodes){
+                System.out.println(i.getDistance());
+            }
+            //path.path.clear();
+            nuevo.setGraph(calculateShortestPathFromSource(nuevo.getGraph(),nuevo.getNode(temporalCalc)));
+            temporalCalc = nuevo.getNode(temporalCalc);
             path.path.add(temporalCalc.getName());
             
-            for(Node getPath: this.graph.getNodes()){
+            for(Node getPath: nuevo.getGraph().getNodes()){
                 path.totalWeight = getPath.getDistance();
                 
                 for(Node getShortest: getPath.getShortestPath()){
                     path.path.add(getShortest.getName());
                 }
                 temporalCalc.path.add(path);
-                path.path.clear();
+                //path.path.clear();
             }        
             nodes.add(temporalCalc);
-            this.graph = copy;
         }
         
-        graph.setNodes(nodes);
+        resultado.graph.setNodes(nodes);
+        System.out.println("Prueba2");
+        for(Node i: resultado.nodes){
+            System.out.println(i.path.toString());
+        }
         
     }
 }

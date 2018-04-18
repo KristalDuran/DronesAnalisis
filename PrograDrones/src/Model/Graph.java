@@ -38,6 +38,13 @@ public class Graph {
         this.nodes = nodes;
     }
     
+    public void setShortestPathToNode(Node toChange){
+        for(Node toSet:nodes){
+            if(toSet.getName() == toChange.getName()){
+                toSet.setShortestPath(toChange.getShortestPath());
+            }
+        }
+    }
     public Node getNodeByName(Integer name){
         
         for(Node NodeToFind : nodes){
