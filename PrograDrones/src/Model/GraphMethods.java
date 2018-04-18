@@ -423,20 +423,35 @@ public class GraphMethods {
         GraphMethods resultado = copy();
         
         
-        System.out.println("Prueba1___________________");
-        for(Node i:this.nodes){
-            
-            System.out.println(i.getDistance());
+        System.out.println("from 1:");
+        for(Node tmp : graph.getNodes()){
+            System.out.println("to:" + tmp.getName() + " distance: " + tmp.getDistance());
+            System.out.println("camino");
+            for(Node nodo:tmp.getShortestPath()){
+                System.out.println(nodo.getName());
+            }
+            System.out.println(tmp.getName());
+        }
+        
+        graph = calculateShortestPathFromSource(graph,graph.getNodeByName(1));
+        
+        System.out.println("");
+        System.out.println("");
+        
+        System.out.println("from 1____________:");
+        for(Node tmp : graph.getNodes()){
+            System.out.println("to:" + tmp.getName() + " distance: " + tmp.getDistance());
+            System.out.println("camino");
+            for(Node nodo:tmp.getShortestPath()){
+                System.out.println(nodo.getName());
+            }
+            System.out.println(tmp.getName());
         }
         
         
         for(Node temporalCalc:this.graph.getNodes()){
             
             GraphMethods nuevo = copy();
-            System.out.println("Prueba"+ temporalCalc.getName() +"___________________");
-            for(Node i:this.nodes){
-                System.out.println(i.getDistance());
-            }
             //path.path.clear();
             nuevo.setGraph(calculateShortestPathFromSource(nuevo.getGraph(),nuevo.getNode(temporalCalc)));
             temporalCalc = nuevo.getNode(temporalCalc);
