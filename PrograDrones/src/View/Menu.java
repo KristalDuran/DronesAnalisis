@@ -87,11 +87,30 @@ public class Menu extends javax.swing.JFrame {
 
         jLabel7.setText(" Expected time:");
 
+        CantViaje.setText("2");
+        CantViaje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CantViajeActionPerformed(evt);
+            }
+        });
+
+        SizePista.setText("2");
+        SizePista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SizePistaActionPerformed(evt);
+            }
+        });
+
+        CantStation.setText("6");
+
+        TimeReal.setText("2");
         TimeReal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TimeRealActionPerformed(evt);
             }
         });
+
+        TimeProx.setText("2");
 
         buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("Divide and conquer");
@@ -112,6 +131,10 @@ public class Menu extends javax.swing.JFrame {
         jLabel8.setText("Height:");
 
         jLabel9.setText("Width:");
+
+        txtHeight.setText("200");
+
+        txtWidth.setText("200");
 
         jLabel10.setText("Road size");
 
@@ -224,6 +247,14 @@ public class Menu extends javax.swing.JFrame {
     private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton4ActionPerformed
+
+    private void CantViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CantViajeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CantViajeActionPerformed
+
+    private void SizePistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SizePistaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SizePistaActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JTextField CantStation;
