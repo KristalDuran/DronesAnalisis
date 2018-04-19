@@ -101,7 +101,7 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        CantStation.setText("6");
+        CantStation.setText("4");
 
         TimeReal.setText("2");
         TimeReal.addActionListener(new java.awt.event.ActionListener() {

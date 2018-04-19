@@ -15,6 +15,22 @@ public class Path {
     
     ArrayList <Integer> path = new ArrayList();
     int totalWeight = 0;
+
+    public ArrayList<Integer> getPath() {
+        return path;
+    }
+
+    public void setPath(ArrayList<Integer> path) {
+        this.path = path;
+    }
+
+    public int getTotalWeight() {
+        return totalWeight;
+    }
+
+    public void setTotalWeight(int totalWeight) {
+        this.totalWeight = totalWeight;
+    }
     
     
 }

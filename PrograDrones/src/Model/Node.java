@@ -90,6 +90,16 @@ public class Node {
     public void setAdjacentNodes(Map<Node, Integer> adjacentNodes) {
         this.adjacentNodes = adjacentNodes;
     }
+
+    public ArrayList<Path> getPath() {
+        return path;
+    }
+
+    public void setPath(ArrayList<Path> path) {
+        this.path = path;
+    }
+    
+    
     
 }
 
