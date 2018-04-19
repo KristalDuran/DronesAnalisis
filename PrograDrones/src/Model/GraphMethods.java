@@ -30,8 +30,7 @@ public class GraphMethods {
     float worstTimeCase = 1000/30;//al no saber las posiciones de las pistas se debe calcular como si tuvieran que subir
                                   //hasta la pista màs alta
     
-    Node node;
-    Graph graph;
+    Graph graph = new Graph();
     ArrayList<Integer> linesToDraw = new ArrayList();
     Node[] nodes;
     
@@ -42,7 +41,7 @@ public class GraphMethods {
         nodes = new Node[cantStation];
     }
     
-    public static Graph calculateShortestPathFromSource(Graph graph, Node source) {
+    public Graph calculateShortestPathFromSource(Graph graph, Node source) {
         source.setDistance(0);
 
         Set<Node> settledNodes = new HashSet<>();
@@ -92,31 +91,31 @@ public class GraphMethods {
     
     public void MakeStation(Integer name, int x, int y){
         
-        node = new Node(name, x, y);
-        nodes[(name.intValue()-1)] = node;
+        Node create = new Node(name, x, y);
+        nodes[(name.intValue()-1)] = create;
     }
     
     //definir que vertice se conecta con otro y el tama;o del arco es decir la distancia
-    public void MakeGraph(){        
+    public void MakeGraph(GraphMethods graph){        
         //elegir aleatoriamente el que no tenga arco, si todos tienen, elegir los mas cercanos 
-        mergesort(nodes, 0, nodes.length);
+        graph.mergesort(graph.getNodes(), 0, graph.getNodes().length);
         linesToDraw.clear();
         ArrayList<Integer> arrayList = new ArrayList<>();
-        for (int subNode = 0; subNode < nodes.length; subNode++) {
-            int cantPista = sizePista - nodes[subNode].getAdjacentNodes().size();               
+        for (int subNode = 0; subNode < graph.getNodes().length; subNode++) {
+            int cantPista = graph.getSizePista() - graph.getNodes()[subNode].getAdjacentNodes().size();               
             
             while ( cantPista > 0) {
-                int destineNode = (int) (Math.random()*cantStation);
-                if (nodes[subNode].getName().compareTo(nodes[destineNode].getName()) != 0 ) {
-                    if (arrayList.size()+1 == cantStation) { 
-                        defineTheClosets(subNode);
+                int destineNode = (int) (Math.random()*graph.getCantStation());
+                if (graph.getNodes()[subNode].getName().compareTo(graph.getNodes()[destineNode].getName()) != 0 ) {
+                    if (arrayList.size()+1 == graph.getCantStation()) { 
+                        defineTheClosets(graph, subNode);
                         cantPista--;
                     }else{   
-                        if (  (nodes[destineNode].adjacentNodes.size() < 1) ){
+                        if (  (graph.getNodes()[destineNode].getAdjacentNodes().size() < 1) ){
                             addArrayTemp(destineNode, arrayList);
                             addArrayTemp(subNode, arrayList);
-                            nodes[subNode].addDestination(nodes[destineNode], defineDistance(nodes[subNode], nodes[destineNode]));                                
-                            nodes[destineNode].addDestination(nodes[subNode], defineDistance(nodes[destineNode], nodes[subNode]));
+                            graph.getNodes()[subNode].addDestination(graph.getNodes()[destineNode], defineDistance(graph.getNodes()[subNode], graph.getNodes()[destineNode]));                                
+                            graph.getNodes()[destineNode].addDestination(graph.getNodes()[subNode], defineDistance(graph.getNodes()[destineNode], graph.getNodes()[subNode]));
                             cantPista--;                            
                         }    
                     }  
@@ -124,7 +123,7 @@ public class GraphMethods {
             }            
         }
         
-        addGraph();
+        addGraph(graph);
         
     }
     
@@ -142,11 +141,10 @@ public class GraphMethods {
         return (int)Math.abs((origen.getX() + origen.getY()) - (destin.getX() + destin.getY()));
     }
     
-    public void addGraph(){
-        graph = new Graph();
+    public void addGraph(GraphMethods graph){
         
-        for (int i = 0; i < nodes.length; i++) {
-            graph.addNode(nodes[i]);
+        for (int i = 0; i < graph.getNodes().length; i++) {
+            graph.getGraph().addNode(graph.getNodes()[i]);
         }
         
         for(Node tmp : graph.getNodes()){
@@ -155,7 +153,8 @@ public class GraphMethods {
                 //System.out.println("from:" + tmp.getName() + " to " + j.getName() + " distance = " + j.getDistance());
             }
         }
-        graph = calculateShortestPathFromSource(graph, nodes[0]);
+        
+        //graph = calculateShortestPathFromSource(graph, nodes[0]);
         
         //System.out.println("from 1:");
         for(Node tmp : graph.getNodes()){
@@ -163,13 +162,13 @@ public class GraphMethods {
         }
     }
     
-    public int defineBestNode(int currentNode){
+    public int defineBestNode(GraphMethods graph, int currentNode){
         int nodeNext = (currentNode+1);
         int nodePast = (currentNode-1);
         int distanceNext = Integer.MAX_VALUE;
         int distancePast = Integer.MAX_VALUE;
         
-        if (nodeNext > nodes.length-1) {
+        if (nodeNext > graph.getNodes().length-1) {
             nodeNext--;
         }
         
@@ -179,15 +178,15 @@ public class GraphMethods {
         
         if (currentNode != nodeNext) {
             while (true) {            
-                if (nodes[nodeNext].adjacentNodes.containsKey(nodes[(currentNode)])) {
-                    if (nodeNext != nodes.length-1)                       
+                if (graph.getNodes()[nodeNext].getAdjacentNodes().containsKey(graph.getNodes()[(currentNode)])) {
+                    if (nodeNext != graph.getNodes().length-1)                       
                         nodeNext++;
                     else{
                         distanceNext = Integer.MAX_VALUE;
                         break;
                     }
                 }else{
-                    distanceNext = defineDistance(nodes[currentNode], nodes[nodeNext]);
+                    distanceNext = defineDistance(graph.getNodes()[currentNode], graph.getNodes()[nodeNext]);
                     break;
                 }
             }
@@ -195,7 +194,7 @@ public class GraphMethods {
         
         if(currentNode != nodePast){
             while (true) {            
-                if (nodes[nodePast].adjacentNodes.containsKey(nodes[(currentNode)])) {
+                if (graph.getNodes()[nodePast].getAdjacentNodes().containsKey(graph.getNodes()[(currentNode)])) {
                     if (nodePast != 0) {
                         nodePast--;
                     }else{
@@ -203,7 +202,7 @@ public class GraphMethods {
                         break;
                     }
                 }else{
-                    distancePast = defineDistance(nodes[currentNode], nodes[nodePast]);
+                    distancePast = defineDistance(graph.getNodes()[currentNode], graph.getNodes()[nodePast]);
                     break;
                 }
             }
@@ -216,11 +215,11 @@ public class GraphMethods {
         }
     }
     
-    public void defineTheClosets(int currentNode){
-        int destineNode = defineBestNode(currentNode);
-        int distancia = defineDistance(nodes[currentNode], nodes[destineNode]);
-        nodes[currentNode].addDestination(nodes[destineNode], distancia);
-        nodes[destineNode].addDestination(nodes[currentNode], distancia);
+    public void defineTheClosets(GraphMethods graph, int currentNode){
+        int destineNode = defineBestNode(graph,currentNode);
+        int distancia = defineDistance(graph.getNodes()[currentNode], graph.getNodes()[destineNode]);
+        graph.getNodes()[currentNode].addDestination(graph.getNodes()[destineNode], distancia);
+        graph.getNodes()[destineNode].addDestination(graph.getNodes()[currentNode], distancia);
     }
         
     public static void mergesort(Node[ ] matrix, int init, int n)
@@ -390,25 +389,90 @@ public class GraphMethods {
         this.cantDronesXPista = (this.pistaHeight*this.pistaWidth)/6;
         
     }
+
+    public int getCantTrips() {
+        return cantTrips;
+    }
+
+    public void setCantTrips(int cantTrips) {
+        this.cantTrips = cantTrips;
+    }
+
+    public int getCantPistas() {
+        return cantPistas;
+    }
+
+    public void setCantPistas(int cantPistas) {
+        this.cantPistas = cantPistas;
+    }
+
+    public int getCantDronesXPista() {
+        return cantDronesXPista;
+    }
+
+    public void setCantDronesXPista(int cantDronesXPista) {
+        this.cantDronesXPista = cantDronesXPista;
+    }
+
+    public float getWorstTimeCase() {
+        return worstTimeCase;
+    }
+
+    public void setWorstTimeCase(float worstTimeCase) {
+        this.worstTimeCase = worstTimeCase;
+    }
+
+//    public Node getNode() {
+//        return node;
+//    }
+//
+//    public void setNode(Node node) {
+//        this.node = node;
+//    }
+
+    public Node[] getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(Node[] nodes) {
+        this.nodes = nodes;
+    }
    
-    public GraphMethods copy(){
-        GraphMethods nuevo;
-                
-        nuevo = new GraphMethods();
+    
+    
+    
+    
+    public Graph copy(){
+        Graph nuevo = new Graph();
         
-        nuevo.setCant(this.cantTrips);
-        nuevo.setCantStation(cantStation);
-        nuevo.setNodes();
-        for(Node copy: this.nodes){
-            nuevo.MakeStation(copy.getName(), copy.getX(), copy.getY());
+        
+        for(Node copy: this.graph.getNodes()){
+            nuevo.addNode(new Node(copy.getName(),copy.getX(),copy.getY()));
+            
         }
-        nuevo.MakeGraph();
+        
+        for(Node tmp:this.graph.getNodes()){
+            for (Map.Entry < Node, Integer> adjacencyPair:tmp.getAdjacentNodes().entrySet()) {
+                Node adjacentNode = adjacencyPair.getKey();
+                Integer edgeWeight = adjacencyPair.getValue();
+                for(Node j: nuevo.getNodes()){
+                    if(j.getName() == tmp.getName()){
+                        j.addDestination(nuevo.getNodeByName(adjacentNode.getName()), edgeWeight);
+                        break;
+                    }
+                
+                }
+            }
+        }
+        
+        
+        
         return nuevo;
     }
     
-    public Node getNode(Node toFind){
+    public Node getNode(int toFind){
         for(Node toGet:this.nodes){
-            if(toGet.getName() == toFind.getName()){
+            if(toGet.getName() == toFind){
                 return toGet;
             }
         }
@@ -417,48 +481,59 @@ public class GraphMethods {
     
     
     public void setShortestPath(){
+
+        Graph resultadoDijkstra = new Graph();
+        ArrayList<Path> totalPaths = new ArrayList();
         
-        Path path = new Path();
-        Set<Node> nodes = new HashSet<>();
-        GraphMethods resultado = copy();
-        
-        
-        System.out.println("Prueba1___________________");
-        for(Node i:this.nodes){
-            
-            System.out.println(i.getDistance());
+        for(Node toCalcDijkstra:graph.getNodes()){
+            resultadoDijkstra = calculateDijkstraWith(toCalcDijkstra.getName());
+            toCalcDijkstra.setPath(getPath(toCalcDijkstra.getName(),resultadoDijkstra));
         }
         
-        
-        for(Node temporalCalc:this.graph.getNodes()){
-            
-            GraphMethods nuevo = copy();
-            System.out.println("Prueba"+ temporalCalc.getName() +"___________________");
-            for(Node i:this.nodes){
-                System.out.println(i.getDistance());
-            }
-            //path.path.clear();
-            nuevo.setGraph(calculateShortestPathFromSource(nuevo.getGraph(),nuevo.getNode(temporalCalc)));
-            temporalCalc = nuevo.getNode(temporalCalc);
-            path.path.add(temporalCalc.getName());
-            
-            for(Node getPath: nuevo.getGraph().getNodes()){
-                path.totalWeight = getPath.getDistance();
+        for(Node i:graph.getNodes()){
+            System.out.println("Caminos de: " + i.getName());
+            for(Path j:i.getPath()){
                 
-                for(Node getShortest: getPath.getShortestPath()){
-                    path.path.add(getShortest.getName());
+                for(int a:j.getPath()){
+                    System.out.print(a + ",");
                 }
-                temporalCalc.path.add(path);
-                //path.path.clear();
-            }        
-            nodes.add(temporalCalc);
+                System.out.println("");
+            }
         }
+    }
+    
+    public Graph calculateDijkstraWith(int nodeName){
+    
+        Graph copia = copy();
         
-        resultado.graph.setNodes(nodes);
-        System.out.println("Prueba2");
-        for(Node i: resultado.nodes){
-            System.out.println(i.path.toString());
-        }
+        Node toCalc = copia.getNodeByName(nodeName);
+        
+        copia = calculateShortestPathFromSource(copia,toCalc);
+        
+        return copia;
         
     }
+    
+    public ArrayList<Path> getPath(int nodeName,Graph graph){
+        
+        ArrayList<Path> paths = new ArrayList();
+        Path toGet;
+        
+        for(Node tmp : graph.getNodes()){
+            toGet = new Path();
+            toGet.setTotalWeight(tmp.getDistance());
+            
+            for(Node nodo:tmp.getShortestPath()){
+                toGet.getPath().add(nodo.getName());
+            }
+            toGet.getPath().add(tmp.getName());
+            if(toGet.getPath().size() > 1){
+                paths.add(toGet);
+            }
+            
+        }
+    
+        return paths;
+    }
+    
 }

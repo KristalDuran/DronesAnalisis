@@ -192,9 +192,10 @@ public class Event extends javax.swing.JFrame {
             //guardar en un array los puntos x+10,y+10///////////////////////////////////////////////
         }
         System.out.println("end pinta nodos");
-        graphMethods.MakeGraph();//crea los arcos
+        graphMethods.MakeGraph(graphMethods);//crea los arcos
         drawArray(graphMethods.getLinesToDraw());//dibuja las lineas de los archos
         graphMethods.setCantPistas();//calcula la cantidad de pistas y la cantidad de drones por pista
+        graphMethods.setShortestPath();
     }//GEN-LAST:event_jBCreateActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
