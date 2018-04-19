@@ -116,6 +116,10 @@ public class GraphMethods {
                             addArrayTemp(subNode, arrayList);
                             graph.getNodes()[subNode].addDestination(graph.getNodes()[destineNode], defineDistance(graph.getNodes()[subNode], graph.getNodes()[destineNode]));                                
                             graph.getNodes()[destineNode].addDestination(graph.getNodes()[subNode], defineDistance(graph.getNodes()[destineNode], graph.getNodes()[subNode]));
+                            linesToDraw.add(graph.getNodes()[subNode].getX());
+                            linesToDraw.add(graph.getNodes()[subNode].getY());
+                            linesToDraw.add(graph.getNodes()[destineNode].getX());
+                            linesToDraw.add(graph.getNodes()[destineNode].getY());
                             cantPista--;                            
                         }    
                     }  
@@ -133,12 +137,14 @@ public class GraphMethods {
         }
     }
     
-    public int defineDistance(Node origen, Node destin){ 
-        linesToDraw.add(origen.getX());
-        linesToDraw.add(origen.getY());
-        linesToDraw.add(destin.getX());
-        linesToDraw.add(destin.getY());
-        return (int)Math.abs((origen.getX() + origen.getY()) - (destin.getX() + destin.getY()));
+    public int defineDistance(Node origen, Node destin){
+        System.out.println("---------------------------------------------------------------------");
+        System.out.println("Origen: " + origen.getName() + " x: "+origen.getX() + " y: "+origen.getY());
+        System.out.println("Destino: " + destin.getName() + " x: "+destin.getX() + " y: "+destin.getY());
+        System.out.println("Abs: " + (int)Math.sqrt((int)Math.pow(destin.getX() - origen.getX(), 2) + (int)Math.pow(destin.getY() - origen.getY(), 2)));
+        System.out.println("Raiz: " + (int)Math.abs((destin.getX() - origen.getX()) + (destin.getY() - origen.getY())));
+        
+        return (int)Math.sqrt((int)Math.pow(destin.getX() - origen.getX(), 2) + (int)Math.pow(destin.getY() - origen.getY(), 2));
     }
     
     public void addGraph(GraphMethods graph){
@@ -169,11 +175,11 @@ public class GraphMethods {
         int distancePast = Integer.MAX_VALUE;
         
         if (nodeNext > graph.getNodes().length-1) {
-            nodeNext--;
+            nodeNext = currentNode;
         }
         
         if (nodePast < 0) {
-            nodePast++;
+            nodePast = currentNode;
         }
         
         if (currentNode != nodeNext) {
@@ -209,8 +215,10 @@ public class GraphMethods {
         }
         
         if (distanceNext < distancePast) {
+            System.out.println("mayor " + distancePast + "menor" + distanceNext);
             return nodeNext;
         }else{
+            System.out.println("mayor " + distanceNext + "menor" + distancePast);
             return nodePast; 
         }
     }
@@ -220,6 +228,10 @@ public class GraphMethods {
         int distancia = defineDistance(graph.getNodes()[currentNode], graph.getNodes()[destineNode]);
         graph.getNodes()[currentNode].addDestination(graph.getNodes()[destineNode], distancia);
         graph.getNodes()[destineNode].addDestination(graph.getNodes()[currentNode], distancia);
+        linesToDraw.add(graph.getNodes()[currentNode].getX());
+        linesToDraw.add(graph.getNodes()[currentNode].getY());
+        linesToDraw.add(graph.getNodes()[destineNode].getX());
+        linesToDraw.add(graph.getNodes()[destineNode].getY());
     }
         
     public static void mergesort(Node[ ] matrix, int init, int n)
