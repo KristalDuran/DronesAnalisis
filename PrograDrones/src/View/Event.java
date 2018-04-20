@@ -196,7 +196,7 @@ public class Event extends javax.swing.JFrame {
         System.out.println("end pinta nodos");
         graphMethods.MakeGraph(graphMethods);//crea los arcos
         drawArray(graphMethods.getLinesToDraw());//dibuja las lineas de los archos
-        graphMethods.setCantPistas();//calcula la cantidad de pistas y la cantidad de drones por pista
+        //graphMethods.setCantPistas();//calcula la cantidad de pistas y la cantidad de drones por pista
         graphMethods.setShortestPath();
     }//GEN-LAST:event_jBCreateActionPerformed
 

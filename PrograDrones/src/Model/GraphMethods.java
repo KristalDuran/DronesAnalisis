@@ -123,18 +123,18 @@ public class GraphMethods {
         this.graph = graph;
     }    
     
-    public void setCantPistas(){
-        //500 entre el alto de la pista designado para decir cuàntas pistas de ida caben en la mitad
-        //se toma 500 metros porque por cada pista de ida tiene que haber una de vuelta
-        this.numberOfTrack = 500 / this.trackHeight;
-        setCantDronesXPista();
-    }
-    
-    public void setCantDronesXPista(){
-        //area de la pista entre area de un drone = 6
-        this.cantDronesXPista = (this.trackHeight*this.trackWidth)/6;
-        
-    }
+//    public void setCantPistas(){
+//        //500 entre el alto de la pista designado para decir cuàntas pistas de ida caben en la mitad
+//        //se toma 500 metros porque por cada pista de ida tiene que haber una de vuelta
+//        this.numberOfTrack = 500 / this.trackHeight;
+//        setCantDronesXPista();
+//    }
+//    
+//    public void setCantDronesXPista(){
+//        //area de la pista entre area de un drone = 6
+//        this.cantDronesXPista = (this.trackHeight*this.trackWidth)/6;
+//        
+//    }
 
     public int getNumberOfTrack() {
         return numberOfTrack;
@@ -434,11 +434,12 @@ public class GraphMethods {
         return null;
     }
     
+    ArrayList<Path> totalPaths = new ArrayList();
     
     public void setShortestPath(){
 
         Graph resultadoDijkstra = new Graph();
-        ArrayList<Path> totalPaths = new ArrayList();
+        
         
         for(Node toCalcDijkstra:graph.getNodes()){
             resultadoDijkstra = calculateDijkstraWith(toCalcDijkstra.getName());
@@ -484,6 +485,7 @@ public class GraphMethods {
             toGet.getPath().add(tmp.getName());
             if(toGet.getPath().size() > 1){
                 paths.add(toGet);
+                totalPaths.add(toGet);
             }
             
         }
@@ -491,7 +493,44 @@ public class GraphMethods {
         return paths;
     }
     
-}//Methods to define the slots--------------------------------------------------------------------------------------------------
+//Methods to define the times--------------------------------------------------------------------------------------------------
+    private static int SPEED = 120; //velocidad
+    private static int MILLISECOND = 1000;
+    private static int  WORSE_TIME_TO_GET_TO_THE_TOP = (int)(3.997/SPEED)*3600000;
+    
+    public int calculateXDistanceTime(int distance){
+        //en milisegundos
+        return (distance/SPEED)*3600000;
+    }
 
+    public int calculateNumOfDronesBySet(){
+        int cant = 1000/trackHeight;
+        int cuantosViajesEnUnaDireccion = cant/2;
+        int cuantosDronesCabenEnPista = trackHeight*trackWidth / 6;
+        int cuantosDronesPorSet = cuantosDronesCabenEnPista*cuantosViajesEnUnaDireccion;
+        return cuantosDronesPorSet;
+    }
+        
+    public void calculateTrip(){
+        int cantRestanteViajes = numberOfTrips;
+        
+        while(cantRestanteViajes > 0){
+            int indiceDelViaje = (int)Math.random()*(totalPaths.size()-1);
+            
+            Path pathPorRealizar = totalPaths.get(indiceDelViaje);
 
+            cantRestanteViajes -= calculateNumOfDronesBySet();   
+            //validar que si no son divisibles puede que el ultimo calculo
+            //quede un numero negativo o que no sea un set completo.
+            
+            //calcular el tiempo que tarda eso y hacer la restriccion del siguiente viaje
+            //restar este tiempo del tiempo total para saber si va a alcanzar 
+            
+        }        
+    }
+    
+    public int calculateSlots(){
+        return (timeProx*MILLISECOND)/WORSE_TIME_TO_GET_TO_THE_TOP;
+    }
+}
 
