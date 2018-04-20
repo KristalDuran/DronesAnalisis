@@ -18,12 +18,12 @@ import java.util.Set;
 public class GraphMethods {
     
     int idTrip = 0;
-    int cantTrips;
-    int pistaHeight;
-    int pistaWidth;
-    int sizePista;
-    int cantPistas;
-    int cantStation;
+    int numberOfTrips;
+    int trackHeight;
+    int trackWidth;
+    int numberOfTracksByStation;
+    int numberOfTrack;
+    int numberOfStations;
     int timeReal;
     int timeProx;
     int cantDronesXPista;
@@ -34,12 +34,323 @@ public class GraphMethods {
     ArrayList<Integer> linesToDraw = new ArrayList();
     Node[] nodes;
     
+    ArrayList<Node> arrayNode = new ArrayList<>();
+    
     public GraphMethods() {
     }
-
+//Settes and gettes-------------------------------------------------------------------------------------------------------------
+    
+    
     public void setNodes(){
-        nodes = new Node[cantStation];
+        nodes = new Node[numberOfStations];
     }
+    
+    public int getIdTrip() {
+        return idTrip;
+    }
+
+    public void setIdTrip(int idTrip) {
+        this.idTrip = idTrip;
+    }
+    
+    public int getNumberOfTrips() {
+        return numberOfTrips;
+    }
+
+    public void setNumberOfTrips(int cant) {
+        this.numberOfTrips = cant;
+    }
+    
+    public int getNumberOfTracksByStation() {
+        return numberOfTracksByStation;
+    }
+
+    public void setNumberOfTracksByStation(int numberOfTracksByStation) {
+        this.numberOfTracksByStation = numberOfTracksByStation;
+    }
+    
+    public int getNumberOfStations() {
+        return numberOfStations;
+    }
+
+    public void setNumberOfStations(int numberOfStations) {
+        this.numberOfStations = numberOfStations;
+    }
+    
+    public int getTimeReal() {
+        return timeReal;
+    }
+
+    public void setTimeReal(int timeReal) {
+        this.timeReal = timeReal;
+    }
+    
+    public int getTimeProx() {
+        return timeProx;
+    }
+    
+    public void setTimeProx(int timeProx) {
+        this.timeProx = timeProx;
+    }
+
+    public ArrayList<Integer> getLinesToDraw() {
+        return linesToDraw;
+    }
+
+    public void setLinesToDraw(ArrayList<Integer> linesToDraw) {
+        this.linesToDraw = linesToDraw;
+    }
+
+    public int getPistaHeight() {
+        return trackHeight;
+    }
+
+    public void setPistaHeight(int pistaHeight) {
+        this.trackHeight = pistaHeight;
+    }
+
+    public int getPistaWidth() {
+        return trackWidth;
+    }
+
+    public void setPistaWidth(int pistaWidth) {
+        this.trackWidth = pistaWidth;
+    }
+    
+    public Graph getGraph() {
+        return graph;
+    }
+
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+    }    
+    
+//    public void setCantPistas(){
+//        //500 entre el alto de la pista designado para decir cuàntas pistas de ida caben en la mitad
+//        //se toma 500 metros porque por cada pista de ida tiene que haber una de vuelta
+//        this.numberOfTrack = 500 / this.trackHeight;
+//        setCantDronesXPista();
+//    }
+//    
+//    public void setCantDronesXPista(){
+//        //area de la pista entre area de un drone = 6
+//        this.cantDronesXPista = (this.trackHeight*this.trackWidth)/6;
+//        
+//    }
+
+    public int getNumberOfTrack() {
+        return numberOfTrack;
+    }
+
+    public void setNumberOfTrack(int numberOfTrack) {
+        this.numberOfTrack = numberOfTrack;
+    }
+
+    public int getCantDronesXPista() {
+        return cantDronesXPista;
+    }
+
+    public void setCantDronesXPista(int cantDronesXPista) {
+        this.cantDronesXPista = cantDronesXPista;
+    }
+
+    public float getWorstTimeCase() {
+        return worstTimeCase;
+    }
+
+    public void setWorstTimeCase(float worstTimeCase) {
+        this.worstTimeCase = worstTimeCase;
+    }
+
+    public Node[] getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(Node[] nodes) {
+        this.nodes = nodes;
+    }
+ 
+// Methods to make the stations and destinations--------------------------------------------------------------------------------
+    
+    public void MakeStation(Integer name, int x, int y){
+        
+        Node create = new Node(name, x, y);
+        nodes[(name.intValue()-1)] = create;
+        arrayNode.add(create);
+    }
+    
+    //definir que vertice se conecta con otro y el tama;o del arco es decir la distancia
+    public void MakeGraph(GraphMethods graph){        
+        //elegir aleatoriamente el que no tenga arco, si todos tienen, elegir los mas cercanos 
+        graph.mergesort(graph.getNodes(), 0, graph.getNodes().length);
+        linesToDraw.clear();
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        for (int subNode = 0; subNode < graph.getNodes().length; subNode++) {
+            int cantPista = graph.getNumberOfTracksByStation() - graph.getNodes()[subNode].getAdjacentNodes().size();               
+            
+            while ( cantPista > 0) {
+                int destineNode = (int) (Math.random()*graph.getNumberOfStations());
+                if (graph.getNodes()[subNode].getName().compareTo(graph.getNodes()[destineNode].getName()) != 0 ) {
+                    if (arrayList.size()+1 == graph.getNumberOfStations()) { 
+                        defineTheClosets(graph, subNode);
+                        cantPista--;
+                    }else{   
+                        if (  (graph.getNodes()[destineNode].getAdjacentNodes().size() < 1) ){
+                            addArrayTemp(destineNode, arrayList);
+                            addArrayTemp(subNode, arrayList);
+                            graph.getNodes()[subNode].addDestination(graph.getNodes()[destineNode], defineDistance(graph.getNodes()[subNode], graph.getNodes()[destineNode]));                                
+                            graph.getNodes()[destineNode].addDestination(graph.getNodes()[subNode], defineDistance(graph.getNodes()[destineNode], graph.getNodes()[subNode]));
+                            linesToDraw.add(graph.getNodes()[subNode].getX());
+                            linesToDraw.add(graph.getNodes()[subNode].getY());
+                            linesToDraw.add(graph.getNodes()[destineNode].getX());
+                            linesToDraw.add(graph.getNodes()[destineNode].getY());
+                            cantPista--;                            
+                        }    
+                    }  
+                }
+            }            
+        }
+        
+        addGraph(graph);
+        
+    }
+    
+    public void addArrayTemp(int node, ArrayList<Integer> arrayList){
+         if (!arrayList.contains(node)) {
+            arrayList.add(node);
+        }
+    }
+    
+    public int defineDistance(Node origen, Node destin){
+        return (int)Math.sqrt((int)Math.pow(destin.getX() - origen.getX(), 2) + (int)Math.pow(destin.getY() - origen.getY(), 2));
+    }
+    
+    public void addGraph(GraphMethods graph){
+        
+        for (int i = 0; i < graph.getNodes().length; i++) {
+            graph.getGraph().addNode(graph.getNodes()[i]);
+        }
+        
+        for(Node tmp : graph.getNodes()){
+            //System.out.println("Nodo:" + tmp.getName());
+            for(Node j : tmp.getShortestPath()){
+                //System.out.println("from:" + tmp.getName() + " to " + j.getName() + " distance = " + j.getDistance());
+            }
+        }
+        
+        //graph = calculateShortestPathFromSource(graph, nodes[0]);
+        
+        //System.out.println("from 1:");
+        for(Node tmp : graph.getNodes()){
+            //System.out.println("to:" + tmp.getName() + " distance: " + tmp.getDistance());
+        }
+    }
+    
+    public int defineBestNode(GraphMethods graph, int currentNode){
+        int nodeNext = (currentNode+1);
+        int nodePast = (currentNode-1);
+        int distanceNext = Integer.MAX_VALUE;
+        int distancePast = Integer.MAX_VALUE;
+        
+        if (nodeNext > graph.getNodes().length-1) {
+            nodeNext = currentNode;
+        }
+        
+        if (nodePast < 0) {
+            nodePast = currentNode;
+        }
+        
+        if (currentNode != nodeNext) {
+            while (true) {            
+                if (graph.getNodes()[nodeNext].getAdjacentNodes().containsKey(graph.getNodes()[(currentNode)])) {
+                    if (nodeNext != graph.getNodes().length-1)                       
+                        nodeNext++;
+                    else{
+                        distanceNext = Integer.MAX_VALUE;
+                        break;
+                    }
+                }else{
+                    distanceNext = defineDistance(graph.getNodes()[currentNode], graph.getNodes()[nodeNext]);
+                    break;
+                }
+            }
+        }
+        
+        if(currentNode != nodePast){
+            while (true) {            
+                if (graph.getNodes()[nodePast].getAdjacentNodes().containsKey(graph.getNodes()[(currentNode)])) {
+                    if (nodePast != 0) {
+                        nodePast--;
+                    }else{
+                        distancePast =Integer.MAX_VALUE;
+                        break;
+                    }
+                }else{
+                    distancePast = defineDistance(graph.getNodes()[currentNode], graph.getNodes()[nodePast]);
+                    break;
+                }
+            }
+        }
+        
+        if (distanceNext < distancePast) {
+            System.out.println("mayor " + distancePast + "menor" + distanceNext);
+            return nodeNext;
+        }else{
+            System.out.println("mayor " + distanceNext + "menor" + distancePast);
+            return nodePast; 
+        }
+    }
+    
+    public void defineTheClosets(GraphMethods graph, int currentNode){
+        int destineNode = defineBestNode(graph,currentNode);
+        int distancia = defineDistance(graph.getNodes()[currentNode], graph.getNodes()[destineNode]);
+        graph.getNodes()[currentNode].addDestination(graph.getNodes()[destineNode], distancia);
+        graph.getNodes()[destineNode].addDestination(graph.getNodes()[currentNode], distancia);
+        linesToDraw.add(graph.getNodes()[currentNode].getX());
+        linesToDraw.add(graph.getNodes()[currentNode].getY());
+        linesToDraw.add(graph.getNodes()[destineNode].getX());
+        linesToDraw.add(graph.getNodes()[destineNode].getY());
+    }
+        
+    public static void mergesort(Node[ ] matrix, int init, int n)
+        {
+        int n1;
+        int n2;
+        if (n > 1)
+        {
+            n1 = n / 2;
+            n2 = n - n1;
+            mergesort(matrix, init, n1);
+            mergesort(matrix, init + n1, n2);
+            merge(matrix, init, n1, n2);
+        }
+    }
+    
+    private static void merge(Node[] matrix, int init, int n1, int n2) {
+        
+        Node[ ] buffer = new Node[n1+n2];
+        int temp = 0;
+        int temp1 = 0;
+        int temp2 = 0;
+        int i;
+        while ((temp1 < n1) && (temp2 < n2))
+        {
+            int a = matrix[init + temp1].getX() + matrix[init + temp1].getY();
+            int b = matrix[init + n1 + temp2].getX() + matrix[init + n1 + temp2].getY();
+            if (a < b)
+                buffer[temp++] = matrix[init + (temp1++)];
+            else
+                buffer[temp++] = matrix[init + n1 + (temp2++)];
+        }
+        while (temp1 < n1)
+            buffer[temp++] = matrix[init + (temp1++)];
+        while (temp2 < n2)
+            buffer[temp++] = matrix[init + n1 + (temp2++)];
+        for (i = 0; i < n1+n2; i++)
+            matrix[init + i] = buffer[i];
+    }
+    
+//Methods to calculate the shortest paths-------------------------------------------------------------------------------------------------
     
     public Graph calculateShortestPathFromSource(Graph graph, Node source) {
         source.setDistance(0);
@@ -87,360 +398,7 @@ public class GraphMethods {
             shortestPath.add(sourceNode);
             evaluationNode.setShortestPath(shortestPath);
         }
-    }
-    
-    public void MakeStation(Integer name, int x, int y){
-        
-        Node create = new Node(name, x, y);
-        nodes[(name.intValue()-1)] = create;
-    }
-    
-    //definir que vertice se conecta con otro y el tama;o del arco es decir la distancia
-    public void MakeGraph(GraphMethods graph){        
-        //elegir aleatoriamente el que no tenga arco, si todos tienen, elegir los mas cercanos 
-        graph.mergesort(graph.getNodes(), 0, graph.getNodes().length);
-        linesToDraw.clear();
-        ArrayList<Integer> arrayList = new ArrayList<>();
-        for (int subNode = 0; subNode < graph.getNodes().length; subNode++) {
-            int cantPista = graph.getSizePista() - graph.getNodes()[subNode].getAdjacentNodes().size();               
-            
-            while ( cantPista > 0) {
-                int destineNode = (int) (Math.random()*graph.getCantStation());
-                if (graph.getNodes()[subNode].getName().compareTo(graph.getNodes()[destineNode].getName()) != 0 ) {
-                    if (arrayList.size()+1 == graph.getCantStation()) { 
-                        defineTheClosets(graph, subNode);
-                        cantPista--;
-                    }else{   
-                        if (  (graph.getNodes()[destineNode].getAdjacentNodes().size() < 1) ){
-                            addArrayTemp(destineNode, arrayList);
-                            addArrayTemp(subNode, arrayList);
-                            graph.getNodes()[subNode].addDestination(graph.getNodes()[destineNode], defineDistance(graph.getNodes()[subNode], graph.getNodes()[destineNode]));                                
-                            graph.getNodes()[destineNode].addDestination(graph.getNodes()[subNode], defineDistance(graph.getNodes()[destineNode], graph.getNodes()[subNode]));
-                            cantPista--;                            
-                        }    
-                    }  
-                }
-            }            
-        }
-        
-        addGraph(graph);
-        
-    }
-    
-    public void addArrayTemp(int node, ArrayList<Integer> arrayList){
-         if (!arrayList.contains(node)) {
-            arrayList.add(node);
-        }
-    }
-    
-    public int defineDistance(Node origen, Node destin){ 
-        linesToDraw.add(origen.getX());
-        linesToDraw.add(origen.getY());
-        linesToDraw.add(destin.getX());
-        linesToDraw.add(destin.getY());
-        return (int)Math.abs((origen.getX() + origen.getY()) - (destin.getX() + destin.getY()));
-    }
-    
-    public void addGraph(GraphMethods graph){
-        
-        for (int i = 0; i < graph.getNodes().length; i++) {
-            graph.getGraph().addNode(graph.getNodes()[i]);
-        }
-        
-        for(Node tmp : graph.getNodes()){
-            //System.out.println("Nodo:" + tmp.getName());
-            for(Node j : tmp.getShortestPath()){
-                //System.out.println("from:" + tmp.getName() + " to " + j.getName() + " distance = " + j.getDistance());
-            }
-        }
-        
-        //graph = calculateShortestPathFromSource(graph, nodes[0]);
-        
-        //System.out.println("from 1:");
-        for(Node tmp : graph.getNodes()){
-            //System.out.println("to:" + tmp.getName() + " distance: " + tmp.getDistance());
-        }
-    }
-    
-    public int defineBestNode(GraphMethods graph, int currentNode){
-        int nodeNext = (currentNode+1);
-        int nodePast = (currentNode-1);
-        int distanceNext = Integer.MAX_VALUE;
-        int distancePast = Integer.MAX_VALUE;
-        
-        if (nodeNext > graph.getNodes().length-1) {
-            nodeNext--;
-        }
-        
-        if (nodePast < 0) {
-            nodePast++;
-        }
-        
-        if (currentNode != nodeNext) {
-            while (true) {            
-                if (graph.getNodes()[nodeNext].getAdjacentNodes().containsKey(graph.getNodes()[(currentNode)])) {
-                    if (nodeNext != graph.getNodes().length-1)                       
-                        nodeNext++;
-                    else{
-                        distanceNext = Integer.MAX_VALUE;
-                        break;
-                    }
-                }else{
-                    distanceNext = defineDistance(graph.getNodes()[currentNode], graph.getNodes()[nodeNext]);
-                    break;
-                }
-            }
-        }
-        
-        if(currentNode != nodePast){
-            while (true) {            
-                if (graph.getNodes()[nodePast].getAdjacentNodes().containsKey(graph.getNodes()[(currentNode)])) {
-                    if (nodePast != 0) {
-                        nodePast--;
-                    }else{
-                        distancePast =Integer.MAX_VALUE;
-                        break;
-                    }
-                }else{
-                    distancePast = defineDistance(graph.getNodes()[currentNode], graph.getNodes()[nodePast]);
-                    break;
-                }
-            }
-        }
-        
-        if (distanceNext < distancePast) {
-            return nodeNext;
-        }else{
-            return nodePast; 
-        }
-    }
-    
-    public void defineTheClosets(GraphMethods graph, int currentNode){
-        int destineNode = defineBestNode(graph,currentNode);
-        int distancia = defineDistance(graph.getNodes()[currentNode], graph.getNodes()[destineNode]);
-        graph.getNodes()[currentNode].addDestination(graph.getNodes()[destineNode], distancia);
-        graph.getNodes()[destineNode].addDestination(graph.getNodes()[currentNode], distancia);
-    }
-        
-    public static void mergesort(Node[ ] matrix, int init, int n)
-        {
-        int n1;
-        int n2;
-        if (n > 1)
-        {
-            n1 = n / 2;
-            n2 = n - n1;
-            mergesort(matrix, init, n1);
-            mergesort(matrix, init + n1, n2);
-            merge(matrix, init, n1, n2);
-        }
-    }
-    
-    private static void merge(Node[] matrix, int init, int n1, int n2) {
-        
-        Node[ ] buffer = new Node[n1+n2];
-        int temp = 0;
-        int temp1 = 0;
-        int temp2 = 0;
-        int i;
-        while ((temp1 < n1) && (temp2 < n2))
-        {
-            int a = matrix[init + temp1].getX() + matrix[init + temp1].getY();
-            int b = matrix[init + n1 + temp2].getX() + matrix[init + n1 + temp2].getY();
-            if (a < b)
-                buffer[temp++] = matrix[init + (temp1++)];
-            else
-                buffer[temp++] = matrix[init + n1 + (temp2++)];
-        }
-        while (temp1 < n1)
-            buffer[temp++] = matrix[init + (temp1++)];
-        while (temp2 < n2)
-            buffer[temp++] = matrix[init + n1 + (temp2++)];
-        for (i = 0; i < n1+n2; i++)
-            matrix[init + i] = buffer[i];
-    }
-    
-    //definir los puntos orinen y destino de cada viaje
-    public void MakeWays(int cantTravel){
-        int origen = (int)(Math.random()*cantTravel)+1;
-        int destino;
-        while (true) {
-            destino = (int)(Math.random()*cantTravel)+1;
-            if (origen != destino) {
-                break;
-            }
-        }
-        
-        idTrip++;
-
-    }
-    
-    public void controllerAereoProbabilistic(){
-        
-    }
-    
-    public void controllerAereoDividAndConquer(){
-        
-    }
-    
-    public void controllerAereoBacktracking(){
-        
-    }
-    
-    public boolean ExistWay(int origen, int destino){
-        return false;
-    }
-    //camino mas corto 
-    public void LookBestWay(int origen, int destino){
-        //Guarda en hashtable
-    }   
-
-    public int getIdTrip() {
-        return idTrip;
-    }
-
-    public int getCant() {
-        return cantTrips;
-    }
-
-    public int getSizePista() {
-        return sizePista;
-    }
-
-    public int getCantStation() {
-        return cantStation;
-    }
-
-    public int getTimeReal() {
-        return timeReal;
-    }
-
-    public int getTimeProx() {
-        return timeProx;
-    }
-
-    public void setIdTrip(int idTrip) {
-        this.idTrip = idTrip;
-    }
-
-    public void setCant(int cant) {
-        this.cantTrips = cant;
-    }
-
-    public void setSizePista(int sizePista) {
-        this.sizePista = sizePista;
-    }
-
-    public void setCantStation(int cantStation) {
-        this.cantStation = cantStation;
-    }
-
-    public void setTimeReal(int timeReal) {
-        this.timeReal = timeReal;
-    }
-
-    public void setTimeProx(int timeProx) {
-        this.timeProx = timeProx;
-    }
-
-    public ArrayList<Integer> getLinesToDraw() {
-        return linesToDraw;
-    }
-
-    public void setLinesToDraw(ArrayList<Integer> linesToDraw) {
-        this.linesToDraw = linesToDraw;
-    }
-
-    public int getPistaHeight() {
-        return pistaHeight;
-    }
-
-    public void setPistaHeight(int pistaHeight) {
-        this.pistaHeight = pistaHeight;
-    }
-
-    public int getPistaWidth() {
-        return pistaWidth;
-    }
-
-    public Graph getGraph() {
-        return graph;
-    }
-
-    public void setGraph(Graph graph) {
-        this.graph = graph;
-    }
-
-    
-    
-    public void setPistaWidth(int pistaWidth) {
-        this.pistaWidth = pistaWidth;
-    }
-    
-    public void setCantPistas(){
-        //500 entre el alto de la pista designado para decir cuàntas pistas de ida caben en la mitad
-        //se toma 500 metros porque por cada pista de ida tiene que haber una de vuelta
-        this.cantPistas = 500 / this.pistaHeight;
-        setCantDronesXPista();
-    }
-    
-    public void setCantDronesXPista(){
-        //area de la pista entre area de un drone = 6
-        this.cantDronesXPista = (this.pistaHeight*this.pistaWidth)/6;
-        
-    }
-
-    public int getCantTrips() {
-        return cantTrips;
-    }
-
-    public void setCantTrips(int cantTrips) {
-        this.cantTrips = cantTrips;
-    }
-
-    public int getCantPistas() {
-        return cantPistas;
-    }
-
-    public void setCantPistas(int cantPistas) {
-        this.cantPistas = cantPistas;
-    }
-
-    public int getCantDronesXPista() {
-        return cantDronesXPista;
-    }
-
-    public void setCantDronesXPista(int cantDronesXPista) {
-        this.cantDronesXPista = cantDronesXPista;
-    }
-
-    public float getWorstTimeCase() {
-        return worstTimeCase;
-    }
-
-    public void setWorstTimeCase(float worstTimeCase) {
-        this.worstTimeCase = worstTimeCase;
-    }
-
-//    public Node getNode() {
-//        return node;
-//    }
-//
-//    public void setNode(Node node) {
-//        this.node = node;
-//    }
-
-    public Node[] getNodes() {
-        return nodes;
-    }
-
-    public void setNodes(Node[] nodes) {
-        this.nodes = nodes;
-    }
-   
-    
-    
-    
+    } 
     
     public Graph copy(){
         Graph nuevo = new Graph();
@@ -479,11 +437,12 @@ public class GraphMethods {
         return null;
     }
     
+    ArrayList<Path> totalPaths = new ArrayList();
     
     public void setShortestPath(){
 
         Graph resultadoDijkstra = new Graph();
-        ArrayList<Path> totalPaths = new ArrayList();
+        
         
         for(Node toCalcDijkstra:graph.getNodes()){
             resultadoDijkstra = calculateDijkstraWith(toCalcDijkstra.getName());
@@ -529,6 +488,7 @@ public class GraphMethods {
             toGet.getPath().add(tmp.getName());
             if(toGet.getPath().size() > 1){
                 paths.add(toGet);
+                totalPaths.add(toGet);
             }
             
         }
@@ -536,4 +496,62 @@ public class GraphMethods {
         return paths;
     }
     
+//Methods to define the times--------------------------------------------------------------------------------------------------
+    private static int SPEED = 120; //velocidad
+    private static int MILLISECOND = 1000;
+    private static int  WORSE_TIME_TO_GET_TO_THE_TOP = (int)(3.997/SPEED)*3600000;
+    
+    public int calculateXDistanceTime(int distance){
+        //en milisegundos
+        return(int) ((double)((double)distance/(double)SPEED)*3600000);
+    }
+
+    public int calculateNumOfDronesBySet(){
+        int cant = 1000/trackHeight;
+        int cuantosViajesEnUnaDireccion = cant/2;
+        int cuantosDronesCabenEnPista = trackHeight*trackWidth / 6;
+        int cuantosDronesPorSet = cuantosDronesCabenEnPista*cuantosViajesEnUnaDireccion;
+        return cuantosDronesPorSet;
+    }
+        
+    ArrayList<Integer> tiemposRestr = new ArrayList<>(); //se van a guarda de dos en dos, el punto restringido y el tiempo en que va a estar ahi
+    
+    int tiempoGlobal=0;
+    
+    public void calculateTrip(){
+        int cantRestanteViajes = numberOfTrips;
+        
+        while(cantRestanteViajes > 0){
+            int indiceDelViaje = (int)(Math.random()*(totalPaths.size()-1));
+            System.out.println("Indice del viaje " + indiceDelViaje);
+            Path pathPorRealizar = totalPaths.get(indiceDelViaje);
+
+            cantRestanteViajes -= calculateNumOfDronesBySet();   
+            //validar que si no son divisibles puede que el ultimo calculo
+            //quede un numero negativo o que no sea un set completo.
+                                    
+            System.out.println("length"+pathPorRealizar.path.size());
+                
+            for (int stacion = 0; stacion < pathPorRealizar.getPath().size()-1; stacion++) {
+                int stationActual = pathPorRealizar.getPath().get(stacion);
+                int stationSiguietne= pathPorRealizar.getPath().get(stacion+1);
+
+                    System.out.println("Viaje "+stationActual+" "+stationSiguietne);
+                    System.out.println("Node origen " + arrayNode.get((stationActual)-1).getName());
+                    System.out.println("Node destino "+arrayNode.get((stationSiguietne)-1).getName());
+                    System.out.println("Tiempo "+ calculateXDistanceTime(arrayNode.get((stationActual)-1).adjacentNodes.get(arrayNode.get((stationSiguietne)-1))));
+                    int time = calculateXDistanceTime(arrayNode.get((stationActual)-1).adjacentNodes.get(arrayNode.get((stationSiguietne)-1)));
+                    //time es lo que dura de a b pero falta considerarlo en una variable global 
+                    tiemposRestr.add(stationSiguietne);
+                    tiemposRestr.add(time);
+                    timeProx -= time; //se resta lo que dure en llegar del tiempo total que pude durar el viaje                    
+            }
+                        
+        }        
+    }
+    
+    public int calculateSlots(){
+        return (timeProx*MILLISECOND)/WORSE_TIME_TO_GET_TO_THE_TOP;
+    }
 }
+
