@@ -160,12 +160,7 @@ public class Event extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCreateActionPerformed
-<<<<<<< HEAD
-        // TODO add your handling code here:
-        
-=======
- // TODO add your handling code here:
->>>>>>> 23476c085bbf8950a10b388f168462fb0f4a5dcf
+
         Dimension dimension = planoCartesiano.getSize();
         
         int width = dimension.width-40;
