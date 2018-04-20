@@ -18,12 +18,12 @@ import java.util.Set;
 public class GraphMethods {
     
     int idTrip = 0;
-    int cantTrips;
-    int pistaHeight;
-    int pistaWidth;
-    int sizePista;
-    int cantPistas;
-    int cantStation;
+    int numberOfTrips;
+    int trackHeight;
+    int trackWidth;
+    int numberOfTracksByStation;
+    int numberOfTrack;
+    int numberOfStations;
     int timeReal;
     int timeProx;
     int cantDronesXPista;
@@ -36,58 +36,139 @@ public class GraphMethods {
     
     public GraphMethods() {
     }
-
+//Settes and gettes-------------------------------------------------------------------------------------------------------------
+    
+    
     public void setNodes(){
-        nodes = new Node[cantStation];
+        nodes = new Node[numberOfStations];
     }
     
-    public Graph calculateShortestPathFromSource(Graph graph, Node source) {
-        source.setDistance(0);
+    public int getIdTrip() {
+        return idTrip;
+    }
 
-        Set<Node> settledNodes = new HashSet<>();
-        Set<Node> unsettledNodes = new HashSet<>();
+    public void setIdTrip(int idTrip) {
+        this.idTrip = idTrip;
+    }
+    
+    public int getNumberOfTrips() {
+        return numberOfTrips;
+    }
 
-        unsettledNodes.add(source);
+    public void setNumberOfTrips(int cant) {
+        this.numberOfTrips = cant;
+    }
+    
+    public int getNumberOfTracksByStation() {
+        return numberOfTracksByStation;
+    }
 
-        while (unsettledNodes.size() != 0) {
-            Node currentNode = getLowestDistanceNode(unsettledNodes);
-            unsettledNodes.remove(currentNode);
-            for (Map.Entry < Node, Integer> adjacencyPair:currentNode.getAdjacentNodes().entrySet()) {
-                Node adjacentNode = adjacencyPair.getKey();
-                Integer edgeWeight = adjacencyPair.getValue();
-                if (!settledNodes.contains(adjacentNode)) {
-                    CalculateMinimumDistance(adjacentNode, edgeWeight, currentNode);
-                    unsettledNodes.add(adjacentNode);
-                }
-            }
-            settledNodes.add(currentNode);
-        }
+    public void setNumberOfTracksByStation(int numberOfTracksByStation) {
+        this.numberOfTracksByStation = numberOfTracksByStation;
+    }
+    
+    public int getNumberOfStations() {
+        return numberOfStations;
+    }
+
+    public void setNumberOfStations(int numberOfStations) {
+        this.numberOfStations = numberOfStations;
+    }
+    
+    public int getTimeReal() {
+        return timeReal;
+    }
+
+    public void setTimeReal(int timeReal) {
+        this.timeReal = timeReal;
+    }
+    
+    public int getTimeProx() {
+        return timeProx;
+    }
+    
+    public void setTimeProx(int timeProx) {
+        this.timeProx = timeProx;
+    }
+
+    public ArrayList<Integer> getLinesToDraw() {
+        return linesToDraw;
+    }
+
+    public void setLinesToDraw(ArrayList<Integer> linesToDraw) {
+        this.linesToDraw = linesToDraw;
+    }
+
+    public int getPistaHeight() {
+        return trackHeight;
+    }
+
+    public void setPistaHeight(int pistaHeight) {
+        this.trackHeight = pistaHeight;
+    }
+
+    public int getPistaWidth() {
+        return trackWidth;
+    }
+
+    public void setPistaWidth(int pistaWidth) {
+        this.trackWidth = pistaWidth;
+    }
+    
+    public Graph getGraph() {
         return graph;
     }
+
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+    }    
     
-    private static Node getLowestDistanceNode(Set < Node > unsettledNodes) {
-        Node lowestDistanceNode = null;
-        int lowestDistance = Integer.MAX_VALUE;
-        for (Node node: unsettledNodes) {
-            int nodeDistance = node.getDistance();
-            if (nodeDistance < lowestDistance) {
-                lowestDistance = nodeDistance;
-                lowestDistanceNode = node;
-            }
-        }
-        return lowestDistanceNode;
+    public void setCantPistas(){
+        //500 entre el alto de la pista designado para decir cuàntas pistas de ida caben en la mitad
+        //se toma 500 metros porque por cada pista de ida tiene que haber una de vuelta
+        this.numberOfTrack = 500 / this.trackHeight;
+        setCantDronesXPista();
     }
     
-    private static void CalculateMinimumDistance(Node evaluationNode,
-        Integer edgeWeigh, Node sourceNode) {
-        Integer sourceDistance = sourceNode.getDistance();
-        if (sourceDistance + edgeWeigh < evaluationNode.getDistance()) {
-            evaluationNode.setDistance(sourceDistance + edgeWeigh);
-            LinkedList<Node> shortestPath = new LinkedList<>(sourceNode.getShortestPath());
-            shortestPath.add(sourceNode);
-            evaluationNode.setShortestPath(shortestPath);
-        }
+    public void setCantDronesXPista(){
+        //area de la pista entre area de un drone = 6
+        this.cantDronesXPista = (this.trackHeight*this.trackWidth)/6;
+        
     }
+
+    public int getNumberOfTrack() {
+        return numberOfTrack;
+    }
+
+    public void setNumberOfTrack(int numberOfTrack) {
+        this.numberOfTrack = numberOfTrack;
+    }
+
+    public int getCantDronesXPista() {
+        return cantDronesXPista;
+    }
+
+    public void setCantDronesXPista(int cantDronesXPista) {
+        this.cantDronesXPista = cantDronesXPista;
+    }
+
+    public float getWorstTimeCase() {
+        return worstTimeCase;
+    }
+
+    public void setWorstTimeCase(float worstTimeCase) {
+        this.worstTimeCase = worstTimeCase;
+    }
+
+    public Node[] getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(Node[] nodes) {
+        this.nodes = nodes;
+    }
+ 
+// Methods to make the stations and destinations--------------------------------------------------------------------------------
     
     public void MakeStation(Integer name, int x, int y){
         
@@ -102,12 +183,12 @@ public class GraphMethods {
         linesToDraw.clear();
         ArrayList<Integer> arrayList = new ArrayList<>();
         for (int subNode = 0; subNode < graph.getNodes().length; subNode++) {
-            int cantPista = graph.getSizePista() - graph.getNodes()[subNode].getAdjacentNodes().size();               
+            int cantPista = graph.getNumberOfTracksByStation() - graph.getNodes()[subNode].getAdjacentNodes().size();               
             
             while ( cantPista > 0) {
-                int destineNode = (int) (Math.random()*graph.getCantStation());
+                int destineNode = (int) (Math.random()*graph.getNumberOfStations());
                 if (graph.getNodes()[subNode].getName().compareTo(graph.getNodes()[destineNode].getName()) != 0 ) {
-                    if (arrayList.size()+1 == graph.getCantStation()) { 
+                    if (arrayList.size()+1 == graph.getNumberOfStations()) { 
                         defineTheClosets(graph, subNode);
                         cantPista--;
                     }else{   
@@ -266,174 +347,55 @@ public class GraphMethods {
             matrix[init + i] = buffer[i];
     }
     
-   
+//Methods to calculate the shortest paths-------------------------------------------------------------------------------------------------
     
-    public void controllerAereoProbabilistic(){
-        
-    }
-    
-    public void controllerAereoDividAndConquer(){
-        
-    }
-    
-    public void controllerAereoBacktracking(){
-        
-    }
-    
-    public boolean ExistWay(int origen, int destino){
-        return false;
-    }
-    //camino mas corto 
-    public void LookBestWay(int origen, int destino){
-        //Guarda en hashtable
-    }   
+    public Graph calculateShortestPathFromSource(Graph graph, Node source) {
+        source.setDistance(0);
 
-    public int getIdTrip() {
-        return idTrip;
-    }
+        Set<Node> settledNodes = new HashSet<>();
+        Set<Node> unsettledNodes = new HashSet<>();
 
-    public int getCant() {
-        return cantTrips;
-    }
+        unsettledNodes.add(source);
 
-    public int getSizePista() {
-        return sizePista;
-    }
-
-    public int getCantStation() {
-        return cantStation;
-    }
-
-    public int getTimeReal() {
-        return timeReal;
-    }
-
-    public int getTimeProx() {
-        return timeProx;
-    }
-
-    public void setIdTrip(int idTrip) {
-        this.idTrip = idTrip;
-    }
-
-    public void setCant(int cant) {
-        this.cantTrips = cant;
-    }
-
-    public void setSizePista(int sizePista) {
-        this.sizePista = sizePista;
-    }
-
-    public void setCantStation(int cantStation) {
-        this.cantStation = cantStation;
-    }
-
-    public void setTimeReal(int timeReal) {
-        this.timeReal = timeReal;
-    }
-
-    public void setTimeProx(int timeProx) {
-        this.timeProx = timeProx;
-    }
-
-    public ArrayList<Integer> getLinesToDraw() {
-        return linesToDraw;
-    }
-
-    public void setLinesToDraw(ArrayList<Integer> linesToDraw) {
-        this.linesToDraw = linesToDraw;
-    }
-
-    public int getPistaHeight() {
-        return pistaHeight;
-    }
-
-    public void setPistaHeight(int pistaHeight) {
-        this.pistaHeight = pistaHeight;
-    }
-
-    public int getPistaWidth() {
-        return pistaWidth;
-    }
-
-    public Graph getGraph() {
+        while (unsettledNodes.size() != 0) {
+            Node currentNode = getLowestDistanceNode(unsettledNodes);
+            unsettledNodes.remove(currentNode);
+            for (Map.Entry < Node, Integer> adjacencyPair:currentNode.getAdjacentNodes().entrySet()) {
+                Node adjacentNode = adjacencyPair.getKey();
+                Integer edgeWeight = adjacencyPair.getValue();
+                if (!settledNodes.contains(adjacentNode)) {
+                    CalculateMinimumDistance(adjacentNode, edgeWeight, currentNode);
+                    unsettledNodes.add(adjacentNode);
+                }
+            }
+            settledNodes.add(currentNode);
+        }
         return graph;
     }
-
-    public void setGraph(Graph graph) {
-        this.graph = graph;
-    }
-
     
-    
-    public void setPistaWidth(int pistaWidth) {
-        this.pistaWidth = pistaWidth;
-    }
-    
-    public void setCantPistas(){
-        //500 entre el alto de la pista designado para decir cuàntas pistas de ida caben en la mitad
-        //se toma 500 metros porque por cada pista de ida tiene que haber una de vuelta
-        this.cantPistas = 500 / this.pistaHeight;
-        setCantDronesXPista();
+    private static Node getLowestDistanceNode(Set < Node > unsettledNodes) {
+        Node lowestDistanceNode = null;
+        int lowestDistance = Integer.MAX_VALUE;
+        for (Node node: unsettledNodes) {
+            int nodeDistance = node.getDistance();
+            if (nodeDistance < lowestDistance) {
+                lowestDistance = nodeDistance;
+                lowestDistanceNode = node;
+            }
+        }
+        return lowestDistanceNode;
     }
     
-    public void setCantDronesXPista(){
-        //area de la pista entre area de un drone = 6
-        this.cantDronesXPista = (this.pistaHeight*this.pistaWidth)/6;
-        
-    }
-
-    public int getCantTrips() {
-        return cantTrips;
-    }
-
-    public void setCantTrips(int cantTrips) {
-        this.cantTrips = cantTrips;
-    }
-
-    public int getCantPistas() {
-        return cantPistas;
-    }
-
-    public void setCantPistas(int cantPistas) {
-        this.cantPistas = cantPistas;
-    }
-
-    public int getCantDronesXPista() {
-        return cantDronesXPista;
-    }
-
-    public void setCantDronesXPista(int cantDronesXPista) {
-        this.cantDronesXPista = cantDronesXPista;
-    }
-
-    public float getWorstTimeCase() {
-        return worstTimeCase;
-    }
-
-    public void setWorstTimeCase(float worstTimeCase) {
-        this.worstTimeCase = worstTimeCase;
-    }
-
-//    public Node getNode() {
-//        return node;
-//    }
-//
-//    public void setNode(Node node) {
-//        this.node = node;
-//    }
-
-    public Node[] getNodes() {
-        return nodes;
-    }
-
-    public void setNodes(Node[] nodes) {
-        this.nodes = nodes;
-    }
-   
-    
-    
-    
+    private static void CalculateMinimumDistance(Node evaluationNode,
+        Integer edgeWeigh, Node sourceNode) {
+        Integer sourceDistance = sourceNode.getDistance();
+        if (sourceDistance + edgeWeigh < evaluationNode.getDistance()) {
+            evaluationNode.setDistance(sourceDistance + edgeWeigh);
+            LinkedList<Node> shortestPath = new LinkedList<>(sourceNode.getShortestPath());
+            shortestPath.add(sourceNode);
+            evaluationNode.setShortestPath(shortestPath);
+        }
+    } 
     
     public Graph copy(){
         Graph nuevo = new Graph();
@@ -529,4 +491,7 @@ public class GraphMethods {
         return paths;
     }
     
-}
+}//Methods to define the slots--------------------------------------------------------------------------------------------------
+
+
+

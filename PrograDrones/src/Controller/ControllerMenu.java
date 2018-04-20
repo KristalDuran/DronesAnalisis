@@ -33,11 +33,11 @@ public class ControllerMenu implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ae) {
         
-        graphMethods.setCant(Integer.parseInt(Menu.CantViaje.getText()));
-        graphMethods.setSizePista(Integer.parseInt(Menu.SizePista.getText()));
+        graphMethods.setNumberOfTrips(Integer.parseInt(Menu.CantViaje.getText()));
+        graphMethods.setNumberOfTracksByStation(Integer.parseInt(Menu.SizePista.getText()));
         graphMethods.setPistaHeight(Integer.parseInt(Menu.txtHeight.getText()));
         graphMethods.setPistaWidth(Integer.parseInt(Menu.txtWidth.getText()));
-        graphMethods.setCantStation(Integer.parseInt(Menu.CantStation.getText()));
+        graphMethods.setNumberOfStations(Integer.parseInt(Menu.CantStation.getText()));
         graphMethods.setTimeReal(Integer.parseInt(Menu.TimeReal.getText()));
         graphMethods.setTimeProx(Integer.parseInt(Menu.TimeProx.getText()));
         
@@ -45,21 +45,21 @@ public class ControllerMenu implements ActionListener {
         
         if(Menu.jRadioButton4.isSelected()){
             //probabilistico
-            graphMethods.controllerAereoProbabilistic();
+            
         }
         
         if(Menu.jRadioButton2.isSelected()){
             //divide y venceras 
-            graphMethods.controllerAereoDividAndConquer();
+            
         }
         
         if(Menu.jRadioButton3.isSelected()){
             //backtraking
-            graphMethods.controllerAereoBacktracking();
+            
         }
         
         Event event = new Event(graphMethods);
-        event.setCant(graphMethods.getCantStation());
+        event.setCant(graphMethods.getNumberOfStations());
         event.fijarController(new ControllerEvent(event, graphMethods));
     }
     
