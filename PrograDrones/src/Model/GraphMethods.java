@@ -138,12 +138,6 @@ public class GraphMethods {
     }
     
     public int defineDistance(Node origen, Node destin){
-        System.out.println("---------------------------------------------------------------------");
-        System.out.println("Origen: " + origen.getName() + " x: "+origen.getX() + " y: "+origen.getY());
-        System.out.println("Destino: " + destin.getName() + " x: "+destin.getX() + " y: "+destin.getY());
-        System.out.println("Abs: " + (int)Math.sqrt((int)Math.pow(destin.getX() - origen.getX(), 2) + (int)Math.pow(destin.getY() - origen.getY(), 2)));
-        System.out.println("Raiz: " + (int)Math.abs((destin.getX() - origen.getX()) + (destin.getY() - origen.getY())));
-        
         return (int)Math.sqrt((int)Math.pow(destin.getX() - origen.getX(), 2) + (int)Math.pow(destin.getY() - origen.getY(), 2));
     }
     
@@ -272,20 +266,7 @@ public class GraphMethods {
             matrix[init + i] = buffer[i];
     }
     
-    //definir los puntos orinen y destino de cada viaje
-    public void MakeWays(int cantTravel){
-        int origen = (int)(Math.random()*cantTravel)+1;
-        int destino;
-        while (true) {
-            destino = (int)(Math.random()*cantTravel)+1;
-            if (origen != destino) {
-                break;
-            }
-        }
-        
-        idTrip++;
-
-    }
+   
     
     public void controllerAereoProbabilistic(){
         

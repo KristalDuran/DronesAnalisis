@@ -64,7 +64,7 @@ public class Event extends javax.swing.JFrame {
     public void fijarController(EventListener controller){
         jBCreate.addActionListener((ActionListener) controller);
         jBBack.addActionListener((ActionListener) controller);
-        jBStarError.addActionListener((ActionListener) controller);
+        jBStar.addActionListener((ActionListener) controller);
     }
     
     /**
@@ -79,7 +79,7 @@ public class Event extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jBCreate = new javax.swing.JButton();
         jBBack = new javax.swing.JButton();
-        jBStarError = new javax.swing.JButton();
+        jBStar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         planoCartesiano = new javax.swing.JPanel();
 
@@ -97,7 +97,7 @@ public class Event extends javax.swing.JFrame {
 
         jBBack.setText("Back");
 
-        jBStarError.setText("Star with error");
+        jBStar.setText("Star");
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel2.setText("Message");
@@ -120,21 +120,23 @@ public class Event extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jBCreate)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jBBack)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jBStarError)
-                .addGap(48, 48, 48))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addComponent(jLabel1)
-                .addGap(272, 272, 272)
-                .addComponent(jLabel2)
-                .addContainerGap(973, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(planoCartesiano, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(planoCartesiano, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jBCreate)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jBBack)
+                                .addGap(36, 36, 36)
+                                .addComponent(jBStar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(62, 62, 62)
+                                .addComponent(jLabel1)
+                                .addGap(272, 272, 272)
+                                .addComponent(jLabel2)))
+                        .addGap(0, 963, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -150,7 +152,7 @@ public class Event extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBCreate)
                     .addComponent(jBBack)
-                    .addComponent(jBStarError))
+                    .addComponent(jBStar))
                 .addGap(37, 37, 37))
         );
 
@@ -158,7 +160,7 @@ public class Event extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCreateActionPerformed
-        // TODO add your handling code here:
+ // TODO add your handling code here:
         Dimension dimension = planoCartesiano.getSize();
         
         int width = dimension.width-40;
@@ -201,7 +203,7 @@ public class Event extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton jBBack;
     public javax.swing.JButton jBCreate;
-    public javax.swing.JButton jBStarError;
+    public javax.swing.JButton jBStar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     public javax.swing.JPanel planoCartesiano;
