@@ -34,6 +34,8 @@ public class GraphMethods {
     ArrayList<Integer> linesToDraw = new ArrayList();
     Node[] nodes;
     
+    ArrayList<Node> arrayNode = new ArrayList<>();
+    
     public GraphMethods() {
     }
 //Settes and gettes-------------------------------------------------------------------------------------------------------------
@@ -174,6 +176,7 @@ public class GraphMethods {
         
         Node create = new Node(name, x, y);
         nodes[(name.intValue()-1)] = create;
+        arrayNode.add(create);
     }
     
     //definir que vertice se conecta con otro y el tama;o del arco es decir la distancia
@@ -500,7 +503,7 @@ public class GraphMethods {
     
     public int calculateXDistanceTime(int distance){
         //en milisegundos
-        return (distance/SPEED)*3600000;
+        return(int) ((double)((double)distance/(double)SPEED)*3600000);
     }
 
     public int calculateNumOfDronesBySet(){
@@ -511,21 +514,39 @@ public class GraphMethods {
         return cuantosDronesPorSet;
     }
         
+    ArrayList<Integer> tiemposRestr = new ArrayList<>(); //se van a guarda de dos en dos, el punto restringido y el tiempo en que va a estar ahi
+    
+    int tiempoGlobal=0;
+    
     public void calculateTrip(){
         int cantRestanteViajes = numberOfTrips;
         
         while(cantRestanteViajes > 0){
-            int indiceDelViaje = (int)Math.random()*(totalPaths.size()-1);
-            
+            int indiceDelViaje = (int)(Math.random()*(totalPaths.size()-1));
+            System.out.println("Indice del viaje " + indiceDelViaje);
             Path pathPorRealizar = totalPaths.get(indiceDelViaje);
 
             cantRestanteViajes -= calculateNumOfDronesBySet();   
             //validar que si no son divisibles puede que el ultimo calculo
             //quede un numero negativo o que no sea un set completo.
-            
-            //calcular el tiempo que tarda eso y hacer la restriccion del siguiente viaje
-            //restar este tiempo del tiempo total para saber si va a alcanzar 
-            
+                                    
+            System.out.println("length"+pathPorRealizar.path.size());
+                
+            for (int stacion = 0; stacion < pathPorRealizar.getPath().size()-1; stacion++) {
+                int stationActual = pathPorRealizar.getPath().get(stacion);
+                int stationSiguietne= pathPorRealizar.getPath().get(stacion+1);
+
+                    System.out.println("Viaje "+stationActual+" "+stationSiguietne);
+                    System.out.println("Node origen " + arrayNode.get((stationActual)-1).getName());
+                    System.out.println("Node destino "+arrayNode.get((stationSiguietne)-1).getName());
+                    System.out.println("Tiempo "+ calculateXDistanceTime(arrayNode.get((stationActual)-1).adjacentNodes.get(arrayNode.get((stationSiguietne)-1))));
+                    int time = calculateXDistanceTime(arrayNode.get((stationActual)-1).adjacentNodes.get(arrayNode.get((stationSiguietne)-1)));
+                    //time es lo que dura de a b pero falta considerarlo en una variable global 
+                    tiemposRestr.add(stationSiguietne);
+                    tiemposRestr.add(time);
+                    timeProx -= time; //se resta lo que dure en llegar del tiempo total que pude durar el viaje                    
+            }
+                        
         }        
     }
     
