@@ -35,12 +35,12 @@ public class ControllerEvent implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == event.jBBack) {
             event.setVisible(false);
-            graphMethods.calculateTrip();
+            
         } else if (e.getSource() == event.jBStar) {
             event.setVisible(false);
-            
+            graphMethods.calculateSiSePuedeRealizarTodosViejes();
             Simulacion simu = new Simulacion();            
-            //simu.fijarController(new C);
+            simu.fijarController(new ControllerSimulation(simu, graphMethods));
         }
         
     }

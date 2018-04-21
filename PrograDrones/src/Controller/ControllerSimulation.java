@@ -28,7 +28,10 @@ public class ControllerSimulation implements ActionListener{
         
     @Override
     public void actionPerformed(ActionEvent e) {
-        simulacion.setVisible(false);
+        if (e.getSource() == simulacion.jBExit) {
+            simulacion.setVisible(false);
+        }
+        
     }
     
 }

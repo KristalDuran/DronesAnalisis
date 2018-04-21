@@ -6,6 +6,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
@@ -499,9 +500,9 @@ public class GraphMethods {
 //Methods to define the times--------------------------------------------------------------------------------------------------
     private static int SPEED = 120; //velocidad
     private static int MILLISECOND = 1000;
-    private static int  WORSE_TIME_TO_GET_TO_THE_TOP = (int)(3.997/SPEED)*3600000;
+    private static double  WORSE_TIME_TO_GET_TO_THE_TOP = (double)(3.997/(double)SPEED)*3600000;
     
-    public int calculateXDistanceTime(int distance){
+    public int calculateXDistanceTime(double distance){
         //en milisegundos
         return(int) ((double)((double)distance/(double)SPEED)*3600000);
     }
@@ -514,7 +515,9 @@ public class GraphMethods {
         return cuantosDronesPorSet;
     }
         
-    ArrayList<Integer> tiemposRestr = new ArrayList<>(); //se van a guarda de dos en dos, el punto restringido y el tiempo en que va a estar ahi
+    ArrayList<Object> tiemposRestriction = new ArrayList<>(); //se van a guarda de tres en tres: path, el punto restringido y el tiempo en que va a estar ahi
+    
+    Map<Path, Integer> viajesExactos = new HashMap<>();
     
     int tiempoGlobal=0;
     
@@ -531,27 +534,64 @@ public class GraphMethods {
             //quede un numero negativo o que no sea un set completo.
                                     
             System.out.println("length"+pathPorRealizar.path.size());
-                
+            int timeTotal = 0;    
             for (int stacion = 0; stacion < pathPorRealizar.getPath().size()-1; stacion++) {
                 int stationActual = pathPorRealizar.getPath().get(stacion);
                 int stationSiguietne= pathPorRealizar.getPath().get(stacion+1);
 
-                    System.out.println("Viaje "+stationActual+" "+stationSiguietne);
-                    System.out.println("Node origen " + arrayNode.get((stationActual)-1).getName());
-                    System.out.println("Node destino "+arrayNode.get((stationSiguietne)-1).getName());
-                    System.out.println("Tiempo "+ calculateXDistanceTime(arrayNode.get((stationActual)-1).adjacentNodes.get(arrayNode.get((stationSiguietne)-1))));
-                    int time = calculateXDistanceTime(arrayNode.get((stationActual)-1).adjacentNodes.get(arrayNode.get((stationSiguietne)-1)));
-                    //time es lo que dura de a b pero falta considerarlo en una variable global 
-                    tiemposRestr.add(stationSiguietne);
-                    tiemposRestr.add(time);
-                    timeProx -= time; //se resta lo que dure en llegar del tiempo total que pude durar el viaje                    
+                System.out.println("Viaje "+stationActual+" "+stationSiguietne);
+                System.out.println("Node origen " + arrayNode.get((stationActual)-1).getName());
+                System.out.println("Node destino "+arrayNode.get((stationSiguietne)-1).getName());
+                System.out.println("Distanca " +(double)(arrayNode.get((stationActual)-1).adjacentNodes.get(arrayNode.get((stationSiguietne)-1)))/1000);
+                System.out.println("Tiempo "+ calculateXDistanceTime((double)(arrayNode.get((stationActual)-1).adjacentNodes.get(arrayNode.get((stationSiguietne)-1)))/1000));
+                int time = calculateXDistanceTime((double)(arrayNode.get((stationActual)-1).adjacentNodes.get(arrayNode.get((stationSiguietne)-1)))/1000);
+                //time es lo que dura de a b pero falta considerarlo en una variable global 
+                timeTotal += time;
+                tiemposRestriction.add(pathPorRealizar.getPath());
+                tiemposRestriction.add(stationSiguietne);
+                tiemposRestriction.add(time);
+                timeProx -= time; //se resta lo que dure en llegar del tiempo total que pude durar el viaje                    
             }
-                        
+            viajesExactos.put(pathPorRealizar, timeTotal);          
         }        
     }
     
-    public int calculateSlots(){
+    public double calculateSlots(){
         return (timeProx*MILLISECOND)/WORSE_TIME_TO_GET_TO_THE_TOP;
     }
+    
+    public double calculateTotalTakeoffTime(){
+        int cantDeSalidasYLLegadas = numberOfTrips/calculateNumOfDronesBySet();
+        System.out.println("cantDeSalidasYLLegadas "+cantDeSalidasYLLegadas+"  "+(int)WORSE_TIME_TO_GET_TO_THE_TOP);
+        double timeTotalSalirLLegar = (cantDeSalidasYLLegadas*(int)WORSE_TIME_TO_GET_TO_THE_TOP)*2;
+        System.out.println("timeTotalSalirLLegar "+timeTotalSalirLLegar);
+        return timeTotalSalirLLegar;
+    }
+    
+    public void calculateSiSePuedeRealizarTodosViejes(){
+        
+        timeProx = timeProx * MILLISECOND;
+        System.out.println("Tiempo inicial milisegundos: " + timeProx);
+        timeProx -= calculateTotalTakeoffTime();
+        System.out.println("Tiempo Total restante en segundos: " + (timeProx/1000));
+        calculateTrip();
+        System.out.println("Tiempo Total restante en segundos: " + (timeProx/1000));
+        
+        
+        System.out.println("--------------------------------------------------------------------------------------");
+        System.out.println("               Hash Table ");
+        for (Path i :  totalPaths) {
+            
+            if (viajesExactos.containsKey(i)) {
+                for (Integer integer : i.getPath()) {
+                    System.out.print(""+integer + " ");
+                }
+                System.out.println("Tiempo: " + viajesExactos.get(i));
+            }
+;
+        }
+    }
+    
+    
 }
 
