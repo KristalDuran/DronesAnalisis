@@ -20,52 +20,21 @@ import java.util.Random;
  * @author Kris
  */
 public class Event extends javax.swing.JFrame {
-
-    
-    
-    private int cant = 0;
-    GraphMethods graphMethods;
     /**
      * Creates new form Event
      */
-    public Event(GraphMethods pGraph) {
-        graphMethods = pGraph;
+    public Event() {
         initComponents();
     }
 
-    
-    
-    public void setCant(int cantidad){
-        cant  = cantidad;
-    }
-    
-    private boolean isAllowToPlace(ArrayList<Restriction> restrictions, int toEvaluate){
-        
-        for(Restriction restriction: restrictions){
-            if(restriction.isRestriction(toEvaluate)){
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    public void drawArray(ArrayList<Integer> linesToDraw){
-        for(int drawPoints = 0; drawPoints <= linesToDraw.size()-3;drawPoints += 4){
-            drawLine(linesToDraw.get(drawPoints),linesToDraw.get(drawPoints+1),linesToDraw.get(drawPoints+2),linesToDraw.get(drawPoints+3));
-        }
-    
-    }
-    
-    public void drawLine(int x, int y, int x2, int y2){
-        Graphics g = planoCartesiano.getGraphics();
-        g.drawLine(x, y, x2, y2);
-    }
-    
     public void fijarController(EventListener controller){
         jBCreate.addActionListener((ActionListener) controller);
         jBBack.addActionListener((ActionListener) controller);
         jBStar.addActionListener((ActionListener) controller);
     }
+    
+    
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -97,7 +66,7 @@ public class Event extends javax.swing.JFrame {
 
         jBBack.setText("Back");
 
-        jBStar.setText("Star");
+        jBStar.setText("Start");
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel2.setText("Message");
@@ -161,45 +130,6 @@ public class Event extends javax.swing.JFrame {
 
     private void jBCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCreateActionPerformed
 
-        Dimension dimension = planoCartesiano.getSize();
-        
-        int width = dimension.width-40;
-        int height = dimension.height-40;
-        
-        Graphics grafico = planoCartesiano.getGraphics();
-        
-        grafico.clearRect(0, 0, width + 40, height + 40);
-        
-        ArrayList<Restriction> restrictionsX = new ArrayList();
-        ArrayList<Restriction> restrictionsY = new ArrayList();
-        
-        Random getRandom = new Random();
-        
-        int x = getRandom.nextInt(width);
-        int y = getRandom.nextInt(height);
-        
-        for(int nodesToDraw = 0; nodesToDraw < cant; nodesToDraw++){
-            
-            while(!isAllowToPlace(restrictionsX,x) && !isAllowToPlace(restrictionsY,y)){
-                x = getRandom.nextInt(width)+20;
-                y = getRandom.nextInt(height)+20;
-            }
-            
-            restrictionsX.add(new Restriction(x-30,x+30));
-            restrictionsY.add(new Restriction(y-30,y+30));
-            
-            graphMethods.MakeStation(nodesToDraw+1, x, y);
-            //nodesToDraw+1 para no iniciar en 0
-            grafico.drawOval(x,y,20,20);
-            String numberOfNode = "" + (nodesToDraw+1);
-            grafico.drawChars(numberOfNode.toCharArray(),0, numberOfNode.toCharArray().length, x+4, y+15);
-            //guardar en un array los puntos x+10,y+10///////////////////////////////////////////////
-        }
-        System.out.println("end pinta nodos");
-        graphMethods.MakeGraph(graphMethods);//crea los arcos
-        drawArray(graphMethods.getLinesToDraw());//dibuja las lineas de los archos
-        //graphMethods.setCantPistas();//calcula la cantidad de pistas y la cantidad de drones por pista
-        graphMethods.setShortestPath();
     }//GEN-LAST:event_jBCreateActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
