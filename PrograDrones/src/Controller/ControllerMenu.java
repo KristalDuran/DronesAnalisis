@@ -58,8 +58,8 @@ public class ControllerMenu implements ActionListener {
             
         }
         
-        Event event = new Event(graphMethods);
-        event.setCant(graphMethods.getNumberOfStations());
+        Event event = new Event();
+        //event.setCant(graphMethods.getNumberOfStations());
         event.fijarController(new ControllerEvent(event, graphMethods));
     }
     

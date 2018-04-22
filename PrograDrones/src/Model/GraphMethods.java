@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -30,7 +31,6 @@ public class GraphMethods {
     int cantDronesXPista;
     float worstTimeCase = 1000/30;//al no saber las posiciones de las pistas se debe calcular como si tuvieran que subir
                                   //hasta la pista màs alta
-    
     Graph graph = new Graph();
     ArrayList<Integer> linesToDraw = new ArrayList();
     Node[] nodes;
@@ -403,11 +403,9 @@ public class GraphMethods {
     
     public Graph copy(){
         Graph nuevo = new Graph();
-        
-        
+    
         for(Node copy: this.graph.getNodes()){
             nuevo.addNode(new Node(copy.getName(),copy.getX(),copy.getY()));
-            
         }
         
         for(Node tmp:this.graph.getNodes()){
@@ -419,13 +417,9 @@ public class GraphMethods {
                         j.addDestination(nuevo.getNodeByName(adjacentNode.getName()), edgeWeight);
                         break;
                     }
-                
                 }
             }
         }
-        
-        
-        
         return nuevo;
     }
     
@@ -442,14 +436,14 @@ public class GraphMethods {
     
     public void setShortestPath(){
 
-        Graph resultadoDijkstra = new Graph();
+        Graph dijkstraResult = new Graph();
         
         
         for(Node toCalcDijkstra:graph.getNodes()){
-            resultadoDijkstra = calculateDijkstraWith(toCalcDijkstra.getName());
-            toCalcDijkstra.setPath(getPath(toCalcDijkstra.getName(),resultadoDijkstra));
+            dijkstraResult = calculateDijkstraWith(toCalcDijkstra.getName());
+            toCalcDijkstra.setPath(getPath(toCalcDijkstra.getName(),dijkstraResult));
         }
-        
+        System.out.println(" ");
         for(Node i:graph.getNodes()){
             System.out.println("Caminos de: " + i.getName());
             for(Path j:i.getPath()){
@@ -460,6 +454,7 @@ public class GraphMethods {
                 System.out.println("");
             }
         }
+        System.out.println(" ");
     }
     
     public Graph calculateDijkstraWith(int nodeName){
@@ -491,11 +486,40 @@ public class GraphMethods {
                 paths.add(toGet);
                 totalPaths.add(toGet);
             }
-            
         }
-    
         return paths;
     }
+    
+    public ArrayList<Path> getPathsToDo(){
+        
+        Random getRandom = new Random();
+        int pathIndex;
+        ArrayList<Path> result = new ArrayList();
+        
+        while(numberOfTrips > 0){
+            pathIndex = getRandom.nextInt(totalPaths.size());
+            numberOfTrips--;
+            result.add(totalPaths.get(pathIndex));  
+        }
+        return result;
+    }
+    
+    public int[][] pathsToHash(ArrayList<Path> paths){
+        int node[][] = new int[20][20];
+        for(int i = 0; i < 20; i++){
+            for(int j = 0; j < 20; j++){
+                System.out.print(node[i][j]);
+            }
+            System.out.println("");
+        }
+        return null;
+    }
+
+    
+    
+    
+    
+    
     
 //Methods to define the times--------------------------------------------------------------------------------------------------
     private static int SPEED = 120; //velocidad
@@ -545,6 +569,7 @@ public class GraphMethods {
                 System.out.println("Distanca " +(double)(arrayNode.get((stationActual)-1).adjacentNodes.get(arrayNode.get((stationSiguietne)-1)))/1000);
                 System.out.println("Tiempo "+ calculateXDistanceTime((double)(arrayNode.get((stationActual)-1).adjacentNodes.get(arrayNode.get((stationSiguietne)-1)))/1000));
                 int time = calculateXDistanceTime((double)(arrayNode.get((stationActual)-1).adjacentNodes.get(arrayNode.get((stationSiguietne)-1)))/1000);
+                System.out.println("");
                 //time es lo que dura de a b pero falta considerarlo en una variable global 
                 timeTotal += time;
                 tiemposRestriction.add(pathPorRealizar.getPath());
@@ -588,10 +613,9 @@ public class GraphMethods {
                 }
                 System.out.println("Tiempo: " + viajesExactos.get(i));
             }
-;
+
         }
+        
     }
-    
-    
 }
 

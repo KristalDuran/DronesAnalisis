@@ -101,7 +101,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jBStar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Star"/>
+        <Property name="text" type="java.lang.String" value="Start"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>

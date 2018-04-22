@@ -5,6 +5,8 @@
  */
 package Model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Kris
@@ -12,6 +14,7 @@ package Model;
 public class Restriction {
     int from;
     int to;
+    int stationsRestricted[] = null;
     
     public Restriction(int from, int to){
         this.from = from;
@@ -26,4 +29,22 @@ public class Restriction {
             return false;
         }
     }
+    
+    public void addRestrictedStation(int stationName){
+       for(int toAdd = 0; toAdd < stationsRestricted.length; toAdd ++){
+           if(stationsRestricted[toAdd] == 0){
+               stationsRestricted[toAdd] = stationName;
+               break;
+           }
+       }
+    }
+    
+    public void setCantRestrictions(int cant){
+        stationsRestricted = new int[cant];
+        
+        for(int clean = 0; clean < cant; clean++){
+            stationsRestricted[clean] = 0;
+        }
+    }
+    
 }
