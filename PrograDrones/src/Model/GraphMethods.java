@@ -588,10 +588,11 @@ public class GraphMethods {
                 }
                 System.out.println("Tiempo: " + viajesExactos.get(i));
             }
-;
+
         }
     }
     
     
 }
 
+ 
