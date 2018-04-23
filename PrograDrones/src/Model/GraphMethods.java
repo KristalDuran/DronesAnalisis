@@ -37,6 +37,11 @@ public class GraphMethods {
     
     ArrayList<Node> arrayNode = new ArrayList<>();
     
+    private static int SPEED = 120; //velocidad
+    private static int MILLISECOND = 1000;
+    private static double  WORSE_TIME_TO_GET_TO_THE_TOP = (double)(3.997/(double)SPEED)*3600000;
+    
+    
     public GraphMethods() {
     }
 //Settes and gettes-------------------------------------------------------------------------------------------------------------
@@ -584,8 +589,6 @@ public class GraphMethods {
         int timeToBeThere = 0;
         int timeToBeThereSumatory = 0;
         int timeProxAux = timeProx*1000;
-        i = totalPaths.size()- 1;
-        j = totalPaths.size()- 1;
         int restrictionAdded;
         for(i = totalPaths.size()- 1; i >= 0; i --){
             for(j = totalPaths.size()- 1; j >= 0; j --){
@@ -595,12 +598,17 @@ public class GraphMethods {
                 toEval = totalPaths.get(hash[i][j] - 1);
                 System.out.print(hash[i][j]);
                 System.out.print(",");
+                System.out.print(toEval.getPath().toString());
+                System.out.println(" peso:" + (toEval.getTotalWeight()/120)*3600000);
                 hash[i][j] = 0;
                 while(!flag){
                     flag = true;
                     //el pivot va a evaluar las restricciones
                     restrictions = hashRestrictionsByStation[toEval.getPath().get(0)];
                     for(Restriction pivot: restrictions){
+                        if(pivot == null){
+                            continue;
+                        }
                         if(((toEval.getTotalWeight()/120)*3600000) + offsetAux > timeProx*1000){
                             System.out.println("no se pueden acomodar los viajes en el tiempo dado");
                             flag = true;
@@ -647,11 +655,6 @@ public class GraphMethods {
                     }
                     timeToBeThereSumatory = 0;
                     if(flag){
-                        //System.out.println("a");
-                        //crear la restriccion del despegue
-//                        toCreate = new Restriction(offsetAux,(int)(offsetAux + WORSE_TIME_TO_GET_TO_THE_TOP));
-//                        toCreate.setCantRestrictions(numberOfStations);
-//                        toCreate.addRestrictedStation(toEval.getPath().get(0));
                         
                         for(int toAdd = 0; toAdd < hashRestrictionsByStation[toEval.getPath().get(0)].length; toAdd++){
                             
@@ -659,26 +662,29 @@ public class GraphMethods {
                                 hashRestrictionsByStation[toEval.getPath().get(0)][toAdd] = new Restriction(offsetAux,(int)(offsetAux + WORSE_TIME_TO_GET_TO_THE_TOP));
                                 hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].setCantRestrictions(numberOfStations);
                                 hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].addRestrictedStation(toEval.getPath().get(0));
-                                restrictionAdded = toAdd;
+                                timeProxAux = timeProxAux - (((hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].to - hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].from)/120)*3600000);
                                 break;
                             }    
                         }
                         
                         //crear las restricciones de los saltos sobre las estaciones
-                        for(int getIntersections = 0; getIntersections < toEval.getPath().size()-1; getIntersections++){
-                            timeToBeThere = getWeightInTimeOf(toEval.getPath().get(getIntersections),toEval.getPath().get(getIntersections +1));
-                            timeToBeThereSumatory = timeToBeThereSumatory + timeToBeThere;
-//                            toCreate = new Restriction(offsetAux + timeToBeThereSumatory,offsetAux + timeToBeThereSumatory);
-//                            toCreate.setCantRestrictions(numberOfStations);
-//                            toCreate.addRestrictedStation(toEval.getPath().get(getIntersections +1));
-                            
-                            for(int toAdd = 0; toAdd < hashRestrictionsByStation[toEval.getPath().get(getIntersections +1)].length; toAdd++){
-                            
-                                if(hashRestrictionsByStation[toEval.getPath().get(0)][toAdd] == null){
-                                    hashRestrictionsByStation[toEval.getPath().get(0)][toAdd] = new Restriction(offsetAux + timeToBeThereSumatory,offsetAux + timeToBeThereSumatory);
-                                    hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].setCantRestrictions(numberOfStations);
-                                    hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].addRestrictedStation(toEval.getPath().get(getIntersections +1));
-                                    break;
+                        if(toEval.getPath().size() > 2){
+                            for(int getIntersections = 0; getIntersections < toEval.getPath().size()-2; getIntersections++){
+                                timeToBeThere = getWeightInTimeOf(toEval.getPath().get(getIntersections),toEval.getPath().get(getIntersections +1));
+                                timeToBeThereSumatory = timeToBeThereSumatory + timeToBeThere;
+    //                            toCreate = new Restriction(offsetAux + timeToBeThereSumatory,offsetAux + timeToBeThereSumatory);
+    //                            toCreate.setCantRestrictions(numberOfStations);
+    //                            toCreate.addRestrictedStation(toEval.getPath().get(getIntersections +1));
+
+                                for(int toAdd = 0; toAdd < hashRestrictionsByStation[toEval.getPath().get(getIntersections +1)].length; toAdd++){
+
+                                    if(hashRestrictionsByStation[toEval.getPath().get(0)][toAdd] == null){
+                                        hashRestrictionsByStation[toEval.getPath().get(0)][toAdd] = new Restriction(offsetAux + timeToBeThereSumatory - 1,offsetAux + timeToBeThereSumatory + 1);
+                                        hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].setCantRestrictions(numberOfStations);
+                                        hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].addRestrictedStation(toEval.getPath().get(getIntersections +1));
+                                        timeProxAux = timeProxAux - (((hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].to - hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].from)/120)*3600000);
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -690,43 +696,53 @@ public class GraphMethods {
                         for(int toAdd = 0; toAdd < hashRestrictionsByStation[toEval.getPath().get(0)].length; toAdd++){
                             
                             if(hashRestrictionsByStation[toEval.getPath().get(0)][toAdd] == null){
-                                hashRestrictionsByStation[toEval.getPath().get(0)][toAdd] = new Restriction(offsetAux + timeToBeThereSumatory,(int)(offsetAux + WORSE_TIME_TO_GET_TO_THE_TOP + timeToBeThereSumatory + timeToBeThere));
+                                hashRestrictionsByStation[toEval.getPath().get(0)][toAdd] = new Restriction(offsetAux + ((toEval.totalWeight/120)*3600000),(int)(offsetAux + WORSE_TIME_TO_GET_TO_THE_TOP + ((toEval.totalWeight/120)*3600000)));
                                 hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].setCantRestrictions(numberOfStations);
-                                hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].addRestrictedStation(toEval.getPath().get(0));
-                                
+                                hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].addRestrictedStation(toEval.getPath().get(toEval.getPath().size() -1));
+                                timeProxAux = timeProxAux - (((hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].to - hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].from)/120)*3600000);
+                                break;
                             }    
                         }
-                        timeProxAux = timeProxAux - ((toEval.getTotalWeight()/120)*3600000);
-                        offsetAux = offset;
+                        //timeProxAux = timeProxAux - ((toEval.getTotalWeight()/120)*3600000);
+                        
                     }
+                    offsetAux = offset;
                     timeToBeThere = 0;
                     timeToBeThereSumatory = 0;
+                    flag = false;
+                    break;
                 }
             }
-            System.out.println("");
+
             //i--;
             //j = totalPaths.size()- 1;
         }
         
-        //hashRestrictionsByStation[1][1] = new Restriction(0,0);
+        System.out.println("");
         System.out.println("tiempo sobrante = " + timeProxAux);
         
         Restriction tmp;
         for(int a = 0; a < hashRestrictionsByStation.length; a++ ){
             for(int b = 0; b < hashRestrictionsByStation[0].length; b++){
                 if(hashRestrictionsByStation[a][b] != null){
-                    System.out.print("Estación: ");
+                    System.out.println("");
+                    System.out.print("from: " + hashRestrictionsByStation[a][b].from);
+                    System.out.print(" To: " + hashRestrictionsByStation[a][b].to);
+                    System.out.print(" --> Estaciónes: ");
                     for(int c = 0; c < hashRestrictionsByStation[a][b].getStationsRestricted().length ; c++){
                         System.out.print(hashRestrictionsByStation[a][b].getStationsRestricted()[c] + ",");
                     }
                     System.out.println("");
-                    System.out.print("from: " + hashRestrictionsByStation[a][b].from);
-                    System.out.println(" To: " + hashRestrictionsByStation[a][b].to);
                 }
             }
         }
         
         System.out.println("hast[0] length:" + hashRestrictionsByStation[1].length);
+        
+        for(Path a: totalPaths){
+            System.out.print(a.path.toString() + " peso:");
+            System.out.println((a.getTotalWeight()/120)*3600000);
+        }
         
     }
     
@@ -736,9 +752,7 @@ public class GraphMethods {
     
     
 //Methods to define the times--------------------------------------------------------------------------------------------------
-    private static int SPEED = 120; //velocidad
-    private static int MILLISECOND = 1000;
-    private static double  WORSE_TIME_TO_GET_TO_THE_TOP = (double)(3.997/(double)SPEED)*3600000;
+    
     
     public int calculateXDistanceTime(double distance){
         //en milisegundos

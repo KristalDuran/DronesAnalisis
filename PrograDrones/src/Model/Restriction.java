@@ -15,7 +15,7 @@ public class Restriction {
     int from;
     int to;
     int stationsRestricted[] = null;
-    Restriction generatedFromThisOne[];
+    //Restriction generatedFromThisOne[];
     
     public Restriction(int from, int to){
         this.from = from;
@@ -67,18 +67,8 @@ public class Restriction {
         return false;
     }
 
-    public void setGeneratedFromThisOne(int cant) {
-        generatedFromThisOne = new Restriction[cant];
-    }
-
     public int[] getStationsRestricted() {
         return stationsRestricted;
     }
-
-    public Restriction[] getGeneratedFromThisOne() {
-        return generatedFromThisOne;
-    }
-    
-    
     
 }
