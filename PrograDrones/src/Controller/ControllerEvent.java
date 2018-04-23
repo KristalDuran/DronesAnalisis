@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import Model.BackTracking;
 import Model.GraphMethods;
 import Model.Restriction;
 import View.Event;
@@ -41,6 +42,8 @@ public class ControllerEvent implements ActionListener{
             graphMethods.calculateSiSePuedeRealizarTodosViejes();
             Simulacion simu = new Simulacion();            
             simu.fijarController(new ControllerSimulation(simu, graphMethods));
+            BackTracking bac = new BackTracking(graphMethods.getViajesExactos(), graphMethods.getTotalPaths());
+            bac.all();
             
         }else if(e.getSource() == event.jBCreate){
             createGraph();

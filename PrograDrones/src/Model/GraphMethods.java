@@ -542,6 +542,15 @@ public class GraphMethods {
     ArrayList<Object> tiemposRestriction = new ArrayList<>(); //se van a guarda de tres en tres: path, el punto restringido y el tiempo en que va a estar ahi
     
     Map<Path, Integer> viajesExactos = new HashMap<>();
+
+    public ArrayList<Path> getTotalPaths() {
+        return totalPaths;
+    }
+
+    public Map<Path, Integer> getViajesExactos() {
+        return viajesExactos;
+    }
+    
     
     int tiempoGlobal=0;
     
