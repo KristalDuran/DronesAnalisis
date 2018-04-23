@@ -37,11 +37,11 @@ public class ControllerEvent implements ActionListener{
             event.setVisible(false);
             
         } else if (e.getSource() == event.jBStar) {
-            event.setVisible(false);
-            graphMethods.calculateSiSePuedeRealizarTodosViejes();
-            Simulacion simu = new Simulacion();            
-            simu.fijarController(new ControllerSimulation(simu, graphMethods));
-            
+//            event.setVisible(false);
+//            graphMethods.calculateSiSePuedeRealizarTodosViejes();
+//            Simulacion simu = new Simulacion();            
+//            simu.fijarController(new ControllerSimulation(simu, graphMethods));
+              graphMethods.calculateDivideAndConquer_PreCalc();
         }else if(e.getSource() == event.jBCreate){
             createGraph();
         }

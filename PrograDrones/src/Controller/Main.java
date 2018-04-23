@@ -6,6 +6,7 @@
 package Controller;
 
 import Model.GraphMethods;
+import Model.Restriction;
 import View.Menu;
 import java.util.ArrayList;
 
@@ -23,7 +24,18 @@ public class Main {
         menu.fijarControlador(new ControllerMenu(menu, graphMethods));
         
         menu.fijarModelo(graphMethods);
-        
-        graphMethods.pathsToHash(null);
+
+
+//        Restriction hashRestrictionsByStation[][] = new Restriction[30][30];
+//        Restriction as[] = hashRestrictionsByStation[0];
+//        for(Restriction b:as){
+//            System.out.println(b);
+//        }
+//        System.out.println("----------------------------");
+//        for(int a = 0; a < hashRestrictionsByStation.length; a++ ){
+//            for(int j = 0; j < hashRestrictionsByStation[0].length; j++){
+//                System.out.println(hashRestrictionsByStation[a][j]);
+//            }
+//        }
     }
 }

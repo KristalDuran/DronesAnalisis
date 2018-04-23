@@ -15,6 +15,7 @@ public class Restriction {
     int from;
     int to;
     int stationsRestricted[] = null;
+    Restriction generatedFromThisOne[];
     
     public Restriction(int from, int to){
         this.from = from;
@@ -22,7 +23,7 @@ public class Restriction {
     }
     
     public boolean isRestriction(int toEvaluate){
-        if(from < toEvaluate && toEvaluate < to){
+        if(from <= toEvaluate && toEvaluate <= to){
             return true;
         }
         else{
@@ -46,5 +47,38 @@ public class Restriction {
             stationsRestricted[clean] = 0;
         }
     }
+    
+    public boolean hasRestriction(int stationName){
+        
+        for(int i = 0; i < stationsRestricted.length; i++){
+            if(stationsRestricted[i] == stationName){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean isIntersection(int from, int to){
+        for(int i = from; i < to; i++){
+            if(isRestriction(i)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void setGeneratedFromThisOne(int cant) {
+        generatedFromThisOne = new Restriction[cant];
+    }
+
+    public int[] getStationsRestricted() {
+        return stationsRestricted;
+    }
+
+    public Restriction[] getGeneratedFromThisOne() {
+        return generatedFromThisOne;
+    }
+    
+    
     
 }
