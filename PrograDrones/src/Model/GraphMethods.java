@@ -516,15 +516,27 @@ public class GraphMethods {
     }
 
     
-    
-    
-    
-    
-    
 //Methods to define the times--------------------------------------------------------------------------------------------------
     private static int SPEED = 120; //velocidad
     private static int MILLISECOND = 1000;
     private static double  WORSE_TIME_TO_GET_TO_THE_TOP = (double)(3.997/(double)SPEED)*3600000;
+    
+    private ArrayList<Object> tiemposRestriction = new ArrayList<>(); //se van a guarda de tres en tres: path, el punto restringido y el tiempo en que va a estar ahi
+    
+    private Map<Path, Integer> viajesExactos = new HashMap<>();
+
+    public ArrayList<Path> getTotalPaths() {
+        return totalPaths;
+    }
+
+    public Map<Path, Integer> getViajesExactos() {
+        return viajesExactos;
+    }
+
+    public static double getWORSE_TIME_TO_GET_TO_THE_TOP() {
+        return WORSE_TIME_TO_GET_TO_THE_TOP;
+    }
+    
     
     public int calculateXDistanceTime(double distance){
         //en milisegundos
@@ -538,47 +550,32 @@ public class GraphMethods {
         int cuantosDronesPorSet = cuantosDronesCabenEnPista*cuantosViajesEnUnaDireccion;
         return cuantosDronesPorSet;
     }
-        
-    ArrayList<Object> tiemposRestriction = new ArrayList<>(); //se van a guarda de tres en tres: path, el punto restringido y el tiempo en que va a estar ahi
-    
-    Map<Path, Integer> viajesExactos = new HashMap<>();
-
-    public ArrayList<Path> getTotalPaths() {
-        return totalPaths;
-    }
-
-    public Map<Path, Integer> getViajesExactos() {
-        return viajesExactos;
-    }
-    
-    
-    int tiempoGlobal=0;
-    
+         
     public void calculateTrip(){
         int cantRestanteViajes = numberOfTrips;
         
         while(cantRestanteViajes > 0){
             int indiceDelViaje = (int)(Math.random()*(totalPaths.size()-1));
-            System.out.println("Indice del viaje " + indiceDelViaje);
+//            System.out.println("Indice del viaje " + indiceDelViaje);
             Path pathPorRealizar = totalPaths.get(indiceDelViaje);
 
             cantRestanteViajes -= calculateNumOfDronesBySet();   
             //validar que si no son divisibles puede que el ultimo calculo
             //quede un numero negativo o que no sea un set completo.
                                     
-            System.out.println("length"+pathPorRealizar.path.size());
+//            System.out.println("length"+pathPorRealizar.path.size());
             int timeTotal = 0;    
             for (int stacion = 0; stacion < pathPorRealizar.getPath().size()-1; stacion++) {
                 int stationActual = pathPorRealizar.getPath().get(stacion);
                 int stationSiguietne= pathPorRealizar.getPath().get(stacion+1);
 
-                System.out.println("Viaje "+stationActual+" "+stationSiguietne);
-                System.out.println("Node origen " + arrayNode.get((stationActual)-1).getName());
-                System.out.println("Node destino "+arrayNode.get((stationSiguietne)-1).getName());
-                System.out.println("Distanca " +(double)(arrayNode.get((stationActual)-1).adjacentNodes.get(arrayNode.get((stationSiguietne)-1)))/1000);
-                System.out.println("Tiempo "+ calculateXDistanceTime((double)(arrayNode.get((stationActual)-1).adjacentNodes.get(arrayNode.get((stationSiguietne)-1)))/1000));
+//                System.out.println("Viaje "+stationActual+" "+stationSiguietne);
+//                System.out.println("Node origen " + arrayNode.get((stationActual)-1).getName());
+//                System.out.println("Node destino "+arrayNode.get((stationSiguietne)-1).getName());
+//                System.out.println("Distanca " +(double)(arrayNode.get((stationActual)-1).adjacentNodes.get(arrayNode.get((stationSiguietne)-1)))/1000);
+//                System.out.println("Tiempo "+ calculateXDistanceTime((double)(arrayNode.get((stationActual)-1).adjacentNodes.get(arrayNode.get((stationSiguietne)-1)))/1000));
                 int time = calculateXDistanceTime((double)(arrayNode.get((stationActual)-1).adjacentNodes.get(arrayNode.get((stationSiguietne)-1)))/1000);
-                System.out.println("");
+//                System.out.println("");
                 //time es lo que dura de a b pero falta considerarlo en una variable global 
                 timeTotal += time;
                 tiemposRestriction.add(pathPorRealizar.getPath());

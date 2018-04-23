@@ -42,8 +42,8 @@ public class ControllerEvent implements ActionListener{
             graphMethods.calculateSiSePuedeRealizarTodosViejes();
             Simulacion simu = new Simulacion();            
             simu.fijarController(new ControllerSimulation(simu, graphMethods));
-            BackTracking bac = new BackTracking(graphMethods.getViajesExactos(), graphMethods.getTotalPaths());
-            bac.all();
+            BackTracking bac = new BackTracking(graphMethods.getViajesExactos(), graphMethods.getTotalPaths(), graphMethods.getWorstTimeCase());
+            bac.ControllerBackTracking();
             
         }else if(e.getSource() == event.jBCreate){
             createGraph();

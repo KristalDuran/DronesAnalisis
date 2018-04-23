@@ -16,31 +16,50 @@ import java.util.Map;
 public class BackTracking {
     
     Map<Path, Integer> trips;
-
-    public BackTracking(Map<Path, Integer> trips, ArrayList<Path> totalPaths) {
+    double WORSE_TIME_TO_GET_TO_THE_TOP;
+    boolean exit = false;
+    Map<Path[], Integer> HashShippingTime = new HashMap<>();
+    Path[] paths;
+    ArrayList<Path> totalPaths;
+    Path[][] lineOfTime;
+    
+    /**
+     * 
+     * @param trips
+     * @param totalPaths
+     * @param WORSE_TIME_TO_GET_TO_THE_TOP 
+     */
+    public BackTracking(Map<Path, Integer> trips, ArrayList<Path> totalPaths, double WORSE_TIME_TO_GET_TO_THE_TOP) {
         this.trips = trips;
         this.totalPaths = totalPaths;
         paths = new Path[trips.size()];
-        lineaTiempo = new Path[trips.size()][1];
+        lineOfTime = new Path[trips.size()][1];
+        this.WORSE_TIME_TO_GET_TO_THE_TOP = WORSE_TIME_TO_GET_TO_THE_TOP;
     }
     
     
-    boolean exit = false;
-    public boolean backtracking( int index, Path[] todos, int indexTodos){
+    /**
+     * This method make a controller of the trips, it is recursive 
+     * @param indexMatriz
+     * @param listOfTrips
+     * @param indexList
+     * @return 
+     */
+    public boolean backtracking( int indexMatriz, Path[] listOfTrips, int indexList){
         
         Path auxPath = null;
         
-        if (indexTodos >= todos.length) 
+        if (indexList >= listOfTrips.length) 
             exit = false;
             
-        while(indexTodos < todos.length || exit == false){  
+        while(indexList < listOfTrips.length || exit == false){  
             
-            index++;       
-            if (sePuedeInsertar( index, todos[indexTodos])) {
-                if (indexTodos < todos.length-1) {
+            indexMatriz++;       
+            if (insertTrip( indexMatriz, listOfTrips[indexList])) {
+                if (indexList < listOfTrips.length-1) {
 //                    System.out.println("Llamado recursivo " + (indexTodos+1) + "   "+todos.length);
                     
-                    backtracking(-1, todos, indexTodos+1);
+                    backtracking(-1, listOfTrips, indexList+1);
                 }else
                     exit = true;    
                     break;
@@ -49,37 +68,52 @@ public class BackTracking {
         return exit;
     }
     
-    public boolean sePuedeInsertar(int index, Path path){
+    
+    public boolean insertTrip(int index, Path path){
 //        System.out.println("Valida si se puede agregar "+index);
-        int i;
-        for (i = 0; i < lineaTiempo[index].length; i++) {
+        int time = 0;
+        int pastTime = 0;
+        int posLineOfTime;
+        for (posLineOfTime = 0; posLineOfTime < lineOfTime[index].length; posLineOfTime++) {
 //            System.out.println("for se puede ");
-            if (lineaTiempo[index][i] != null) {
-                if (!validarElementos(lineaTiempo[index][i], path)) {
+            if (lineOfTime[index][posLineOfTime] != null) {
+                if (!validateElement(lineOfTime[index][posLineOfTime], path)) {
 //                    System.out.println("No se puede");
                     return false;
                 }
+                time = trips.get(lineOfTime[index][posLineOfTime]);
+                if (pastTime < time) {
+                    pastTime = time;               
+                }else{
+                    time = pastTime;
+                }
             }
         }
-        agregar( index, i, path);
+        addTrip(index, posLineOfTime, path);        
+        if (pastTime> time) {
+            time = pastTime;
+        }
+        if (HashShippingTime.containsKey(lineOfTime[index])) {
+            HashShippingTime.remove(lineOfTime[index]);            
+        }
+        HashShippingTime.put(lineOfTime[index], (time+((int)WORSE_TIME_TO_GET_TO_THE_TOP*2)));
+        
         return true;        
     }
     
     
-    public void agregar( int index, int i, Path path){
+    public void addTrip( int index, int i, Path path){
 //        System.out.println("agregar");
-        Path[] newA = new Path[(lineaTiempo[index].length)+1];
-        for (int j = 0; j < lineaTiempo[index].length; j++) {
-            newA[j] = lineaTiempo[index][j];
+        Path[] newList = new Path[(lineOfTime[index].length)+1];
+        for (int j = 0; j < lineOfTime[index].length; j++) {
+            newList[j] = lineOfTime[index][j];
         }
-        newA[(lineaTiempo[index].length)] = path;
-        lineaTiempo[index] = newA;
+        newList[(lineOfTime[index].length)] = path;
+        lineOfTime[index] = newList;
     }
     
-    Path[] paths;
-    ArrayList<Path> totalPaths;
-    Path[][] lineaTiempo;
-    public void all(){
+    
+    public void ControllerBackTracking(){
         
         int cont = 0;
         for (Path i :  totalPaths) {            
@@ -89,15 +123,13 @@ public class BackTracking {
             }
             
         }
-        System.out.println("Inicia Backtraking\n");
-        backtracking( -1, paths, 0);
-        System.err.println("\n \n \nFinaliza");
         
+        backtracking( -1, paths, 0);    
         
-        enviar();
+        sendTrips();
     }
     
-    public boolean validarElementos(Path path1, Path path2){
+    public boolean validateElement(Path path1, Path path2){
         if (path1.getPath().size() == path2.getPath().size()) {
             int finalPath2 = path2.getPath().size()-1;
             for (int i = 0; i < path1.getPath().size(); i++) {
@@ -122,31 +154,36 @@ public class BackTracking {
                 }
             }
         }
+        
 //        System.out.println("Lo puede agregar");
         return true;
     }
     
-    public void enviar(){
-        int cont = 0;
-        for (Path[] campos: lineaTiempo) {
-            
-                System.out.println("Se enviaran los siguientes viajes al mismo tiempo, slot: " +cont);
-                for (Path path: campos) {
-                    
+    public void sendTrips(){
+        int time = 0;
+        int shippingCounter = 0;
+        
+        for (Path[] shipping: lineOfTime) {
+            if (HashShippingTime.containsKey(shipping)) {
+                System.out.println("\"-------------------------------------------------------------------\nSlot: " +shippingCounter+"\n                                 Tiempo inicial: "+time+"");
+
+                for (Path path: shipping) {
+
                     if (path != null) {
-                        
-                        for (int punto: path.getPath()) {
-                            System.out.print(punto + " ");
+                        System.out.println();
+                        for (int station: path.getPath()) {
+                            System.out.print(station + " ");
                         }
-                        System.out.print("Tiempo " +trips.get(path));
+                        System.out.println("Tiempo " + trips.get(path));
                     }
-                    
-                    System.out.println("\n");
+
                 }
-                cont++;
-//            if (campos[0] != null) {
-//                break;
-//            }
+                
+                time += HashShippingTime.get(shipping);
+                System.out.println("                                 Tiempo final: "+time);
+            }
+            
+            shippingCounter++;
         }
         
     }
