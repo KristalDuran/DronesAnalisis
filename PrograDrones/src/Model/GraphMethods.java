@@ -173,6 +173,12 @@ public class GraphMethods {
  
 // Methods to make the stations and destinations--------------------------------------------------------------------------------
     
+    /**
+     * This method make the nodes that are the stations and it adds this stations to an array
+     * @param name
+     * @param x
+     * @param y 
+     */
     public void MakeStation(Integer name, int x, int y){
         
         Node create = new Node(name, x, y);
@@ -180,7 +186,10 @@ public class GraphMethods {
         arrayNode.add(create);
     }
     
-    //definir que vertice se conecta con otro y el tama;o del arco es decir la distancia
+    /**
+     * This method define the nodes adjacents first the random station and them the closest 
+     * @param graph 
+     */
     public void MakeGraph(GraphMethods graph){        
         //elegir aleatoriamente el que no tenga arco, si todos tienen, elegir los mas cercanos 
         graph.mergesort(graph.getNodes(), 0, graph.getNodes().length);
@@ -216,16 +225,31 @@ public class GraphMethods {
         
     }
     
+    /**
+     * This method add node to a temporal array
+     * @param node
+     * @param arrayList 
+     */
     public void addArrayTemp(int node, ArrayList<Integer> arrayList){
          if (!arrayList.contains(node)) {
             arrayList.add(node);
         }
     }
     
+    /**
+     * This method define the distance from one node to another
+     * @param origen
+     * @param destin
+     * @return int
+     */
     public int defineDistance(Node origen, Node destin){
         return (int)Math.sqrt((int)Math.pow(destin.getX() - origen.getX(), 2) + (int)Math.pow(destin.getY() - origen.getY(), 2));
     }
     
+    /**
+     * This method
+     * @param graph 
+     */
     public void addGraph(GraphMethods graph){
         
         for (int i = 0; i < graph.getNodes().length; i++) {
