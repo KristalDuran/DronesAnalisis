@@ -563,8 +563,6 @@ public class GraphMethods {
             j++;
         }
         j--;
-        //System.out.println("i = " + i);
-        //System.out.println("j = " + j);
         calculateDivideAndConquer(0, i, j, hash);
     }
     
@@ -581,171 +579,172 @@ public class GraphMethods {
     public void calculateDivideAndConquer(int offset, int i , int j, int hash[][]){
         
         Path toEval;
-        Restriction toCreate;
         int offsetAux = offset;
-        boolean flag  = false;
-        Restriction restrictions[];
-        Restriction restrictionsToJumps[];
-        int timeToBeThere = 0;
-        int timeToBeThereSumatory = 0;
-        int timeProxAux = timeProx*1000;
-        int restrictionAdded;
-        for(i = totalPaths.size()- 1; i >= 0; i --){
-            for(j = totalPaths.size()- 1; j >= 0; j --){
-                if(hash[i][j] == 0){
+        
+        for(int a = 0; a < totalPaths.size(); a++){
+            for(int b = 0; b < totalPaths.size(); b++){
+                if(hash[a][b] == 0){
                     continue;
                 }
-                toEval = totalPaths.get(hash[i][j] - 1);
-                System.out.print(hash[i][j]);
-                System.out.print(",");
-                System.out.print(toEval.getPath().toString());
-                System.out.println(" peso:" + (toEval.getTotalWeight()/120)*3600000);
-                hash[i][j] = 0;
-                while(!flag){
-                    flag = true;
-                    //el pivot va a evaluar las restricciones
-                    restrictions = hashRestrictionsByStation[toEval.getPath().get(0)];
-                    for(Restriction pivot: restrictions){
-                        if(pivot == null){
-                            continue;
-                        }
-                        if(((toEval.getTotalWeight()/120)*3600000) + offsetAux > timeProx*1000){
-                            System.out.println("no se pueden acomodar los viajes en el tiempo dado");
-                            flag = true;
-                            break;
-                            
-                        }
-//                        if(pivot.from > offsetAux + ((toEval.getTotalWeight()/120)*3600000)){
-//                            flag = true;
-//                            break;
-//                        }
-                        
-                        //mientras el pivot tiene interseccion con el offsetAux y el peor caso de tiempo
-                        //y ademas la estacion tiene restriccion en ese tiempo
-                        //se corre el offsetAux y se vuelve a evaluar
-                        while(pivot.isIntersection(offsetAux,(int)(offsetAux + WORSE_TIME_TO_GET_TO_THE_TOP)) 
-                                                                                    && pivot.hasRestriction(toEval.getPath().get(0))){
-                            offsetAux = offsetAux + pivot.to;
-                            flag = false;
-                        }
-
-                        for(int jumpToEval = 0; jumpToEval < toEval.getPath().size() -1; jumpToEval++){
-                            restrictionsToJumps = hashRestrictionsByStation[toEval.getPath().get(jumpToEval + 1)];
-                            timeToBeThere = getWeightInTimeOf(toEval.getPath().get(jumpToEval),toEval.getPath().get(jumpToEval+1));
-                            timeToBeThereSumatory = timeToBeThereSumatory + timeToBeThere;
-                            for(Restriction pivotForJumps:restrictionsToJumps){
-                                if(pivotForJumps.isRestriction((int)(offsetAux + WORSE_TIME_TO_GET_TO_THE_TOP + timeToBeThere))){
-                                    offsetAux = offsetAux + 1;
-                                    flag = false;
-                                    break;
-                                }
-                            }
-                        }
-                        
-                        for(Restriction pivotToEnd:hashRestrictionsByStation[toEval.getPath().get(toEval.getPath().size()-1)]){
-                            while(pivotToEnd.isIntersection(offsetAux + timeToBeThereSumatory + getWeightInTimeOf(toEval.getPath().get(toEval.getPath().size()-2),toEval.getPath().get(toEval.getPath().size()-1)),(int)(offsetAux + timeToBeThereSumatory +WORSE_TIME_TO_GET_TO_THE_TOP)) 
-                                                                                    && pivotToEnd.hasRestriction(toEval.getPath().get(toEval.getPath().size()-1))){
-                                offsetAux = offsetAux + pivotToEnd.to;
-                                flag = false;
-                                break;
-                            }
-                        }
-                        
-
+                toEval = totalPaths.get(hash[a][b]-1);
+                System.out.println("viaje:" + toEval.getPath().toString() + "  peso:" + (toEval.getTotalWeight()/120)*3600000);
+                hash[a][b] = 0;
+                offsetAux = 0;
+                //mientras ninguno de los sets para el offset sea diferente de 0 significa que alguna restriccion coincidió con alguno de los puntos necesarios
+                //por lo que se debe hacer un reacomodo para intentar ponerlo, si en algun momento desde el offset + el tiempo que dura llegando sobrepasa el tiempo esperado
+                //significa que no se podrá acomodar ese viaje y se hará un print
+                do{
+                    if((offsetAux + ((toEval.getTotalWeight()/120)*3600000) + WORSE_TIME_TO_GET_TO_THE_TOP) > timeProx*1000){
+                        System.out.println("el viaje:" + toEval.getPath().toString() + " no se pudo acomodar y sobrepasó el tiempo esperado");
                     }
-                    timeToBeThereSumatory = 0;
-                    if(flag){
-                        
-                        for(int toAdd = 0; toAdd < hashRestrictionsByStation[toEval.getPath().get(0)].length; toAdd++){
-                            
-                            if(hashRestrictionsByStation[toEval.getPath().get(0)][toAdd] == null){
-                                hashRestrictionsByStation[toEval.getPath().get(0)][toAdd] = new Restriction(offsetAux,(int)(offsetAux + WORSE_TIME_TO_GET_TO_THE_TOP));
-                                hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].setCantRestrictions(numberOfStations);
-                                hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].addRestrictedStation(toEval.getPath().get(0));
-                                timeProxAux = timeProxAux - (((hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].to - hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].from)/120)*3600000);
-                                break;
-                            }    
-                        }
-                        
-                        //crear las restricciones de los saltos sobre las estaciones
-                        if(toEval.getPath().size() > 2){
-                            for(int getIntersections = 0; getIntersections < toEval.getPath().size()-2; getIntersections++){
-                                timeToBeThere = getWeightInTimeOf(toEval.getPath().get(getIntersections),toEval.getPath().get(getIntersections +1));
-                                timeToBeThereSumatory = timeToBeThereSumatory + timeToBeThere;
-    //                            toCreate = new Restriction(offsetAux + timeToBeThereSumatory,offsetAux + timeToBeThereSumatory);
-    //                            toCreate.setCantRestrictions(numberOfStations);
-    //                            toCreate.addRestrictedStation(toEval.getPath().get(getIntersections +1));
-
-                                for(int toAdd = 0; toAdd < hashRestrictionsByStation[toEval.getPath().get(getIntersections +1)].length; toAdd++){
-
-                                    if(hashRestrictionsByStation[toEval.getPath().get(0)][toAdd] == null){
-                                        hashRestrictionsByStation[toEval.getPath().get(0)][toAdd] = new Restriction(offsetAux + timeToBeThereSumatory - 1,offsetAux + timeToBeThereSumatory + 1);
-                                        hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].setCantRestrictions(numberOfStations);
-                                        hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].addRestrictedStation(toEval.getPath().get(getIntersections +1));
-                                        timeProxAux = timeProxAux - (((hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].to - hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].from)/120)*3600000);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        timeToBeThere = getWeightInTimeOf(toEval.getPath().get(toEval.getPath().size()-2),toEval.getPath().get(toEval.getPath().size()-1));
-//                        toCreate = new Restriction(offsetAux + timeToBeThereSumatory,(int)(offsetAux + WORSE_TIME_TO_GET_TO_THE_TOP + timeToBeThereSumatory + timeToBeThere));
-//                        toCreate.setCantRestrictions(numberOfStations);
-//                        toCreate.addRestrictedStation(toEval.getPath().get(0));
-                        
-                        for(int toAdd = 0; toAdd < hashRestrictionsByStation[toEval.getPath().get(0)].length; toAdd++){
-                            
-                            if(hashRestrictionsByStation[toEval.getPath().get(0)][toAdd] == null){
-                                hashRestrictionsByStation[toEval.getPath().get(0)][toAdd] = new Restriction(offsetAux + ((toEval.totalWeight/120)*3600000),(int)(offsetAux + WORSE_TIME_TO_GET_TO_THE_TOP + ((toEval.totalWeight/120)*3600000)));
-                                hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].setCantRestrictions(numberOfStations);
-                                hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].addRestrictedStation(toEval.getPath().get(toEval.getPath().size() -1));
-                                timeProxAux = timeProxAux - (((hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].to - hashRestrictionsByStation[toEval.getPath().get(0)][toAdd].from)/120)*3600000);
-                                break;
-                            }    
-                        }
-                        //timeProxAux = timeProxAux - ((toEval.getTotalWeight()/120)*3600000);
-                        
+                    //System.out.println("offset vale:" + offsetAux);
+                    offsetAux = getOffsetToPlaceBegin(toEval, offsetAux);
+                    offsetAux = getOffsetToPlaceJumps(toEval, offsetAux);
+                    offsetAux = getOffsetToPlaceEnd(toEval,offsetAux);
+                    //System.out.println("Ahora vale:" + offsetAux);
+                
+                }while(getOffsetToPlaceBegin(toEval, offsetAux) != offsetAux || getOffsetToPlaceJumps(toEval, offsetAux) != offsetAux || getOffsetToPlaceEnd(toEval,offsetAux) != offsetAux);
+                //se añade la restriccion del inicio
+                addRestrictionToHash(toEval.getPath().get(0),offsetAux,(int)(offsetAux + WORSE_TIME_TO_GET_TO_THE_TOP));
+                //si tiene más de 1 salto se añaden las restricciones para dichos saltos
+                if(toEval.getPath().size() > 2){
+                    int distanceFromTo = (int)(offsetAux + WORSE_TIME_TO_GET_TO_THE_TOP);
+                    for(int upTo = 0; upTo < toEval.getPath().size() - 2; upTo++){
+                        distanceFromTo = distanceFromTo + getWeightInTimeOf(toEval.getPath().get(upTo),toEval.getPath().get(upTo + 1));
+                        addRestrictionToHash(toEval.getPath().get(upTo + 1),distanceFromTo -1, distanceFromTo +1);
                     }
-                    offsetAux = offset;
-                    timeToBeThere = 0;
-                    timeToBeThereSumatory = 0;
-                    flag = false;
-                    break;
                 }
-            }
-
-            //i--;
-            //j = totalPaths.size()- 1;
-        }
-        
-        System.out.println("");
-        System.out.println("tiempo sobrante = " + timeProxAux);
-        
-        Restriction tmp;
-        for(int a = 0; a < hashRestrictionsByStation.length; a++ ){
-            for(int b = 0; b < hashRestrictionsByStation[0].length; b++){
-                if(hashRestrictionsByStation[a][b] != null){
-                    System.out.println("");
-                    System.out.print("from: " + hashRestrictionsByStation[a][b].from);
-                    System.out.print(" To: " + hashRestrictionsByStation[a][b].to);
-                    System.out.print(" --> Estaciónes: ");
-                    for(int c = 0; c < hashRestrictionsByStation[a][b].getStationsRestricted().length ; c++){
-                        System.out.print(hashRestrictionsByStation[a][b].getStationsRestricted()[c] + ",");
-                    }
-                    System.out.println("");
-                }
+                
+                //se añade la restriccion para el ultimo salto
+                addRestrictionToHash(toEval.getPath().get(toEval.getPath().size() -1),
+                        (int)(offsetAux + WORSE_TIME_TO_GET_TO_THE_TOP + ((toEval.getTotalWeight()/120)*3600000)),
+                        (int)(offsetAux + WORSE_TIME_TO_GET_TO_THE_TOP +WORSE_TIME_TO_GET_TO_THE_TOP + ((toEval.getTotalWeight()/120)*3600000)));
+                
+                //System.out.println("se crearon los tiempos para el viaje:" + toEval.getPath().toString());
+                
             }
         }
         
-        System.out.println("hast[0] length:" + hashRestrictionsByStation[1].length);
+//        System.out.println("");
+//        
+//        Restriction tmp;
+//        for(int a = 0; a < hashRestrictionsByStation.length; a++ ){
+//            for(int b = 0; b < hashRestrictionsByStation[0].length; b++){
+//                if(hashRestrictionsByStation[a][b] != null){
+//                    System.out.print("a:" + a + " b:" + b);
+//                    System.out.print("  from: " + hashRestrictionsByStation[a][b].from);
+//                    System.out.print(" To: " + hashRestrictionsByStation[a][b].to);
+//                    System.out.print(" --> Estaciónes: ");
+//                    for(int c = 0; c < hashRestrictionsByStation[a][b].getStationsRestricted().length ; c++){
+//                        System.out.print(hashRestrictionsByStation[a][b].getStationsRestricted()[c] + ",");
+//                    }
+//                    System.out.println("");
+//                }
+//            }
+//        }
+//        
+//        System.out.println("hast[0] length:" + hashRestrictionsByStation[0].length);
         
         for(Path a: totalPaths){
             System.out.print(a.path.toString() + " peso:");
             System.out.println((a.getTotalWeight()/120)*3600000);
         }
         
+        
+        
+        
+        
+        
     }
     
+    public int getOffsetToPlaceBegin(Path toEval, int offSet){
+        
+        Restriction restrictions[] = hashRestrictionsByStation[toEval.getPath().get(0)];
+        int offsetCopy = offSet;
+        for(Restriction pivot:restrictions){
+            if(pivot == null){
+                continue;
+            }
+            else{
+                if(pivot.isIntersection(offsetCopy,(int)(offSet + WORSE_TIME_TO_GET_TO_THE_TOP)) && pivot.hasRestriction(toEval.getPath().get(0))){
+                    System.out.println("Se mueve el offset:" + offsetCopy + " del inicio de:" + toEval.getPath().toString() + " en:" + pivot.to + " resultado:" + (int)WORSE_TIME_TO_GET_TO_THE_TOP);
+                    offsetCopy = (int)(offsetCopy + WORSE_TIME_TO_GET_TO_THE_TOP);
+                }
+            }
+        }
+        
+        return offsetCopy;
+    }
+    
+    public int getOffsetToPlaceEnd(Path toEval, int offSet){
+        
+        Restriction restrictions[] = hashRestrictionsByStation[toEval.getPath().get(toEval.getPath().size() - 1)];
+        int offsetCopy = offSet;
+        for(Restriction pivot:restrictions){
+            if(pivot == null){
+                continue;
+            }
+            else{
+                if(pivot.isIntersection((int) (((toEval.getTotalWeight()/120)*3600000) + WORSE_TIME_TO_GET_TO_THE_TOP),(int)(((toEval.getTotalWeight()/120)*3600000) + WORSE_TIME_TO_GET_TO_THE_TOP)) && pivot.hasRestriction(toEval.getPath().get(toEval.getPath().size() - 1))){
+                    System.out.println("se mueve el offset:" + offsetCopy + " final de:" + toEval.getPath().toString() + " en:" + (int)WORSE_TIME_TO_GET_TO_THE_TOP);
+                    offsetCopy = (int)(offsetCopy + WORSE_TIME_TO_GET_TO_THE_TOP);
+                }
+            }
+        }
+        
+        return offsetCopy;
+    }
+    
+    public int getOffsetToPlaceJumps(Path toEval, int offSet){
+        
+        if(toEval.getPath().size() == 2){
+            return offSet;
+        }
+        else{
+            Restriction restrictions[];
+            int distanceFromTo;
+            int offsetCopy = offSet;
+            for(int i = 0; i < toEval.getPath().size() -2; i++){
+                restrictions = hashRestrictionsByStation[toEval.getPath().get(i + 1)];
+                distanceFromTo = (int)(offsetCopy + WORSE_TIME_TO_GET_TO_THE_TOP);
+                for(Restriction pivot : restrictions){
+                    if(pivot == null){
+                        continue;
+                    }
+                    else{
+                        distanceFromTo = distanceFromTo + getWeightInTimeOf(toEval.getPath().get(i),toEval.getPath().get(i + 1));
+                        if(pivot.isRestriction(distanceFromTo) && pivot.hasRestriction(toEval.getPath().get(i + 1))){
+                            System.out.print("Se mueve el offset de jump de:" + toEval.getPath().toString());
+                            System.out.println("  en:" + toEval.getPath().get(i + 1));
+                            offsetCopy = offsetCopy + pivot.to;
+                        }
+                    }
+                }
+            }
+            return offsetCopy;
+        }
+    }
+    
+    
+    public void addRestrictionToHash(int restrictedStation, int from, int to){
+        for(int toAdd = 0; toAdd < hashRestrictionsByStation[restrictedStation].length; toAdd++){
+            
+                if(hashRestrictionsByStation[restrictedStation][toAdd] == null){
+                    hashRestrictionsByStation[restrictedStation][toAdd] = new Restriction(from,to);
+                    hashRestrictionsByStation[restrictedStation][toAdd].setCantRestrictions(numberOfStations);
+                    hashRestrictionsByStation[restrictedStation][toAdd].addRestrictedStation(restrictedStation);
+                    System.out.print(" se añadio from: " + hashRestrictionsByStation[restrictedStation][toAdd].from);
+                    System.out.print(" To: " + hashRestrictionsByStation[restrictedStation][toAdd].to);
+                    System.out.print(" --> Estaciónes: ");
+                    for(int c = 0; c < hashRestrictionsByStation[restrictedStation][toAdd].getStationsRestricted().length ; c++){
+                        System.out.print(hashRestrictionsByStation[restrictedStation][toAdd].getStationsRestricted()[c] + ",");
+                    }
+                    System.out.println("");
+                    break;
+                }    
+            }
+        System.out.println("");
+    }
     
     
     

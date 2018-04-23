@@ -23,7 +23,7 @@ public class Restriction {
     }
     
     public boolean isRestriction(int toEvaluate){
-        if(from <= toEvaluate && toEvaluate <= to){
+        if(from < toEvaluate && toEvaluate < to){
             return true;
         }
         else{
