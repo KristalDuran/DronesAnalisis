@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import Model.BackTracking;
 import Model.GraphMethods;
 import View.Simulacion;
 import java.awt.event.ActionEvent;
@@ -30,6 +31,17 @@ public class ControllerSimulation implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == simulacion.jBExit) {
             simulacion.setVisible(false);
+        }
+        if (e.getSource() == simulacion.jBStart) {
+            if (simulacion.jRadioButton1.isSelected()) {
+                //correr con divide
+            }else{
+                if (simulacion.jRadioButton2.isSelected()) {
+                    BackTracking back = new BackTracking(graphMethods.getViajesExactos(), graphMethods.getTotalPaths(), 
+                            graphMethods.getWorstTimeCase(), graphMethods.calculateNumOfDronesBySet());
+                    back.ControllerBackTracking();
+                }
+            }
         }
         
     }

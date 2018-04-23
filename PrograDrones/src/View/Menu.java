@@ -51,16 +51,12 @@ public class Menu extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         CantViaje = new javax.swing.JTextField();
         SizePista = new javax.swing.JTextField();
         CantStation = new javax.swing.JTextField();
         TimeReal = new javax.swing.JTextField();
         TimeProx = new javax.swing.JTextField();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -83,11 +79,8 @@ public class Menu extends javax.swing.JFrame {
 
         jLabel5.setText(" Duration of one hour in real seconds:");
 
-        jLabel6.setText("Algorithm:");
-
         jLabel7.setText(" Expected time:");
 
-        CantViaje.setText("2");
         CantViaje.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CantViajeActionPerformed(evt);
@@ -111,20 +104,6 @@ public class Menu extends javax.swing.JFrame {
         });
 
         TimeProx.setText("2");
-
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Divide and conquer");
-
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("Backtraking");
-
-        buttonGroup1.add(jRadioButton4);
-        jRadioButton4.setText("Probabilistic");
-        jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton4ActionPerformed(evt);
-            }
-        });
 
         jButton1.setText("STAR");
 
@@ -165,13 +144,6 @@ public class Menu extends javax.swing.JFrame {
                                     .addComponent(CantStation)
                                     .addComponent(TimeReal)
                                     .addComponent(TimeProx)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 225, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jRadioButton4)
-                                    .addComponent(jRadioButton2)
-                                    .addComponent(jRadioButton3)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(171, 171, 171)
                                 .addComponent(jButton1)
@@ -224,15 +196,7 @@ public class Menu extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(txtHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jRadioButton4))
-                .addGap(7, 7, 7)
-                .addComponent(jRadioButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton3)
-                .addGap(18, 18, 18)
+                .addGap(139, 139, 139)
                 .addComponent(jButton1)
                 .addGap(21, 21, 21))
         );
@@ -243,10 +207,6 @@ public class Menu extends javax.swing.JFrame {
     private void TimeRealActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TimeRealActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TimeRealActionPerformed
-
-    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton4ActionPerformed
 
     private void CantViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CantViajeActionPerformed
         // TODO add your handling code here:
@@ -270,13 +230,9 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    public javax.swing.JRadioButton jRadioButton2;
-    public javax.swing.JRadioButton jRadioButton3;
-    public javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextPane jTextPane1;
     public javax.swing.JTextField txtHeight;

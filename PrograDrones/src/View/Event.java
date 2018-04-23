@@ -66,7 +66,7 @@ public class Event extends javax.swing.JFrame {
 
         jBBack.setText("Back");
 
-        jBStar.setText("Start");
+        jBStar.setText("Simulation");
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel2.setText("Message");
@@ -96,9 +96,9 @@ public class Event extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jBCreate)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(jBBack)
-                                .addGap(36, 36, 36)
+                                .addGap(28, 28, 28)
                                 .addComponent(jBStar))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(62, 62, 62)

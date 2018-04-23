@@ -43,21 +43,6 @@ public class ControllerMenu implements ActionListener {
         
         graphMethods.setNodes();
         
-        if(Menu.jRadioButton4.isSelected()){
-            //probabilistico
-            
-        }
-        
-        if(Menu.jRadioButton2.isSelected()){
-            //divide y venceras 
-            
-        }
-        
-        if(Menu.jRadioButton3.isSelected()){
-            //backtraking
-            
-        }
-        
         Event event = new Event();
         //event.setCant(graphMethods.getNumberOfStations());
         event.fijarController(new ControllerEvent(event, graphMethods));
