@@ -17,7 +17,7 @@ import java.util.Set;
  *
  * @author Kris
  */
-public class GraphMethods {
+public class GraphMethods implements IConstants {
     
     int idTrip = 0;
     int numberOfTrips;
@@ -541,7 +541,7 @@ public class GraphMethods {
 
     
 //Methods to define the times--------------------------------------------------------------------------------------------------
-    private static int SPEED = 120; //velocidad
+    
     private static int MILLISECOND = 1000;
     private static double  WORSE_TIME_TO_GET_TO_THE_TOP = (double)(3.997/(double)SPEED)*3600000;
     

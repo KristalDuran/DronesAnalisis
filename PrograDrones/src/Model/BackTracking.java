@@ -197,7 +197,8 @@ this method receives two trips and compares the stations of each trip
                 
                 time += HashShippingTime.get(shipping);
                 System.out.println("                                 Tiempo final: "+
-                        time + "\nViajes " +auxNumersOfTrips*droneSet+ "/");
+                        time );
+                //+ "\nViajes " +auxNumersOfTrips*droneSet+ "/"
             }
             
             shippingCounter++;
