@@ -37,9 +37,9 @@ public class ControllerSimulation implements ActionListener{
                 //correr con divide
             }else{
                 if (simulacion.jRadioButton2.isSelected()) {
-                    BackTracking back = new BackTracking(graphMethods.getViajesExactos(), graphMethods.getTotalPaths(), 
-                            graphMethods.getWorstTimeCase(), graphMethods.calculateNumOfDronesBySet());
-                    back.ControllerBackTracking();
+//                    BackTracking back = new BackTracking(graphMethods.getViajesExactos(), graphMethods.getTotalPaths(), 
+//                            graphMethods.getWorstTimeCase(), graphMethods.calculateNumOfDronesBySet());
+//                    back.ControllerBackTracking();
                 }
             }
         }

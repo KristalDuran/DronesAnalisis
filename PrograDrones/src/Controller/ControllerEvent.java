@@ -39,7 +39,7 @@ public class ControllerEvent implements ActionListener{
             
         } else if (e.getSource() == event.jBStar) {
             event.setVisible(false);
-            graphMethods.calculateSiSePuedeRealizarTodosViejes();
+//            graphMethods.calculateSiSePuedeRealizarTodosViejes();
             Simulacion simu = new Simulacion();            
             simu.fijarController(new ControllerSimulation(simu, graphMethods));
             
@@ -115,7 +115,7 @@ public class ControllerEvent implements ActionListener{
         graphMethods.MakeGraph(graphMethods);//crea los arcos
         drawArray(graphMethods.getLinesToDraw());//dibuja las lineas de los archos
         //graphMethods.setCantPistas();
-        graphMethods.setShortestPath();
+//        graphMethods.setShortestPath();
     
     }
     

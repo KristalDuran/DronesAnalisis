@@ -33,13 +33,13 @@ public class ControllerMenu implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ae) {
         
-        graphMethods.setNumberOfTrips(Integer.parseInt(Menu.CantViaje.getText()));
+//        graphMethods.setNumberOfTrips(Integer.parseInt(Menu.CantViaje.getText()));
         graphMethods.setNumberOfTracksByStation(Integer.parseInt(Menu.SizePista.getText()));
-        graphMethods.setPistaHeight(Integer.parseInt(Menu.txtHeight.getText()));
-        graphMethods.setPistaWidth(Integer.parseInt(Menu.txtWidth.getText()));
+//        graphMethods.setPistaHeight(Integer.parseInt(Menu.txtHeight.getText()));
+//        graphMethods.setPistaWidth(Integer.parseInt(Menu.txtWidth.getText()));
         graphMethods.setNumberOfStations(Integer.parseInt(Menu.CantStation.getText()));
-        graphMethods.setTimeReal(Integer.parseInt(Menu.TimeReal.getText()));
-        graphMethods.setTimeProx(Integer.parseInt(Menu.TimeProx.getText()));
+//        graphMethods.setTimeReal(Integer.parseInt(Menu.TimeReal.getText()));
+//        graphMethods.setTimeProx(Integer.parseInt(Menu.TimeProx.getText()));
         
         graphMethods.setNodes();
         

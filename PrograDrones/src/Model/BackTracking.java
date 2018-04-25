@@ -18,10 +18,10 @@ public class BackTracking {
     Map<Path, Integer> trips;
     double WORSE_TIME_TO_GET_TO_THE_TOP;
     boolean exit = false;
-    Map<Path[], Integer> HashShippingTime = new HashMap<>();
+    Map<ArrayList<Path>, Integer> HashShippingTime = new HashMap<>();
     Path[] paths;
     ArrayList<Path> totalPaths;
-    Path[][] lineOfTime;
+    ArrayList<ArrayList<Path>> lineOfTime;
     int droneSet;
     /**
      * 
@@ -33,22 +33,24 @@ public class BackTracking {
         this.trips = trips;
         this.totalPaths = totalPaths;
         paths = new Path[trips.size()];
-        lineOfTime = new Path[trips.size()][10];
+        lineOfTime = new ArrayList<>(trips.size());
+        
         this.WORSE_TIME_TO_GET_TO_THE_TOP = WORSE_TIME_TO_GET_TO_THE_TOP;
         this.droneSet = droneSet;
     }
     
+    public void bactracking_PreCalc(Path[] listOfTrips){
+        backtracking(-1, listOfTrips, 0);
+    }
     
-    /**
+     /**
      * This method make a controller of the trips, it is recursive 
      * @param indexMatriz
      * @param listOfTrips
      * @param indexList
      * @return boolean
      */
-    public boolean backtracking( int indexMatriz, Path[] listOfTrips, int indexList){
-        
-        Path auxPath = null;
+    public boolean backtracking( int indexMatriz, Path[] listOfTrips, int indexList){        
         
         if (indexList >= listOfTrips.length) 
             exit = false;
@@ -78,12 +80,12 @@ public class BackTracking {
         int time = 0;
         int pastTime = 0;
         int posLineOfTime;
-        for (posLineOfTime = 0; posLineOfTime < lineOfTime[index].length; posLineOfTime++) {
-            if (lineOfTime[index][posLineOfTime] != null) {
-                if (!validateElement(lineOfTime[index][posLineOfTime], path)) {
+        for (posLineOfTime = 0; posLineOfTime < lineOfTime.get(index).size(); posLineOfTime++) {
+            if (lineOfTime.get(index).get(posLineOfTime) != null) {
+                if (!validateElement(lineOfTime.get(index).get(posLineOfTime), path)) {
                     return false;
                 }
-                time = trips.get(lineOfTime[index][posLineOfTime]);
+                time = trips.get(lineOfTime.get(index).get(posLineOfTime));
                 if (pastTime < time) {
                     pastTime = time;               
                 }else{
@@ -91,38 +93,18 @@ public class BackTracking {
                 }
             }
         }
-        addTrip(index, posLineOfTime, path);        
+        lineOfTime.get(index).add(posLineOfTime, path);       
         if (pastTime> time) {
             time = pastTime;
         }
-        if (HashShippingTime.containsKey(lineOfTime[index])) {
-            HashShippingTime.remove(lineOfTime[index]);            
+        if (HashShippingTime.containsKey(lineOfTime.get(index))) {
+            HashShippingTime.remove(lineOfTime.get(index));            
         }
-        HashShippingTime.put(lineOfTime[index], (time+((int)WORSE_TIME_TO_GET_TO_THE_TOP*2)));
+        HashShippingTime.put(lineOfTime.get(index), (time+((int)WORSE_TIME_TO_GET_TO_THE_TOP*2)));
         
         return true;        
     }
-    
-    /**
-     * This method adds a new trip in the respective block, 
-     * it makes an auxiliary list to increase the size and match the original
-     * @param index
-     * @param i
-     * @param path 
-     */
-    public void addTrip( int index, int i, Path path){
-        Path[] newList = new Path[(lineOfTime[index].length)+1];
-        if (lineOfTime[index][9] != null) {
-            System.out.println("Entro");
-            for (int j = 0; j < lineOfTime[index].length; j++) {
-                newList[j] = lineOfTime[index][j];
-            }        
-        }
-        
-        newList[(lineOfTime[index].length)] = path;
-        lineOfTime[index] = newList;        
-    }
-    
+       
     
     public void ControllerBackTracking(){
         
@@ -178,7 +160,7 @@ this method receives two trips and compares the stations of each trip
         int shippingCounter = 0;
         int auxNumersOfTrips = 0 ;
         
-        for (Path[] shipping: lineOfTime) {
+        for (ArrayList<Path> shipping: lineOfTime) {
             if (HashShippingTime.containsKey(shipping)) {
                 System.out.println("\"-------------------------------------------------------------------\nSlot: " +shippingCounter+"\n                                 Tiempo inicial: "+time+"");
 

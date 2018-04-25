@@ -24,6 +24,5 @@ public class Main {
         
         menu.fijarModelo(graphMethods);
         
-        graphMethods.pathsToHash(null);
     }
 }
