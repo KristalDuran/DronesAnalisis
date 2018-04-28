@@ -6,6 +6,7 @@
 package Controller;
 
 import Model.GraphMethods;
+import Model.TripMethods;
 import View.Menu;
 import java.util.ArrayList;
 
@@ -18,11 +19,8 @@ public class Main {
         
         Menu menu = new Menu();
         
-        GraphMethods graphMethods = new GraphMethods();
-       
-        menu.fijarControlador(new ControllerMenu(menu, graphMethods));
+        menu.fijarControlador(new ControllerMenu(menu, new GraphMethods(), new TripMethods()));
         
-        menu.fijarModelo(graphMethods);
         
     }
 }

@@ -7,6 +7,7 @@ package Controller;
 
 import Model.GraphMethods;
 import Model.Restriction;
+import Model.TripMethods;
 import View.Event;
 import View.Menu;
 import java.awt.Dimension;
@@ -22,10 +23,12 @@ import java.util.Random;
 public class ControllerMenu implements ActionListener {
     private Menu Menu;
     private GraphMethods graphMethods;
+    private TripMethods tripMethods;
 
-    public ControllerMenu(Menu Menu, GraphMethods graphMethods) {
+    public ControllerMenu(Menu Menu, GraphMethods graphMethods, TripMethods tripMethods) {
         this.Menu = Menu;
         this.graphMethods = graphMethods;
+        this.tripMethods = tripMethods;
         Menu.setVisible(true);
         
     }    
@@ -33,19 +36,20 @@ public class ControllerMenu implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ae) {
         
-//        graphMethods.setNumberOfTrips(Integer.parseInt(Menu.CantViaje.getText()));
+        
         graphMethods.setNumberOfTracksByStation(Integer.parseInt(Menu.SizePista.getText()));
-//        graphMethods.setPistaHeight(Integer.parseInt(Menu.txtHeight.getText()));
-//        graphMethods.setPistaWidth(Integer.parseInt(Menu.txtWidth.getText()));
         graphMethods.setNumberOfStations(Integer.parseInt(Menu.CantStation.getText()));
+        
+        tripMethods.setPistaHeight(Integer.parseInt(Menu.txtHeight.getText()));
+        tripMethods.setPistaWidth(Integer.parseInt(Menu.txtWidth.getText()));
+        tripMethods.setNumberOfTrips(Integer.parseInt(Menu.CantViaje.getText()));
+        
 //        graphMethods.setTimeReal(Integer.parseInt(Menu.TimeReal.getText()));
 //        graphMethods.setTimeProx(Integer.parseInt(Menu.TimeProx.getText()));
         
-        graphMethods.setNodes();
-        
         Event event = new Event();
-        //event.setCant(graphMethods.getNumberOfStations());
-        event.fijarController(new ControllerEvent(event, graphMethods));
+        graphMethods.setNodes();
+        event.fijarController(new ControllerEvent(event, graphMethods, tripMethods));
     }
     
 }
