@@ -143,22 +143,22 @@ public class TripMethods {
         }        
     }
     
-    public double calculateTotalTakeoffTime(){
-        int cantDeSalidasYLLegadas = numberOfTrips/calculateNumOfDronesBySet();
-        System.out.println("cantDeSalidasYLLegadas "+cantDeSalidasYLLegadas+"  "+(int)WORSE_TIME_TO_GET_TO_THE_TOP);
-        double timeTotalSalirLLegar = (cantDeSalidasYLLegadas*(int)WORSE_TIME_TO_GET_TO_THE_TOP)*2;
-        System.out.println("timeTotalSalirLLegar "+timeTotalSalirLLegar);
-        return timeTotalSalirLLegar;
-    }
+//    public double calculateTotalTakeoffTime(){
+//        int cantDeSalidasYLLegadas = numberOfTrips/calculateNumOfDronesBySet();
+//        System.out.println("cantDeSalidasYLLegadas "+cantDeSalidasYLLegadas+"  "+(int)WORSE_TIME_TO_GET_TO_THE_TOP);
+//        double timeTotalSalirLLegar = (cantDeSalidasYLLegadas*(int)WORSE_TIME_TO_GET_TO_THE_TOP)*2;
+//        System.out.println("timeTotalSalirLLegar "+timeTotalSalirLLegar);
+//        return timeTotalSalirLLegar;
+//    }
     
     public void calculateSiSePuedeRealizarTodosViejes(){
         
-        timeProx = timeProx * MILLISECOND;
-        System.out.println("Tiempo inicial milisegundos: " + timeProx);
-        timeProx -= calculateTotalTakeoffTime();
-        System.out.println("Tiempo Total restante en segundos: " + (timeProx/1000));
-        calculateTrip();
-        System.out.println("Tiempo Total restante en segundos: " + (timeProx/1000));
+//        timeProx = timeProx * MILLISECOND;
+//        System.out.println("Tiempo inicial milisegundos: " + timeProx);
+////        timeProx -= calculateTotalTakeoffTime();
+//        System.out.println("Tiempo Total restante en segundos: " + (timeProx/1000));
+//        calculateTrip();
+//        System.out.println("Tiempo Total restante en segundos: " + (timeProx/1000));
         
         
         System.out.println("--------------------------------------------------------------------------------------");
@@ -207,8 +207,8 @@ public class TripMethods {
         return(int) ((double)((double)distance/(double)SPEED)*3600000);
     }
     
-    public double calculateSlots(){
-        return (timeProx*MILLISECOND)/WORSE_TIME_TO_GET_TO_THE_TOP;
-    }
+//    public double calculateSlots(){
+//        return (timeProx*MILLISECOND)/WORSE_TIME_TO_GET_TO_THE_TOP;
+//    }
     
 }
