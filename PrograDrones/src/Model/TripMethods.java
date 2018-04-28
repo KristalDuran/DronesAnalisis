@@ -5,9 +5,7 @@
  */
 package Model;
 
-import static Model.IConstants.MILLISECOND;
 import static Model.IConstants.SPEED;
-import static Model.IConstants.WORSE_TIME_TO_GET_TO_THE_TOP;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

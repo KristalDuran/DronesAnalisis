@@ -5,7 +5,7 @@
  */
 package Controller;
 
-import Model.BackTracking;
+import Model.Schedule.BackTracking;
 import Model.GraphMethods;
 import View.Simulacion;
 import java.awt.event.ActionEvent;
