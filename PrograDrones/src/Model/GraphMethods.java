@@ -306,29 +306,52 @@ public class GraphMethods implements IConstants {
 //        }
 //        return null;
 //    }
+    
+        public ArrayList<Path> getPath(int nodeName,Graph graph, ArrayList<Path> totalPaths){
+        
+        ArrayList<Path> paths = new ArrayList();
+        Path toGet;
+        
+        for(Node tmp : graph.getNodes()){
+            toGet = new Path();
+            toGet.setTotalWeight(tmp.getDistance());
+            
+            for(Node nodo:tmp.getShortestPath()){
+                toGet.getPath().add(nodo.getName());
+            }
+            toGet.getPath().add(tmp.getName());
+            if(toGet.getPath().size() > 1){
+                paths.add(toGet);
+                totalPaths.add(toGet);
+            }
+        }
+        return paths;
+    }
    
-//    public void setShortestPath(){
-//
-//        Graph dijkstraResult = new Graph();
-//        
-//        
-//        for(Node toCalcDijkstra:graph.getNodes()){
-//            dijkstraResult = calculateDijkstraWith(toCalcDijkstra.getName());
-//            toCalcDijkstra.setPath(getPath(toCalcDijkstra.getName(),dijkstraResult));
-//        }
-//        System.out.println(" ");
-//        for(Node i:graph.getNodes()){
-//            System.out.println("Caminos de: " + i.getName());
-//            for(Path j:i.getPath()){
-//                
-//                for(int a:j.getPath()){
-//                    System.out.print(a + ",");
-//                }
-//                System.out.println("");
-//            }
-//        }
-//        System.out.println(" ");
-//    }
+    public ArrayList<Path> setShortestPath(){
+
+        Graph dijkstraResult = new Graph();
+        ArrayList<Path> totalPaths = new ArrayList();
+        
+        for(Node toCalcDijkstra:graph.getNodes()){
+            dijkstraResult = calculateDijkstraWith(toCalcDijkstra.getName());
+            toCalcDijkstra.setPath(getPath(toCalcDijkstra.getName(),dijkstraResult,totalPaths));
+        }
+        System.out.println(" ");
+        for(Node i:graph.getNodes()){
+            System.out.println("Caminos de: " + i.getName());
+            for(Path j:i.getPath()){
+                
+                for(int a:j.getPath()){
+                    System.out.print(a + ",");
+                }
+                System.out.println("");
+            }
+        }
+        System.out.println(" ");
+        
+        return totalPaths;
+    }
 }
 
  

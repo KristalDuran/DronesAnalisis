@@ -174,26 +174,7 @@ public class TripMethods {
         
     }
     
-    public ArrayList<Path> getPath(int nodeName,Graph graph){
-        
-        ArrayList<Path> paths = new ArrayList();
-        Path toGet;
-        
-        for(Node tmp : graph.getNodes()){
-            toGet = new Path();
-            toGet.setTotalWeight(tmp.getDistance());
-            
-            for(Node nodo:tmp.getShortestPath()){
-                toGet.getPath().add(nodo.getName());
-            }
-            toGet.getPath().add(tmp.getName());
-            if(toGet.getPath().size() > 1){
-                paths.add(toGet);
-                totalPaths.add(toGet);
-            }
-        }
-        return paths;
-    }
+
 
     public Map<Path, Integer> getViajesExactos() {
         return viajesExactos;
