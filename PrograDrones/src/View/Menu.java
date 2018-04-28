@@ -6,10 +6,9 @@
 package View;
 
 import Model.GraphMethods;
+import Model.TripMethods;
 import java.awt.event.ActionListener;
 import java.util.EventListener;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  *
@@ -18,14 +17,16 @@ import java.util.Observer;
 public class Menu extends javax.swing.JFrame {
 
     GraphMethods graphMethods;
+    TripMethods tripMethods;
     
     public void fijarControlador(EventListener controlador) {
         jButton1.addActionListener((ActionListener) controlador);
     }
     
-    public void fijarModelo(GraphMethods graphMethods) {
-        this.graphMethods= graphMethods;
-    }
+//    public void fijarModelo(GraphMethods graphMethods, TripMethods tripMethods) {
+//        this.graphMethods= graphMethods;
+//        this.tripMethods = tripMethods;
+//    }
     
     /**
      * Creates new form Menu

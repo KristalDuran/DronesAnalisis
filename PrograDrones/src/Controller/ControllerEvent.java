@@ -8,6 +8,7 @@ package Controller;
 
 import Model.GraphMethods;
 import Model.Restriction;
+import Model.TripMethods;
 import View.Event;
 import View.Simulacion;
 import java.awt.Dimension;
@@ -25,10 +26,12 @@ public class ControllerEvent implements ActionListener{
 
     Event event;
     GraphMethods graphMethods;
+    TripMethods tripMethods;
 
-    public ControllerEvent(Event event, GraphMethods graphMethods) {
+    public ControllerEvent(Event event, GraphMethods graphMethods, TripMethods tripMethods) {
         this.event = event;
         this.graphMethods = graphMethods;
+        this.tripMethods = tripMethods;
         event.setVisible(true);
     }
     
@@ -45,6 +48,8 @@ public class ControllerEvent implements ActionListener{
             
         }else if(e.getSource() == event.jBCreate){
             createGraph();
+            //crear todo lo demas 
+            tripMethods.calculateTrip();
         }
         
     }
