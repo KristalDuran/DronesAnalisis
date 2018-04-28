@@ -29,7 +29,7 @@ public class TripMethods {
     private int cantDronesXPista;
     Node[] nodes;
     
-    
+    private double cantDronesByIndividualTrip;
     
     public int getNumberOfTrips() {
         return numberOfTrips;
@@ -192,5 +192,17 @@ public class TripMethods {
 //    public double calculateSlots(){
 //        return (timeProx*MILLISECOND)/WORSE_TIME_TO_GET_TO_THE_TOP;
 //    }
+
+    public double getCantDronesByIndividualTrip() {
+        return cantDronesByIndividualTrip;
+    }
+
+    public void setCantDronesByIndividualTrip(int cantStations) {
+        cantDronesByIndividualTrip = calculateNumOfDronesBySet()/(2*Math.pow(cantStations,2)) - (2 * cantStations);
+        if(cantDronesByIndividualTrip < 1){
+            System.out.println("el tamaño de las pistas es demasiado pequeño con respecto a la cantidad de estaciones");
+        }
+    }
+
     
 }
