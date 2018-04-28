@@ -15,6 +15,10 @@ import java.util.ArrayList;
  * @author Kris
  */
 public class Main {
+    
+    
+    
+    
     public static void main(String[] args){
         
         Menu menu = new Menu();
@@ -24,8 +28,7 @@ public class Main {
         menu.fijarControlador(new ControllerMenu(menu, graphMethods));
         
         menu.fijarModelo(graphMethods);
-
-
+        
 //        Restriction hashRestrictionsByStation[][] = new Restriction[30][30];
 //        Restriction as[] = hashRestrictionsByStation[0];
 //        for(Restriction b:as){

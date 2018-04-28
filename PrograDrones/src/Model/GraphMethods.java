@@ -580,6 +580,7 @@ public class GraphMethods {
         
         Path toEval;
         int offsetAux = offset;
+        timeProx = timeProx * 1000;
         
         for(int a = 0; a < totalPaths.size(); a++){
             for(int b = 0; b < totalPaths.size(); b++){
@@ -594,7 +595,7 @@ public class GraphMethods {
                 //por lo que se debe hacer un reacomodo para intentar ponerlo, si en algun momento desde el offset + el tiempo que dura llegando sobrepasa el tiempo esperado
                 //significa que no se podrá acomodar ese viaje y se hará un print
                 do{
-                    if((offsetAux + ((toEval.getTotalWeight()/120)*3600000) + WORSE_TIME_TO_GET_TO_THE_TOP) > timeProx*1000){
+                    if((offsetAux + ((toEval.getTotalWeight()/120)*3600000) + WORSE_TIME_TO_GET_TO_THE_TOP) > timeProx){
                         System.out.println("el viaje:" + toEval.getPath().toString() + " no se pudo acomodar y sobrepasó el tiempo esperado");
                     }
                     //System.out.println("offset vale:" + offsetAux);
