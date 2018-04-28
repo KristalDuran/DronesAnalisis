@@ -65,7 +65,6 @@ public class ControllerEvent implements ActionListener{
         for(int drawPoints = 0; drawPoints <= linesToDraw.size()-3;drawPoints += 4){
             drawLine(linesToDraw.get(drawPoints),linesToDraw.get(drawPoints+1),linesToDraw.get(drawPoints+2),linesToDraw.get(drawPoints+3));
         }
-    
     }
     
     public void drawLine(int x, int y, int x2, int y2){

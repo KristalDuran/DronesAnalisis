@@ -6,6 +6,7 @@
 package Controller;
 
 import Model.GraphMethods;
+import Model.Path;
 import View.Menu;
 import java.util.ArrayList;
 
@@ -23,6 +24,24 @@ public class Main {
         menu.fijarControlador(new ControllerMenu(menu, graphMethods));
         
         menu.fijarModelo(graphMethods);
+        
+        ArrayList<ArrayList<Path>> asd = new ArrayList();
+        asd.set(0,new ArrayList());
+        asd.get(0).add(new Path());
+        for(int i = 0; i < asd.size(); i++){
+            for(Path j:asd.get(i)){
+                System.out.println(j.getTotalWeight());
+            }
+        }
+        
+        //System.out.println(asd.get(0).get(0).getTotalWeight());
+        
+        
+        
+        
+        
+        
+        
         
     }
 }
