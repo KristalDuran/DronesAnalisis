@@ -19,16 +19,17 @@ public class TripMethods {
     private int numberOfTrips;
     private int trackHeight;
     private int trackWidth;
-    private ArrayList<Path> totalPaths = new ArrayList();
+    private ArrayList<Path> totalPaths;
     private ArrayList<Object> tiemposRestriction = new ArrayList<>(); //se van a guarda de tres en tres: path, el punto restringido y el tiempo en que va a estar ahi
     
     private Map<Path, Integer> viajesExactos = new HashMap<>();
     
+    private ArrayList<Path> trips = new ArrayList<>();
+    
     private int timeReal;
     private int timeProx;
     private int cantDronesXPista;
-    Node[] nodes;
-    
+  
     private double cantDronesByIndividualTrip;
     
     public int getNumberOfTrips() {
@@ -82,6 +83,10 @@ public class TripMethods {
     public void setCantDronesXPista(int cantDronesXPista) {
         this.cantDronesXPista = cantDronesXPista;
     }
+
+    public void setTotalPaths(ArrayList<Path> totalPaths) {
+        this.totalPaths = totalPaths;
+    }
     
     public ArrayList<Path> getPathsToDo(){
         
@@ -105,10 +110,11 @@ public class TripMethods {
         return cuantosDronesPorSet;
     }
     
-    public void calculateTrip(){
+    public void calculateTrip(Node[] nodes){
         int cantRestanteViajes = numberOfTrips;
         while(cantRestanteViajes > 0){
             int indiceDelViaje = (int)(Math.random()*(totalPaths.size()-1));
+            System.out.println("VIaje " + indiceDelViaje);
             Path pathPorRealizar = totalPaths.get(indiceDelViaje);
 
             cantRestanteViajes -= calculateNumOfDronesBySet();   
@@ -120,7 +126,8 @@ public class TripMethods {
                 timeTotal += time;
                 timeProx -= time; //se resta lo que dure en llegar del tiempo total que pude durar el viaje                    
             }
-            viajesExactos.put(pathPorRealizar, timeTotal);          
+            viajesExactos.put(pathPorRealizar, timeTotal); 
+            trips.add(pathPorRealizar);
         }
         calculateSiSePuedeRealizarTodosViejes();
     }
@@ -145,7 +152,7 @@ public class TripMethods {
         
         System.out.println("--------------------------------------------------------------------------------------");
         System.out.println("               Hash Table ");
-        for (Path i :  totalPaths) {
+        for (Path i :  trips) {
             
             if (viajesExactos.containsKey(i)) {
                 for (Integer integer : i.getPath()) {

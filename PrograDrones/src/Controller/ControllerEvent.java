@@ -48,8 +48,10 @@ public class ControllerEvent implements ActionListener{
             
         }else if(e.getSource() == event.jBCreate){
             createGraph();
-            //crear todo lo demas 
-            tripMethods.calculateTrip();
+            //crear todo lo demas
+            
+            tripMethods.setTotalPaths(graphMethods.setShortestPath());
+            tripMethods.calculateTrip(graphMethods.getNodes());
         }
         
     }
