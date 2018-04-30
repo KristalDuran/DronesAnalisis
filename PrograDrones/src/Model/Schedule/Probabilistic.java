@@ -8,6 +8,7 @@ package Model.Schedule;
 import Model.Path;
 import Model.IConstants;
 import Model.Schedule.Schedule;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -32,10 +33,10 @@ public class Probabilistic implements Schedule,IConstants {
     }
     
     
-    public void CalcProbabilistic(ArrayList<Integer> pathsIndex){
+    public void CalcProbabilistic(ArrayList<Integer> pathsIndex, Graphics g){
         Path actual;
         int rand;
-        int result[][] = new int[pathsIndex.size()][totalPaths.size()];
+        ArrayList<ArrayList<Path>> result = new ArrayList<>(totalPaths.size());
         while(pathsIndex.size() > 0){
 
             if(pathsIndex.size() == 1){
@@ -48,9 +49,9 @@ public class Probabilistic implements Schedule,IConstants {
                 }
                 //System.out.println("se añadio el path:" + actual.getPath().toString() + " en tiempo:" + (actual.getOffset() + 1) *90);
                 System.out.println("termina");
-                result[actual.getOffset()][pathsIndex.get(0) -1] = pathsIndex.get(0);
+                result.get(actual.getOffset()).add(pathsIndex.get(0) -1, actual);
                 actual.setOffset(actual.getOffset() + 1);
-                return;
+                break;
             }
             else{
                 rand = getRand.nextInt(pathsIndex.size());
@@ -64,12 +65,57 @@ public class Probabilistic implements Schedule,IConstants {
                     System.out.println("no alcanzo el tiempo de simulación");
                     return;
                 }
-                //System.out.println("se añadio el path:" + actual.getPath().toString() + " en tiempo:" + (actual.getOffset() + 1) *90);
-                result[actual.getOffset()][pathsIndex.get(rand)-1] = pathsIndex.get(rand);
+                System.out.println("se añadio el path en:" + actual.getOffset() + " en :" + (pathsIndex.get(rand) -1));
+                result.get(actual.getOffset()).add(pathsIndex.get(rand) -1, actual);
                 actual.setOffset(actual.getOffset() + 1);
                 pathsIndex.remove(rand);
                 //CalcProbabilistic(pathsIndex);
             }    
         }
+        soutResult(result);
+//        painter a;
+//        ArrayList<Integer> b = new ArrayList();
+//        b.add(0);
+//        b.add(0);
+//
+//        b.add(2000);
+//        b.add(1000);
+//
+//        b.add(100);
+//        b.add(300);
+//
+//        b.add(50);
+//        b.add(50);
+//
+//        b.add(50);
+//        b.add(50);
+//
+//        b.add(300);
+//        b.add(200);
+//
+//        b.add(300);
+//        b.add(200);
+//
+//        b.add(50);
+//        b.add(300);
+//        new painter(2,b,g);
+        
+        
+    }
+    
+    
+    public void soutResult(ArrayList<ArrayList<Path>> result){
+        Path a;
+        
+        for(int i = 0; i < result.size();i++){
+            System.out.println("Tiempo: " + i + " salen");
+            for(int j = 0; j < result.get(i).size();j++){
+                a = result.get(i).get(j);
+                System.out.println(a.getPath().toString());
+            }
+        }
+        
+        
+        
     }
 }

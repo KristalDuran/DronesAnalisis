@@ -53,9 +53,11 @@ public class Event extends javax.swing.JFrame {
         planoCartesiano = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel1.setText("Un calculo previo muestra que.....");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 20, -1, -1));
 
         jBCreate.setText("Create Graph");
         jBCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -63,13 +65,17 @@ public class Event extends javax.swing.JFrame {
                 jBCreateActionPerformed(evt);
             }
         });
+        getContentPane().add(jBCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 749, -1, -1));
 
         jBBack.setText("Back");
+        getContentPane().add(jBBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 749, -1, -1));
 
         jBStar.setText("Simulation");
+        getContentPane().add(jBStar, new org.netbeans.lib.awtextra.AbsoluteConstraints(208, 749, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel2.setText("Message");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 11, -1, -1));
 
         planoCartesiano.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -84,46 +90,7 @@ public class Event extends javax.swing.JFrame {
             .addGap(0, 693, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(planoCartesiano, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jBCreate)
-                                .addGap(18, 18, 18)
-                                .addComponent(jBBack)
-                                .addGap(28, 28, 28)
-                                .addComponent(jBStar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(62, 62, 62)
-                                .addComponent(jLabel1)
-                                .addGap(272, 272, 272)
-                                .addComponent(jLabel2)))
-                        .addGap(0, 963, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(planoCartesiano, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBCreate)
-                    .addComponent(jBBack)
-                    .addComponent(jBStar))
-                .addGap(37, 37, 37))
-        );
+        getContentPane().add(planoCartesiano, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 1590, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

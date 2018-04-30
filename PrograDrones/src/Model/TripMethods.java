@@ -15,22 +15,8 @@ import java.util.Random;
  *
  * @author Kris
  */
-public class TripMethods {
-    private int numberOfTrips;
-    private int trackHeight;
-    private int trackWidth;
-    private ArrayList<Path> totalPaths;
-    private ArrayList<Object> tiemposRestriction = new ArrayList<>(); //se van a guarda de tres en tres: path, el punto restringido y el tiempo en que va a estar ahi
+public class TripMethods extends TripVariables{
     
-    private Map<Path, Integer> viajesExactos = new HashMap<>();
-    
-    private ArrayList<Path> trips = new ArrayList<>();
-    
-    private int timeReal;
-    private int timeProx;
-    private int cantDronesXPista;
-  
-    private double cantDronesByIndividualTrip;
     
     public int getNumberOfTrips() {
         return numberOfTrips;
@@ -162,7 +148,7 @@ public class TripMethods {
             }
 
         }
-        
+        System.out.println("TT " +trips.size());
     }
     
 
