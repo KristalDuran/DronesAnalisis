@@ -15,6 +15,7 @@ public class Path {
     
     ArrayList <Integer> path = new ArrayList();
     int totalWeight = 0;
+    int offset = 0;
 
     public ArrayList<Integer> getPath() {
         return path;
@@ -30,6 +31,14 @@ public class Path {
 
     public void setTotalWeight(int totalWeight) {
         this.totalWeight = totalWeight;
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offfset) {
+        this.offset = offfset;
     }
     
     

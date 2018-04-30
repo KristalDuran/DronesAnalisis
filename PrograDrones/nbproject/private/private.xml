@@ -2,6 +2,7 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group>
             <file>file:/C:/Users/kris/Desktop/TEC/III%20Semestre%202018/Analisis%20de%20Algoritmos/DronesAnalisis/PrograDrones/src/View/Menu.java</file>
             <file>file:/C:/Users/kris/Desktop/TEC/III%20Semestre%202018/Analisis%20de%20Algoritmos/DronesAnalisis/PrograDrones/src/Model/Schedule/BackTracking.java</file>
@@ -21,5 +22,8 @@
             <file>file:/C:/Users/kris/Desktop/TEC/III%20Semestre%202018/Analisis%20de%20Algoritmos/DronesAnalisis/PrograDrones/src/Model/GraphMethods.java</file>
             <file>file:/C:/Users/kris/Desktop/TEC/III%20Semestre%202018/Analisis%20de%20Algoritmos/DronesAnalisis/PrograDrones/src/View/Simulacion.java</file>
         </group>
+=======
+        <group/>
+>>>>>>> be70b4b310ed9b1c89816b34d7e41eeeff61c10e
     </open-files>
 </project-private>

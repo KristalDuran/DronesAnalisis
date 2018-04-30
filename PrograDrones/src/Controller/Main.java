@@ -16,6 +16,7 @@ import java.util.ArrayList;
  * @author Kris
  */
 public class Main {
+    
     public static void main(String[] args){
         
         Menu menu = new Menu();
@@ -24,6 +25,8 @@ public class Main {
         
         //menu.fijarModelo(graphMethods);  
 
+
+        
         
     }
 }
