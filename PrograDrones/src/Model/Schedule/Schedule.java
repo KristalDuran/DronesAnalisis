@@ -4,12 +4,11 @@
  * and open the template in the editor.
  */
 package Model.Schedule;
-
 /**
  *
  * @author Kris
  */
-public interface Schedule {
+public interface Schedule{
     
     public void AirTrafficController();
 }
