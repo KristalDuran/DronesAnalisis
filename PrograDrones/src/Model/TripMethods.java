@@ -162,7 +162,7 @@ public class TripMethods {
             }
 
         }
-        
+        System.out.println("TT " +trips.size());
     }
     
 
