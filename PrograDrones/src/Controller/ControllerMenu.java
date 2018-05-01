@@ -6,16 +6,11 @@
 package Controller;
 
 import Model.GraphMethods;
-import Model.Restriction;
 import Model.TripMethods;
 import View.Event;
 import View.Menu;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Random;
 /**
  *
  * @author Kris
@@ -49,7 +44,7 @@ public class ControllerMenu implements ActionListener {
         
         Event event = new Event();
         graphMethods.setNodes();
-        event.fijarController(new ControllerEvent(event, graphMethods, tripMethods));
+        event.fijarController(new ControllerEvent(event, graphMethods, tripMethods, Integer.parseInt(Menu.TimeProx.getText())));
     }
     
 }

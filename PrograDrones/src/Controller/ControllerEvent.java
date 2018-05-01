@@ -7,10 +7,13 @@ package Controller;
 
 
 import Model.GraphMethods;
+import Model.Path;
 import Model.Restriction;
+import Model.Schedule.BackTracking;
+import Model.Schedule.DividAndConquer;
+import Model.Schedule.Probabilistic;
 import Model.TripMethods;
 import View.Event;
-import View.Simulacion;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -27,36 +30,44 @@ public class ControllerEvent implements ActionListener{
     Event event;
     GraphMethods graphMethods;
     TripMethods tripMethods;
-
-    public ControllerEvent(Event event, GraphMethods graphMethods, TripMethods tripMethods) {
+    int time;
+    
+    public ControllerEvent(Event event, GraphMethods graphMethods, TripMethods tripMethods, int time) {
         this.event = event;
         this.graphMethods = graphMethods;
         this.tripMethods = tripMethods;
+        this.time = time;
         event.setVisible(true);
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
+        
         if (e.getSource() == event.jBBack) {
             event.setVisible(false);
             
         } else if (e.getSource() == event.jBStar) {
-            event.setVisible(false);
-//            graphMethods.calculateSiSePuedeRealizarTodosViejes();
-            Simulacion simu = new Simulacion();            
-            simu.fijarController(new ControllerSimulation(simu, graphMethods));
-            
-        }else if(e.getSource() == event.jBCreate){
             createGraph();
-            //crear todo lo demas
-            
             tripMethods.setTotalPaths(graphMethods.setShortestPath());
-            tripMethods.calculateTrip(graphMethods.getNodes());
+            ArrayList<Path> arr = tripMethods.calculateTrip(graphMethods.getNodes());
+            if (event.jRadioDivide.isSelected()) {
+                DividAndConquer divide = new DividAndConquer();
+                divide.AirTrafficController(arr, time);
+                
+            }else{
+                if (event.jRadioProbabilistic.isSelected()) {
+                    Probabilistic probabilistic = new Probabilistic(arr, time); //arreglar
+                    probabilistic.AirTrafficController(arr, time);
+                    
+                }else if (event.jRadioBackTracking.isSelected()) {
+                    BackTracking back = new BackTracking();
+                    back.AirTrafficController(arr, time);
+                }
+            }
+            
         }
         
     }
-    
-    
     
     private boolean isAllowToPlace(ArrayList<Restriction> restrictions, int toEvaluate){
         

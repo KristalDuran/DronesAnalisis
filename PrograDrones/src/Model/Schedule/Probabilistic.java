@@ -27,11 +27,6 @@ public class Probabilistic implements Schedule,IConstants {
     }
     
     
-    public void AirTrafficController() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
     public void CalcProbabilistic(ArrayList<Integer> pathsIndex){
         Path actual;
         int rand;
@@ -71,5 +66,10 @@ public class Probabilistic implements Schedule,IConstants {
                 //CalcProbabilistic(pathsIndex);
             }    
         }
+    }
+
+    @Override
+    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int time) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

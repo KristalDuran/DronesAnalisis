@@ -5,15 +5,8 @@
  */
 package View;
 
-import Model.GraphMethods;
-import Model.Node;
-import Model.Restriction;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.EventListener;
-import java.util.Random;
 
 /**
  *
@@ -28,7 +21,6 @@ public class Event extends javax.swing.JFrame {
     }
 
     public void fijarController(EventListener controller){
-        jBCreate.addActionListener((ActionListener) controller);
         jBBack.addActionListener((ActionListener) controller);
         jBStar.addActionListener((ActionListener) controller);
     }
@@ -45,31 +37,26 @@ public class Event extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
-        jBCreate = new javax.swing.JButton();
         jBBack = new javax.swing.JButton();
         jBStar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         planoCartesiano = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jRadioDivide = new javax.swing.JRadioButton();
+        jRadioProbabilistic = new javax.swing.JRadioButton();
+        jRadioBackTracking = new javax.swing.JRadioButton();
+        trips = new javax.swing.JLabel();
+        totalTime = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel1.setText("Un calculo previo muestra que.....");
-
-        jBCreate.setText("Create Graph");
-        jBCreate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBCreateActionPerformed(evt);
-            }
-        });
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        jLabel1.setText("Drone Country");
 
         jBBack.setText("Back");
 
         jBStar.setText("Simulation");
-
-        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        jLabel2.setText("Message");
 
         planoCartesiano.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -81,8 +68,24 @@ public class Event extends javax.swing.JFrame {
         );
         planoCartesianoLayout.setVerticalGroup(
             planoCartesianoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 693, Short.MAX_VALUE)
+            .addGap(0, 665, Short.MAX_VALUE)
         );
+
+        jLabel3.setText("Type of algorithm:");
+
+        buttonGroup1.add(jRadioDivide);
+        jRadioDivide.setSelected(true);
+        jRadioDivide.setText("Divide and counquer");
+
+        buttonGroup1.add(jRadioProbabilistic);
+        jRadioProbabilistic.setText("Probabilistic");
+
+        buttonGroup1.add(jRadioBackTracking);
+        jRadioBackTracking.setText("Backtracking");
+
+        trips.setText("Trips:");
+
+        totalTime.setText("Total time:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -92,21 +95,28 @@ public class Event extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(planoCartesiano, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(62, 62, 62)
+                        .addComponent(jLabel1)
+                        .addGap(203, 203, 203)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jBCreate)
-                                .addGap(18, 18, 18)
-                                .addComponent(jBBack)
-                                .addGap(28, 28, 28)
-                                .addComponent(jBStar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(62, 62, 62)
-                                .addComponent(jLabel1)
-                                .addGap(272, 272, 272)
-                                .addComponent(jLabel2)))
-                        .addGap(0, 963, Short.MAX_VALUE)))
+                            .addComponent(totalTime)
+                            .addComponent(trips))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jLabel3)
+                .addGap(33, 33, 33)
+                .addComponent(jRadioDivide)
+                .addGap(18, 18, 18)
+                .addComponent(jRadioProbabilistic)
+                .addGap(32, 32, 32)
+                .addComponent(jRadioBackTracking)
+                .addGap(48, 48, 48)
+                .addComponent(jBStar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 490, Short.MAX_VALUE)
+                .addComponent(jBBack)
+                .addGap(442, 442, 442))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,30 +124,41 @@ public class Event extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(planoCartesiano, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBCreate)
-                    .addComponent(jBBack)
-                    .addComponent(jBStar))
-                .addGap(37, 37, 37))
+                    .addComponent(trips))
+                .addGap(14, 14, 14)
+                .addComponent(totalTime)
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(planoCartesiano, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jBStar)
+                            .addComponent(jBBack))
+                        .addGap(25, 25, 25))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jRadioDivide)
+                            .addComponent(jRadioProbabilistic)
+                            .addComponent(jRadioBackTracking))
+                        .addGap(22, 22, 22))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jBCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCreateActionPerformed
-
-    }//GEN-LAST:event_jBCreateActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     public javax.swing.JButton jBBack;
-    public javax.swing.JButton jBCreate;
     public javax.swing.JButton jBStar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    public javax.swing.JRadioButton jRadioBackTracking;
+    public javax.swing.JRadioButton jRadioDivide;
+    public javax.swing.JRadioButton jRadioProbabilistic;
     public javax.swing.JPanel planoCartesiano;
+    private javax.swing.JLabel totalTime;
+    private javax.swing.JLabel trips;
     // End of variables declaration//GEN-END:variables
 }
