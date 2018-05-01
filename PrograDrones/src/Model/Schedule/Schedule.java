@@ -4,11 +4,15 @@
  * and open the template in the editor.
  */
 package Model.Schedule;
+
+import Model.Path;
+import java.util.ArrayList;
+
 /**
  *
  * @author Kris
  */
 public interface Schedule{
     
-    public void AirTrafficController();
+    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int time);
 }

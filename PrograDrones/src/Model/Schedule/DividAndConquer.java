@@ -5,7 +5,9 @@
  */
 package Model.Schedule;
 
+import Model.Path;
 import Model.Schedule.Schedule;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,8 +16,10 @@ import Model.Schedule.Schedule;
 public class DividAndConquer implements Schedule{
 
     @Override
-    public void AirTrafficController() {
+    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int time) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    
     
 }

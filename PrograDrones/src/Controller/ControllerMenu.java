@@ -6,16 +6,11 @@
 package Controller;
 
 import Model.GraphMethods;
-import Model.Restriction;
 import Model.TripMethods;
 import View.Event;
 import View.Menu;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Random;
 /**
  *
  * @author Kris
@@ -25,7 +20,7 @@ public class ControllerMenu implements ActionListener {
     private GraphMethods graphMethods;
     private TripMethods tripMethods;
 
-    public ControllerMenu(Menu Menu, GraphMethods graphMethods, TripMethods tripMethods) {
+    public ControllerMenu(Menu Menu, GraphMethods graphMethods) {
         this.Menu = Menu;
         this.graphMethods = graphMethods;
         this.tripMethods = tripMethods;
@@ -35,21 +30,21 @@ public class ControllerMenu implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent ae) {
-        
-        
-        graphMethods.setNumberOfTracksByStation(Integer.parseInt(Menu.SizePista.getText()));
-        graphMethods.setNumberOfStations(Integer.parseInt(Menu.CantStation.getText()));
-        
-        tripMethods.setPistaHeight(Integer.parseInt(Menu.txtHeight.getText()));
-        tripMethods.setPistaWidth(Integer.parseInt(Menu.txtWidth.getText()));
-        tripMethods.setNumberOfTrips(Integer.parseInt(Menu.CantViaje.getText()));
+//        tripMethods = new TripMethods();
+//        
+//        graphMethods.setNumberOfTracksByStation(Integer.parseInt(Menu.SizePista.getText()));
+//        graphMethods.setNumberOfStations(Integer.parseInt(Menu.CantStation.getText()));
+//        
+//        tripMethods.setPistaHeight(Integer.parseInt(Menu.txtHeight.getText()));
+//        tripMethods.setPistaWidth(Integer.parseInt(Menu.txtWidth.getText()));
+//        tripMethods.setNumberOfTrips(Integer.parseInt(Menu.CantViaje.getText()));
         
 //        graphMethods.setTimeReal(Integer.parseInt(Menu.TimeReal.getText()));
 //        graphMethods.setTimeProx(Integer.parseInt(Menu.TimeProx.getText()));
         
         Event event = new Event();
         graphMethods.setNodes();
-        event.fijarController(new ControllerEvent(event, graphMethods, tripMethods));
+        event.fijarController(new ControllerEvent(event, graphMethods, Integer.parseInt(Menu.TimeProx.getText())));
     }
     
 }
