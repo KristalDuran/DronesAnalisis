@@ -7,28 +7,35 @@ package Model;
 
 import static Model.IConstants.SPEED;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 /**
  *
  * @author Kris
  */
-public class TripMethods {
-    private int numberOfTrips;
-    private int trackHeight;
-    private int trackWidth;
-    private ArrayList<Path> totalPaths;
+//<<<<<<< HEAD
+//public class TripMethods {
+//    private int numberOfTrips;
+//    private int trackHeight;
+//    private int trackWidth;
+//    private ArrayList<Path> totalPaths;
+//    
+//    private ArrayList<Path> trips = new ArrayList<>();
+//    
+//    private int timeReal;
+//    private int timeProx;
+//    private int cantDronesXPista;
+//  
+//    private double cantDronesByIndividualTrip;
+//=======
+public class TripMethods extends TripVariables{
+//    
     
-    private ArrayList<Path> trips = new ArrayList<>();
-    
-    private int timeReal;
-    private int timeProx;
-    private int cantDronesXPista;
-  
-    private double cantDronesByIndividualTrip;
-    
+    public TripMethods(TripVariables tripVariables) {
+        
+    }
+
+//>>>>>>> 5da2cc44d5300833c068208ef1f5f79571965965
     public int getNumberOfTrips() {
         return numberOfTrips;
     }

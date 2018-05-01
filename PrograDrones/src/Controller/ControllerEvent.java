@@ -13,6 +13,7 @@ import Model.Schedule.BackTracking;
 import Model.Schedule.DividAndConquer;
 import Model.Schedule.Probabilistic;
 import Model.TripMethods;
+import Model.TripVariables;
 import View.Event;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -32,10 +33,10 @@ public class ControllerEvent implements ActionListener{
     TripMethods tripMethods;
     int time;
     
-    public ControllerEvent(Event event, GraphMethods graphMethods, TripMethods tripMethods, int time) {
+    public ControllerEvent(Event event, GraphMethods graphMethods, int time) {
         this.event = event;
         this.graphMethods = graphMethods;
-        this.tripMethods = tripMethods;
+//        this.tripMethods = new TripMethods();
         this.time = time;
         event.setVisible(true);
     }
@@ -47,6 +48,7 @@ public class ControllerEvent implements ActionListener{
             event.setVisible(false);
             
         } else if (e.getSource() == event.jBStar) {
+            tripMethods = new TripMethods(new TripVariables());
             createGraph();
             tripMethods.setTotalPaths(graphMethods.setShortestPath());
             ArrayList<Path> arr = tripMethods.calculateTrip(graphMethods.getNodes());

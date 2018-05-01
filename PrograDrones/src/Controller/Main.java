@@ -6,10 +6,7 @@
 package Controller;
 
 import Model.GraphMethods;
-import Model.TripMethods;
-import Model.Path;
 import View.Menu;
-import java.util.ArrayList;
 
 /**
  *
@@ -18,17 +15,14 @@ import java.util.ArrayList;
 public class Main {
     
     public static void main(String[] args){
-        
         Menu menu = new Menu();
         
-        menu.fijarControlador(new ControllerMenu(menu, new GraphMethods(), new TripMethods()));
-        
-        //menu.fijarModelo(graphMethods)
-        
-        ArrayList<ArrayList<Path>>df = new ArrayList<ArrayList<Path>>();
-        df.add(new ArrayList<>());
-        df.add(new ArrayList<>());
-        df.get(0).add(new Path());
-        df.get(1).add(new Path());
+        menu.fijarControlador(new ControllerMenu(menu, new GraphMethods()));
     }
+//    Menu menu = new Menu();
+//    menu.new 
+//    
+//    Menu menu = new Menu();
+//        menu.fijarControlador(new ControllerMenu(menu, new GraphMethods(), new TripMethods()));
+//        
 }
