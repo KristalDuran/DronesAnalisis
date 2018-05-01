@@ -19,24 +19,28 @@ public class painter implements Runnable{
     int processName;
     public ArrayList<Integer> coords;
     Graphics g;
+    Graphics j;
     
     int pivot;
     int xA;
     int yA;
     int xB;
     int yB;
+    
+    int size = 4;
+    int sleep = 10;
 
     public painter(int name,ArrayList<Integer> coords,Graphics g){
         this.coords = coords;
         this.processName = name;
         this.g = g;
+        this.j = g;
         t = new Thread(this);
         t.start();
     }
     
     @Override
     public void run() {
-               
         try{
             for(int i = 0; i < coords.size() - 3; i += 4){
                 xA = coords.get(i);
@@ -49,6 +53,7 @@ public class painter implements Runnable{
                 if(Math.abs(xA - xB) <= Math.abs(yA - yB)){
                     pivot = Math.abs(yA - yB) / Math.abs(xA - xB);
                 }
+                
                 if(xA <= xB && yA <= yB){
                     if(Math.abs(xA - xB) >= Math.abs(yA - yB)){
                         // upper = 1 significa que el pivot se sacó de la diferencia de x > y
@@ -69,18 +74,18 @@ public class painter implements Runnable{
                 }else if(xA >= xB && yA >= yB){
                     if(Math.abs(xA - xB) >= Math.abs(yA - yB)){
                         // upper = 1 significa que el pivot se sacó de la diferencia de x > y
-                        drawSurOeste(xA, yA, xB, yB , pivot, 1);
-                    }
-                    else{
-                        drawSurOeste(xA, yA, xB, yB , pivot, 0);
-                    }
-                }else{
-                    if(Math.abs(xA - xB) >= Math.abs(yA - yB)){
-                        // upper = 1 significa que el pivot se sacó de la diferencia de x > y
                         drawNorOeste(xA, yA, xB, yB , pivot, 1);
                     }
                     else{
                         drawNorOeste(xA, yA, xB, yB , pivot, 0);
+                    }
+                }else{
+                    if(Math.abs(xA - xB) >= Math.abs(yA - yB)){
+                        // upper = 1 significa que el pivot se sacó de la diferencia de x > y
+                        drawSurOeste(xA, yA, xB, yB , pivot, 1);
+                    }
+                    else{
+                        drawSurOeste(xA, yA, xB, yB , pivot, 0);
                     }  
                 }  
             }
@@ -99,11 +104,10 @@ public class painter implements Runnable{
         int rep = 0;
         try{
         while(x1 <= x2 || y1 <= y2){
-            Thread.sleep(5);
-            g.drawOval(x2, y2, 10, 10);
-            g.clearRect(x1-1, y1, 12, 12);
-            g.fillOval(x1, y1, 8, 8);
-            
+            Thread.sleep(sleep);
+            //g.drawOval(x2, y2, 10, 10);
+            g.clearRect(x1-1, y1, 8, 8);
+            g.fillOval(x1, y1, size, size);
             if(upper == 1){
                 if(x1 <= x2){
                    x1++;
@@ -137,10 +141,10 @@ public class painter implements Runnable{
         int rep = 0;
         try{
         while(x1 <= x2 || y1 >= y2){
-            Thread.sleep(5);
-            g.drawOval(x2, y2, 10, 10);
-            g.clearRect(x1-1, y1, 12, 12);
-            g.fillOval(x1, y1, 8, 8);
+            Thread.sleep(sleep);
+            //g.drawOval(x2, y2, 10, 10);
+            g.clearRect(x1-1, y1, 8, 8);
+            g.fillOval(x1, y1, size, size);
             
             if(upper == 1){
                 if(x1 <= x2){
@@ -175,27 +179,27 @@ public class painter implements Runnable{
         
         int rep = 0;
         try{
-        while(x1 >= x2 || y1 >= y2){
-            Thread.sleep(5);
-            g.drawOval(x2, y2, 10, 10);
-            g.clearRect(x1-1, y1, 12, 12);
-            g.fillOval(x1, y1, 8, 8);
+        while(x1 >= x2 || y1 <= y2){
+            Thread.sleep(sleep);
+            //g.drawOval(x2, y2, 10, 10);
+            g.clearRect(x1-1, y1, 8, 8);
+            g.fillOval(x1, y1, size, size);
             
             if(upper == 1){
-                if(x1 <= x2){
+                if(x1 >= x2){
                    x1--;
                 }
                 if(rep == pivot){
-                    if(y1 >= y2){
-                        y1--;
+                    if(y1 <= y2){
+                        y1++;
                     }
                     rep = 0;
                 }
                 rep++;
             }
             else{
-                if(y1 >= y2){
-                    y1--;
+                if(y1 <= y2){
+                    y1++;
                 }
                 if(rep == pivot){
                     if(x1 >= x2){
@@ -213,27 +217,27 @@ public class painter implements Runnable{
         
         int rep = 0;
         try{
-        while(x1 >= x2 || y1 <= y2){
-            Thread.sleep(5);
-            g.drawOval(x2, y2, 10, 10);
-            g.clearRect(x1-1, y1, 12, 12);
-            g.fillOval(x1, y1, 8, 8);
+        while(x1 >= x2 || y1 >= y2){
+            Thread.sleep(sleep);
+            //g.drawOval(x2, y2, 10, 10);
+            g.clearRect(x1-1, y1, 8, 8);
+            g.fillOval(x1, y1, size, size);
             
             if(upper == 1){
                 if(x1 >= x2){
                    x1--;
                 }
                 if(rep == pivot){
-                    if(y1 <= y2){
-                        y1++;
+                    if(y1 >= y2){
+                        y1--;
                     }
                     rep = 0;
                 }
                 rep++;
             }
             else{
-                if(y1 <= y2){
-                    y1++;
+                if(y1 >= y2){
+                    y1--;
                 }
                 if(rep == pivot){
                     if(x1 >= x2){

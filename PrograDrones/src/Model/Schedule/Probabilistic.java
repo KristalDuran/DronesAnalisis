@@ -36,7 +36,7 @@ public class Probabilistic implements Schedule,IConstants {
     public void CalcProbabilistic(ArrayList<Integer> pathsIndex, Graphics g){
         Path actual;
         int rand;
-        ArrayList<ArrayList<Path>> result = new ArrayList<>(totalPaths.size());
+        ArrayList<ArrayList<Path>> result = new ArrayList<ArrayList<Path>>(totalPaths.size());
         while(pathsIndex.size() > 0){
 
             if(pathsIndex.size() == 1){
@@ -66,12 +66,16 @@ public class Probabilistic implements Schedule,IConstants {
                     return;
                 }
                 System.out.println("se añadio el path en:" + actual.getOffset() + " en :" + (pathsIndex.get(rand) -1));
+                if(result.isEmpty()){
+                    result.add(new ArrayList<>());
+                }
                 result.get(actual.getOffset()).add(pathsIndex.get(rand) -1, actual);
                 actual.setOffset(actual.getOffset() + 1);
                 pathsIndex.remove(rand);
                 //CalcProbabilistic(pathsIndex);
             }    
         }
+        
         soutResult(result);
 //        painter a;
 //        ArrayList<Integer> b = new ArrayList();
