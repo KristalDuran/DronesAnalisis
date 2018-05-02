@@ -36,6 +36,7 @@ public class ControllerMenu implements ActionListener {
         graphMethods.setNumberOfTracksByStation(Integer.parseInt(Menu.SizePista.getText()));
         graphMethods.setNumberOfStations(Integer.parseInt(Menu.CantStation.getText()));
         
+        tripMethods.numberOfStations = Integer.parseInt(Menu.CantStation.getText());
         tripMethods.setPistaHeight(Integer.parseInt(Menu.txtHeight.getText()));
         tripMethods.setPistaWidth(Integer.parseInt(Menu.txtWidth.getText()));
         tripMethods.setNumberOfTrips(Integer.parseInt(Menu.CantViaje.getText()));

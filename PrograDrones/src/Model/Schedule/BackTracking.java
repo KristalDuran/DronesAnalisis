@@ -26,7 +26,6 @@ public class BackTracking implements Schedule, IConstants{
     public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int time) {
         this.totalPaths = totalPaths;
         this.time = time;
-        System.out.println("total viajes " + totalPaths.size());
         lineOfTime = new ArrayList<ArrayList<Path>>(totalPaths.size());
         if (backtracking(0, totalPaths, 0, new ArrayList<Integer>() , 0)) {
             sendTrips();
@@ -47,7 +46,6 @@ public class BackTracking implements Schedule, IConstants{
         
         if (cont == listOfTrips.size()) {
             return true;
-            
         }else{
             while (indexList <= listOfTrips.size()-1) { 
                 if (insertTrip(indexMatriz, listOfTrips.get(indexList))) {
@@ -55,7 +53,6 @@ public class BackTracking implements Schedule, IConstants{
                     if (!validarTime(ma, listOfTrips.get(indexList), time)) {
                         return false;
                     }
-                    //no se estan agregando todos los viajes
                     if (indexList >= listOfTrips.size()-1) {
                         backtracking(indexMatriz+1, listOfTrips, 0, ma, cont);
                         break;
@@ -65,11 +62,8 @@ public class BackTracking implements Schedule, IConstants{
             }
             if (cont < listOfTrips.size()-1 && indexList > listOfTrips.size()-1) {
                 backtracking(indexMatriz+1, listOfTrips, 0, ma, cont);        
-            }else{
-                return true;
-            }
+            }else{ return true; }
         }
-      
         return true;
     }
     
@@ -95,6 +89,7 @@ public class BackTracking implements Schedule, IConstants{
         return true;        
     }
     
+    //creo que esta mal, probar bien 
     public boolean validarTime(ArrayList<Integer> ma, Path path, int timeExpected){
         if (ma.size()-1 < path.getOffset()) {
             ma.add(0);

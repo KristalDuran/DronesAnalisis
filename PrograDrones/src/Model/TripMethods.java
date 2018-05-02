@@ -126,12 +126,14 @@ public class TripMethods extends TripVariables{
     }
     
     public ArrayList<Path> calculateTrip(Node[] nodes){
+        setCantDronesByIndividualTrip(numberOfStations);
         int cantRestanteViajes = numberOfTrips;
+        
         while(cantRestanteViajes > 0){
             int indiceDelViaje = (int)(Math.random()*(totalPaths.size()-1));
             Path pathPorRealizar = totalPaths.get(indiceDelViaje);
-
-            cantRestanteViajes -= calculateNumOfDronesBySet(); 
+            cantRestanteViajes -= cantDronesByIndividualTrip;
+//            cantRestanteViajes -= calculateNumOfDronesBySet(); 
             //donde se define el total de distancia 
 //            int timeTotal = 0;    
 //            for (int stacion = 0; stacion < pathPorRealizar.getPath().size()-1; stacion++) {

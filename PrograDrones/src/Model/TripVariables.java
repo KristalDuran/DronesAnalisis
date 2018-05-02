@@ -19,6 +19,7 @@ import java.util.Map;
  * @author USUARIO
  */
 public class TripVariables {
+    public int numberOfStations;
     public int numberOfTrips;
     public int trackHeight;
     public int trackWidth;
