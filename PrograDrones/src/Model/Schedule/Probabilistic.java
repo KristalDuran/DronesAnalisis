@@ -55,6 +55,9 @@ public class Probabilistic implements Schedule,IConstants {
             else{
                 rand = getRand.nextInt(totalPaths.size());
                 actual = totalPaths.get(rand);
+                while(100/actual.getPath().size() <= getRand.nextInt(totalPaths.size())){
+                    actual = totalPaths.get(getRand.nextInt(totalPaths.size()));
+                }
                 //90 milisegundos * offset + tiempo en llegar + 2worst time to get to te top
                 if((((actual.getOffset() + 1) * 90) + ((actual.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP)) > ((time * 3600)*1000)){
                     System.out.println("no alcanzo el tiempo de simulación");
