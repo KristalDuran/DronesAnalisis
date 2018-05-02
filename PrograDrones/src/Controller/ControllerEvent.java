@@ -33,11 +33,11 @@ public class ControllerEvent implements ActionListener{
     TripMethods tripMethods;
     int time;
     
-    public ControllerEvent(Event event, GraphMethods graphMethods, int time) {
+    public ControllerEvent(Event event, GraphMethods graphMethods, TripMethods tripMethods) {
         this.event = event;
         this.graphMethods = graphMethods;
-//        this.tripMethods = new TripMethods();
-        this.time = time;
+        this.tripMethods = tripMethods;
+        this.time = tripMethods.timeProx;
         event.setVisible(true);
     }
     
@@ -48,7 +48,6 @@ public class ControllerEvent implements ActionListener{
             event.setVisible(false);
             
         } else if (e.getSource() == event.jBStar) {
-            tripMethods = new TripMethods(new TripVariables());
             createGraph();
             tripMethods.setTotalPaths(graphMethods.setShortestPath());
             ArrayList<Path> arr = tripMethods.calculateTrip(graphMethods.getNodes());
@@ -58,7 +57,7 @@ public class ControllerEvent implements ActionListener{
                 
             }else{
                 if (event.jRadioProbabilistic.isSelected()) {
-                    Probabilistic probabilistic = new Probabilistic(arr, time); //arreglar
+                    Probabilistic probabilistic = new Probabilistic(); //arreglar
                     probabilistic.AirTrafficController(arr, time);
                     
                 }else if (event.jRadioBackTracking.isSelected()) {

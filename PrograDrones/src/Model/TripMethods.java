@@ -31,8 +31,8 @@ import java.util.Random;
 public class TripMethods extends TripVariables{
 //    
     
-    public TripMethods(TripVariables tripVariables) {
-        
+    public TripMethods() {
+        super();
     }
 
 //>>>>>>> 5da2cc44d5300833c068208ef1f5f79571965965

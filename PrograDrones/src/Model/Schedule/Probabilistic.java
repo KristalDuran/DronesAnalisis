@@ -19,90 +19,60 @@ import java.util.Random;
 public class Probabilistic implements Schedule,IConstants {
 
     Random getRand = new Random();
-    ArrayList<Path> totalPaths;
-    int timeExpected;
     
-    public Probabilistic(ArrayList<Path> totalPaths, int timeExpected){
-        this.totalPaths = totalPaths;
-        this.timeExpected = timeExpected;
+    public Probabilistic(){
+        
     }
     
     
 
     
     
-    public void CalcProbabilistic(ArrayList<Integer> pathsIndex, Graphics g){
+    public ArrayList<ArrayList<Path>> CalcProbabilistic(ArrayList<Path> totalPaths, int time){
 
         Path actual;
         int rand;
         ArrayList<ArrayList<Path>> result = new ArrayList<ArrayList<Path>>(totalPaths.size());
-        while(pathsIndex.size() > 0){
+        while(totalPaths.size() > 0){
 
-            if(pathsIndex.size() == 1){
-                actual = totalPaths.get(pathsIndex.get(0) -1);
+            if(totalPaths.size() == 1){
+                actual = totalPaths.get(0);
                 //90 milisegundos * offset + tiempo en llegar + 2worst time to get to te top
-    //            System.out.println("offset= " + actual.getOffset() + " tiempo= " +);
-                if((((actual.getOffset() + 1) * 90) + ((actual.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP)) > ((timeExpected * 3600)*1000)){
+                if((((actual.getOffset() + 1) * 90) + ((actual.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP)) > ((time * 3600)*1000)){
                     System.out.println("no alcanzó el tiempo de simulación");
-                    return;
+                    return null;
                 }
-                //System.out.println("se añadio el path:" + actual.getPath().toString() + " en tiempo:" + (actual.getOffset() + 1) *90);
+                if(result.size() <= actual.getOffset()){
+                    for(int i = 0; i <= (actual.getOffset()-result.size()); i++){
+                        result.add(new ArrayList<Path>());
+                    }
+                }
                 System.out.println("termina");
-                result.get(actual.getOffset()).add(pathsIndex.get(0) -1, actual);
+                result.get(actual.getOffset()).add(actual);
                 actual.setOffset(actual.getOffset() + 1);
                 break;
             }
             else{
-                rand = getRand.nextInt(pathsIndex.size());
-                actual = totalPaths.get(pathsIndex.get(rand)-1);
-                //System.out.println("rand =:" + rand);
-                //System.out.println("index del path = " + (pathsIndex.get(rand)-1) + " ------------------------------------");
-                //System.out.println("i = " + actual.getOffset());
-                //System.out.println("j = " + (pathsIndex.get(rand)-1));
+                rand = getRand.nextInt(totalPaths.size());
+                actual = totalPaths.get(rand);
                 //90 milisegundos * offset + tiempo en llegar + 2worst time to get to te top
-                if((((actual.getOffset() + 1) * 90) + ((actual.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP)) > ((timeExpected * 3600)*1000)){
+                if((((actual.getOffset() + 1) * 90) + ((actual.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP)) > ((time * 3600)*1000)){
                     System.out.println("no alcanzo el tiempo de simulación");
-                    return;
+                    return null;
                 }
-                System.out.println("se añadio el path en:" + actual.getOffset() + " en :" + (pathsIndex.get(rand) -1));
-                if(result.isEmpty()){
-                    result.add(new ArrayList<>());
+                if(result.size() <= actual.getOffset()){
+                    for(int i = 0; i <= (actual.getOffset()-result.size()); i++){
+                        result.add(new ArrayList<Path>());
+                    }
                 }
-                result.get(actual.getOffset()).add(pathsIndex.get(rand) -1, actual);
+                result.get(actual.getOffset()).add(actual);
                 actual.setOffset(actual.getOffset() + 1);
-                pathsIndex.remove(rand);
-                //CalcProbabilistic(pathsIndex);
+                totalPaths.remove(rand);
             }    
         }
         
         soutResult(result);
-//        painter a;
-//        ArrayList<Integer> b = new ArrayList();
-//        b.add(0);
-//        b.add(0);
-//
-//        b.add(2000);
-//        b.add(1000);
-//
-//        b.add(100);
-//        b.add(300);
-//
-//        b.add(50);
-//        b.add(50);
-//
-//        b.add(50);
-//        b.add(50);
-//
-//        b.add(300);
-//        b.add(200);
-//
-//        b.add(300);
-//        b.add(200);
-//
-//        b.add(50);
-//        b.add(300);
-//        new painter(2,b,g);
-        
+        return result;
         
     }
     
@@ -124,6 +94,6 @@ public class Probabilistic implements Schedule,IConstants {
 
     @Override
     public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int time) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return CalcProbabilistic(totalPaths,time);
     }
 }
