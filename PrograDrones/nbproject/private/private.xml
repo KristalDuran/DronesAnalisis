@@ -3,16 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/USUARIO/Documents/GitHub/DronesAnalisis/PrograDrones/src/View/Event.java</file>
+            <file>file:/C:/Users/USUARIO/Documents/GitHub/DronesAnalisis/PrograDrones/src/Model/Graph.java</file>
             <file>file:/C:/Users/USUARIO/Documents/GitHub/DronesAnalisis/PrograDrones/src/Model/Schedule/Probabilistic.java</file>
-            <file>file:/C:/Users/USUARIO/Documents/GitHub/DronesAnalisis/PrograDrones/src/Controller/Main.java</file>
-            <file>file:/C:/Users/USUARIO/Documents/GitHub/DronesAnalisis/PrograDrones/src/Model/Schedule/Schedule.java</file>
             <file>file:/C:/Users/USUARIO/Documents/GitHub/DronesAnalisis/PrograDrones/src/Controller/ControllerEvent.java</file>
             <file>file:/C:/Users/USUARIO/Documents/GitHub/DronesAnalisis/PrograDrones/src/Model/TripVariables.java</file>
             <file>file:/C:/Users/USUARIO/Documents/GitHub/DronesAnalisis/PrograDrones/src/Model/Schedule/DividAndConquer.java</file>
+            <file>file:/C:/Users/USUARIO/Documents/GitHub/DronesAnalisis/PrograDrones/src/Model/hilo.java</file>
             <file>file:/C:/Users/USUARIO/Documents/GitHub/DronesAnalisis/PrograDrones/src/Model/TripMethods.java</file>
             <file>file:/C:/Users/USUARIO/Documents/GitHub/DronesAnalisis/PrograDrones/src/Model/GraphMethods.java</file>
+            <file>file:/C:/Users/USUARIO/Documents/GitHub/DronesAnalisis/PrograDrones/src/Model/painter.java</file>
             <file>file:/C:/Users/USUARIO/Documents/GitHub/DronesAnalisis/PrograDrones/src/Controller/ControllerMenu.java</file>
-            <file>file:/C:/Users/USUARIO/Documents/GitHub/DronesAnalisis/PrograDrones/src/Model/Schedule/BackTracking.java</file>
+            <file>file:/C:/Users/USUARIO/Documents/GitHub/DronesAnalisis/PrograDrones/src/View/Menu.java</file>
         </group>
     </open-files>
 </project-private>

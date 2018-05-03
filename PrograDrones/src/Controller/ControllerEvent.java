@@ -63,6 +63,12 @@ public class ControllerEvent implements ActionListener{
                 if (event.jRadioProbabilistic.isSelected()) {
                     Probabilistic probabilistic = new Probabilistic(); //arreglar
                     ArrayList<ArrayList<Path>> result = probabilistic.AirTrafficController(arr, time);
+                    ArrayList<Integer> asd = new ArrayList();
+                    asd.add(1);
+                    asd.add(0);
+                    asd.add(120);
+                    asd.add(121);
+                    new painter(asd,event.planoCartesiano.getGraphics());
                     drawGraphs(prepareResultToMakeTheGraphics(result));
                     
                 }else if (event.jRadioBackTracking.isSelected()) {
