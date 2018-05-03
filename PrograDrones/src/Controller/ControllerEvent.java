@@ -55,10 +55,6 @@ public class ControllerEvent implements ActionListener{
             tripMethods.setTotalPaths(graphMethods.setShortestPath());
             ArrayList<Path> arr = tripMethods.calculateTrip(graphMethods.getNodes());
             
-            for(Path asd:arr){
-                System.out.println(asd.getPath().toString());
-            }
-            
             if (event.jRadioDivide.isSelected()) {
                 DividAndConquer divide = new DividAndConquer();
                 divide.AirTrafficController(arr, time);
@@ -71,7 +67,8 @@ public class ControllerEvent implements ActionListener{
                     
                 }else if (event.jRadioBackTracking.isSelected()) {
                     BackTracking back = new BackTracking();
-                    back.AirTrafficController(arr, time);
+                    ArrayList<ArrayList<Path>> result = back.AirTrafficController(arr, time);
+                    drawGraphs(prepareResultToMakeTheGraphics(result));
                 }
             }
             
