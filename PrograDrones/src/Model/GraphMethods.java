@@ -327,18 +327,18 @@ public class GraphMethods implements IConstants {
             dijkstraResult = calculateDijkstraWith(toCalcDijkstra.getName());
             toCalcDijkstra.setPath(getPath(toCalcDijkstra.getName(),dijkstraResult,totalPaths));
         }
-        System.out.println(" ");
-        for(Node i:graph.getNodes()){
-            System.out.println("Caminos de: " + i.getName());
-            for(Path j:i.getPath()){
-                
-                for(int a:j.getPath()){
-                    System.out.print(a + ",");
-                }
-                System.out.println("");
-            }
-        }
-        System.out.println(" ");
+//        System.out.println(" ");
+//        for(Node i:graph.getNodes()){
+//            System.out.println("Caminos de: " + i.getName());
+//            for(Path j:i.getPath()){
+//                
+//                for(int a:j.getPath()){
+//                    System.out.print(a + ",");
+//                }
+//                System.out.println("");
+//            }
+//        }
+//        System.out.println(" ");
         
         return totalPaths;
     }

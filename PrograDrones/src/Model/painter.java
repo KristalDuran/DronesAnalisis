@@ -5,8 +5,13 @@
  */
 package Model;
 
+import View.Event;
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Random;
+import javax.swing.JPanel;
 
 /**
  *
@@ -16,10 +21,8 @@ public class painter implements Runnable{
     
     
     public Thread t;
-    int processName;
     public ArrayList<Integer> coords;
     Graphics g;
-    Graphics j;
     
     int pivot;
     int xA;
@@ -27,14 +30,14 @@ public class painter implements Runnable{
     int xB;
     int yB;
     
-    int size = 4;
+    int size = 8;
     int sleep = 10;
-
-    public painter(int name,ArrayList<Integer> coords,Graphics g){
+    Random random = new Random();
+    
+    public painter(ArrayList<Integer> coords,Graphics g){
         this.coords = coords;
-        this.processName = name;
         this.g = g;
-        this.j = g;
+        this.g.setColor(Color.BLACK);
         t = new Thread(this);
         t.start();
     }
@@ -47,13 +50,15 @@ public class painter implements Runnable{
                 yA = coords.get(i + 1);
                 xB = coords.get(i + 2);
                 yB = coords.get(i + 3);
+                
                 if(Math.abs(xA - xB) >= Math.abs(yA - yB)){
                     pivot = Math.abs(xA - xB) / Math.abs(yA - yB);
+                    //pivot = Math.round(Math.abs(coords.get(i) - coords.get(i + 2)) / Math.abs(coords.get(i + 1) - coords.get(i + 3)));
                 }
                 if(Math.abs(xA - xB) <= Math.abs(yA - yB)){
                     pivot = Math.abs(yA - yB) / Math.abs(xA - xB);
+                    //pivot = Math.round(Math.abs(coords.get(i + 1) - coords.get(i + 3)) / Math.abs(coords.get(i) - coords.get(i + 2)));
                 }
-                
                 if(xA <= xB && yA <= yB){
                     if(Math.abs(xA - xB) >= Math.abs(yA - yB)){
                         // upper = 1 significa que el pivot se sacó de la diferencia de x > y
@@ -89,14 +94,12 @@ public class painter implements Runnable{
                     }  
                 }  
             }
-            Thread.currentThread().interrupt();
-            
-            
         }catch(Exception ex){
         }
         
         
     }
+    
     
     
     public void drawNorEste(int x1, int y1, int x2, int y2, int pivot, int upper){
@@ -105,9 +108,7 @@ public class painter implements Runnable{
         try{
         while(x1 <= x2 || y1 <= y2){
             Thread.sleep(sleep);
-            //g.drawOval(x2, y2, 10, 10);
-            g.clearRect(x1-1, y1, 8, 8);
-            g.fillOval(x1, y1, size, size);
+            this.g.fillOval(x1, y1, size, size);
             if(upper == 1){
                 if(x1 <= x2){
                    x1++;
@@ -142,9 +143,7 @@ public class painter implements Runnable{
         try{
         while(x1 <= x2 || y1 >= y2){
             Thread.sleep(sleep);
-            //g.drawOval(x2, y2, 10, 10);
-            g.clearRect(x1-1, y1, 8, 8);
-            g.fillOval(x1, y1, size, size);
+            this.g.fillOval(x1, y1, size, size);
             
             if(upper == 1){
                 if(x1 <= x2){
@@ -181,9 +180,7 @@ public class painter implements Runnable{
         try{
         while(x1 >= x2 || y1 <= y2){
             Thread.sleep(sleep);
-            //g.drawOval(x2, y2, 10, 10);
-            g.clearRect(x1-1, y1, 8, 8);
-            g.fillOval(x1, y1, size, size);
+            this.g.fillOval(x1, y1, size, size);
             
             if(upper == 1){
                 if(x1 >= x2){
@@ -219,9 +216,7 @@ public class painter implements Runnable{
         try{
         while(x1 >= x2 || y1 >= y2){
             Thread.sleep(sleep);
-            //g.drawOval(x2, y2, 10, 10);
-            g.clearRect(x1-1, y1, 8, 8);
-            g.fillOval(x1, y1, size, size);
+            this.g.fillOval(x1, y1, size, size);
             
             if(upper == 1){
                 if(x1 >= x2){

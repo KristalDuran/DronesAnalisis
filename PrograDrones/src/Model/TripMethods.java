@@ -132,7 +132,8 @@ public class TripMethods extends TripVariables{
         while(cantRestanteViajes > 0){
             int indiceDelViaje = (int)(Math.random()*(totalPaths.size()-1));
             Path pathPorRealizar = totalPaths.get(indiceDelViaje);
-            cantRestanteViajes -= cantDronesByIndividualTrip;
+            //cantRestanteViajes -= cantDronesByIndividualTrip;----------------------------------marca de cómo estába antes
+            cantRestanteViajes--;
 //            cantRestanteViajes -= calculateNumOfDronesBySet(); 
             //donde se define el total de distancia 
 //            int timeTotal = 0;    
