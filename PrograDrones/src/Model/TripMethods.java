@@ -28,7 +28,7 @@ import java.util.Random;
 //  
 //    private double cantDronesByIndividualTrip;
 //=======
-public class TripMethods extends TripVariables{
+public class TripMethods extends TripVariables implements IConstants{
 //    
     
     public TripMethods() {
@@ -36,28 +36,46 @@ public class TripMethods extends TripVariables{
     }
 
 //>>>>>>> 5da2cc44d5300833c068208ef1f5f79571965965
+    public void setNumberOfStations(String numberOfStations)throws Exceptions{
+        if (excetions.isNumeric(numberOfStations)) {
+            throw new Exceptions(excetions.msg(0));
+        }
+        this.numberOfStations = Integer.parseInt(numberOfStations);
+    }
+    
     public int getNumberOfTrips() {
         return numberOfTrips;
     }
 
-    public void setNumberOfTrips(int cant) {
-        this.numberOfTrips = cant;
+    public void setNumberOfTrips(String cant) throws Exceptions{
+        if (excetions.isNumeric(cant)) {
+            throw new Exceptions(excetions.msg(0));
+        }
+        this.numberOfTrips = Integer.parseInt(cant);
     }
     
      public int getPistaHeight() {
         return trackHeight;
     }
 
-    public void setPistaHeight(int pistaHeight) {
-        this.trackHeight = pistaHeight;
+    public void setPistaHeight(String trackHeight) throws Exceptions{
+        if (excetions.isNumeric(trackHeight)) {
+            throw new Exceptions(excetions.msg(0));
+        }
+        this.trackHeight = Integer.parseInt(trackHeight);
+        
     }
     
     public int getPistaWidth() {
         return trackWidth;
     }
 
-    public void setPistaWidth(int pistaWidth) {
-        this.trackWidth = pistaWidth;
+    public void setPistaWidth(String trackWidth) throws Exceptions{
+        if (excetions.isNumeric(trackWidth)) {
+            throw new Exceptions(excetions.msg(0));
+        }
+        this.trackWidth = Integer.parseInt(trackWidth);
+
     }
     
     public ArrayList<Path> getTotalPaths() {
@@ -68,16 +86,22 @@ public class TripMethods extends TripVariables{
         return timeReal;
     }
 
-    public void setTimeReal(int timeReal) {
-        this.timeReal = timeReal;
+    public void setTimeReal(String timeReal) throws Exception{
+        if (excetions.isNumeric(timeReal)) {
+            throw new Exceptions(excetions.msg(0));
+        }
+        this.timeReal = Integer.parseInt(timeReal);
     }
     
     public int getTimeProx() {
         return timeProx;
     }
     
-    public void setTimeProx(int timeProx) {
-        this.timeProx = timeProx;
+    public void setTimeProx(String timeProx) throws Exceptions{
+        if (excetions.isNumeric(timeProx)) {
+            throw new Exceptions(excetions.msg(0));
+        }
+        this.timeProx = Integer.parseInt(timeProx);
     }
     
     public int getCantDronesXPista() {
@@ -96,10 +120,10 @@ public class TripMethods extends TripVariables{
         return cantDronesByIndividualTrip;
     }
     
-    public void setCantDronesByIndividualTrip(int cantStations) {
+    public void setCantDronesByIndividualTrip(int cantStations) throws Exceptions{
         cantDronesByIndividualTrip = calculateNumOfDronesBySet()/(2*Math.pow(cantStations,2)) - (2 * cantStations);
         if(cantDronesByIndividualTrip < 1){
-            System.out.println("el tamaño de las pistas es demasiado pequeño con respecto a la cantidad de estaciones");
+            throw new Exceptions(excetions.msg(1));
         }
     }
     
@@ -125,8 +149,10 @@ public class TripMethods extends TripVariables{
         return cuantosDronesPorSet;
     }
     
-    public ArrayList<Path> calculateTrip(Node[] nodes){
+    public ArrayList<Path> calculateTrip(Node[] nodes) throws Exceptions{
+        
         setCantDronesByIndividualTrip(numberOfStations);
+        
         int cantRestanteViajes = numberOfTrips;
         
         while(cantRestanteViajes > 0){

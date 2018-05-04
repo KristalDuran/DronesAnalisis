@@ -6,6 +6,8 @@
 package Controller;
 
 
+import Model.Exceptions;
+import Model.Graph;
 import Model.GraphMethods;
 import Model.Node;
 import Model.Path;
@@ -24,6 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -46,39 +49,45 @@ public class ControllerEvent implements ActionListener{
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        
-        if (e.getSource() == event.jBBack) {
-            event.setVisible(false);
-            
-        } else if (e.getSource() == event.jBStar) {
-            createGraph();
-            tripMethods.setTotalPaths(graphMethods.setShortestPath());
-            ArrayList<Path> arr = tripMethods.calculateTrip(graphMethods.getNodes());
-            
-            if (event.jRadioDivide.isSelected()) {
-                DividAndConquer divide = new DividAndConquer();
-                divide.AirTrafficController(arr, time);
-                
-            }else{
-                if (event.jRadioProbabilistic.isSelected()) {
-                    Probabilistic probabilistic = new Probabilistic(); //arreglar
-                    ArrayList<ArrayList<Path>> result = probabilistic.AirTrafficController(arr, time);
-                    ArrayList<Integer> asd = new ArrayList();
-                    asd.add(1);
-                    asd.add(0);
-                    asd.add(120);
-                    asd.add(121);
-                    new painter(asd,event.planoCartesiano.getGraphics());
-                    drawGraphs(prepareResultToMakeTheGraphics(result));
-                    
-                }else if (event.jRadioBackTracking.isSelected()) {
-                    BackTracking back = new BackTracking();
-                    ArrayList<ArrayList<Path>> result = back.AirTrafficController(arr, time);
-                    drawGraphs(prepareResultToMakeTheGraphics(result));
+        try {
+            if (e.getSource() == event.jBBack) {
+                event.setVisible(false);
+
+            } else if (e.getSource() == event.jBStar) {
+                createGraph();
+                tripMethods.setTotalPaths(graphMethods.setShortestPath());
+                ArrayList<Path> arr = tripMethods.calculateTrip(graphMethods.getNodes());
+
+                if (event.jRadioDivide.isSelected()) {
+                    DividAndConquer divide = new DividAndConquer();
+                    divide.AirTrafficController(arr, time);
+
+                }else{
+                    if (event.jRadioProbabilistic.isSelected()) {
+                        Probabilistic probabilistic = new Probabilistic(); //arreglar
+                        ArrayList<ArrayList<Path>> result = probabilistic.AirTrafficController(arr, time);
+                        ArrayList<Integer> asd = new ArrayList();
+                        asd.add(1);
+                        asd.add(0);
+                        asd.add(120);
+                        asd.add(121);
+                        new painter(asd,event.planoCartesiano.getGraphics());
+                        drawGraphs(prepareResultToMakeTheGraphics(result));
+
+                    }else if (event.jRadioBackTracking.isSelected()) {
+                        BackTracking back = new BackTracking();
+                        ArrayList<ArrayList<Path>> result = back.AirTrafficController(arr, time);
+                        drawGraphs(prepareResultToMakeTheGraphics(result));
+                    }
                 }
+
             }
-            
+        } catch (Exceptions exception) {
+            event.setVisible(false);
+            graphMethods.setGraph(new Graph());
+            JOptionPane.showMessageDialog(null, exception.getMessage());
         }
+        
         
     }
     

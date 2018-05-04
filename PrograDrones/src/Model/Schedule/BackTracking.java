@@ -5,6 +5,7 @@
  */
 package Model.Schedule;
 
+import Model.Exceptions;
 import Model.IConstants;
 import java.util.ArrayList;
 import Model.Path;
@@ -23,7 +24,7 @@ public class BackTracking implements Schedule, IConstants{
     }
     
     @Override
-    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int time) {
+    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int time) throws Exceptions{
         this.totalPaths = totalPaths;
         this.time = time;
         lineOfTime = new ArrayList<ArrayList<Path>>(totalPaths.size());
@@ -32,7 +33,7 @@ public class BackTracking implements Schedule, IConstants{
             return lineOfTime;
         }
         System.out.println("No alcanzo el tiempo");
-        return null;
+        throw new Exceptions(excetions.msg(2));
     }
     
      /**

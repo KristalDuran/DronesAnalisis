@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -49,16 +50,23 @@ public class GraphMethods implements IConstants {
         return numberOfTracksByStation;
     }
 
-    public void setNumberOfTracksByStation(int numberOfTracksByStation) {
-        this.numberOfTracksByStation = numberOfTracksByStation;
+    public void setNumberOfTracksByStation(String numberOfTracksByStation) throws Exceptions{
+        if (excetions.isNumeric(numberOfTracksByStation)) {
+            throw new Exceptions(excetions.msg(0));
+        }
+        this.numberOfTracksByStation = Integer.parseInt(numberOfTracksByStation);
     }
     
     public int getNumberOfStations() {
+        
         return numberOfStations;
     }
 
-    public void setNumberOfStations(int numberOfStations) {
-        this.numberOfStations = numberOfStations;
+    public void setNumberOfStations(String numberOfStations) throws Exceptions {
+        if (excetions.isNumeric(numberOfStations)) {
+            throw new Exceptions(excetions.msg(0));
+        }
+        this.numberOfStations = Integer.parseInt(numberOfStations);
     }
 
     public ArrayList<Integer> getLinesToDraw() {
@@ -161,7 +169,6 @@ public class GraphMethods implements IConstants {
      * This method 
      */
     public void addGraph(){
-        
         for (int i = 0; i < nodes.length; i++) {
             graph.addNode(nodes[i]);
         }

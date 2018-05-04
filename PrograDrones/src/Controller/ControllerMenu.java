@@ -12,6 +12,7 @@ import View.Event;
 import View.Menu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Kris
@@ -31,22 +32,27 @@ public class ControllerMenu implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent ae) {
-        tripMethods = new TripMethods();
+        try {
+            tripMethods = new TripMethods();
         
-        graphMethods.setNumberOfTracksByStation(Integer.parseInt(Menu.SizePista.getText()));
-        graphMethods.setNumberOfStations(Integer.parseInt(Menu.CantStation.getText()));
+            graphMethods.setNumberOfTracksByStation((Menu.SizePista.getText()));
+            graphMethods.setNumberOfStations(Menu.CantStation.getText());
+
+            tripMethods.setNumberOfStations(Menu.CantStation.getText());
+            tripMethods.setPistaHeight(Menu.txtHeight.getText());
+            tripMethods.setPistaWidth(Menu.txtWidth.getText());
+            tripMethods.setNumberOfTrips(Menu.CantViaje.getText());
+
+            tripMethods.setTimeReal(Menu.TimeReal.getText());
+            tripMethods.setTimeProx(Menu.TimeProx.getText());
+
+            Event event = new Event();
+            graphMethods.setNodes();
+            event.fijarController(new ControllerEvent(event, graphMethods, tripMethods));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
         
-        tripMethods.numberOfStations = Integer.parseInt(Menu.CantStation.getText());
-        tripMethods.setPistaHeight(Integer.parseInt(Menu.txtHeight.getText()));
-        tripMethods.setPistaWidth(Integer.parseInt(Menu.txtWidth.getText()));
-        tripMethods.setNumberOfTrips(Integer.parseInt(Menu.CantViaje.getText()));
-        
-        tripMethods.setTimeReal(Integer.parseInt(Menu.TimeReal.getText()));
-        tripMethods.setTimeProx(Integer.parseInt(Menu.TimeProx.getText()));
-        
-        Event event = new Event();
-        graphMethods.setNodes();
-        event.fijarController(new ControllerEvent(event, graphMethods, tripMethods));
     }
     
 }
