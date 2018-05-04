@@ -38,6 +38,7 @@ public class painter implements Runnable{
         this.coords = coords;
         this.g = g;
         this.g.setColor(Color.BLACK);
+        setSleepTime();
         t = new Thread(this);
         t.start();
     }
@@ -244,6 +245,21 @@ public class painter implements Runnable{
             }
         }
         }catch(Exception ex){}   
+    }
+    
+    
+    public void setSleepTime(){
+        sleep = 0;
+        int distance = 0;
+        for(int i = 0; i < coords.size() - 3; i += 4){
+            distance = (int) (distance + Math.sqrt(Math.pow(coords.get(i) - coords.get(i + 2),2) + Math.pow(coords.get(i + 1) - coords.get(i + 3),2)));
+            System.out.print("[" + coords.get(i) + "," + coords.get(i + 1) + "]" + " " + "[" + coords.get(i + 2) + "," + coords.get(i + 3) + "]" + " distancia: " + distance);
+            System.out.println("");
+        }
+
+        sleep = (distance / 120) * 10;//km/h
+        System.out.println("distancia: " + distance);
+        System.out.println("sleep: " + sleep);
     }
     
     

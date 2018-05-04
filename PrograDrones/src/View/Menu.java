@@ -82,6 +82,7 @@ public class Menu extends javax.swing.JFrame {
 
         jLabel7.setText(" Expected time:");
 
+        CantViaje.setText("4");
         CantViaje.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CantViajeActionPerformed(evt);
@@ -104,7 +105,7 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        TimeProx.setText("2");
+        TimeProx.setText("25");
 
         jButton1.setText("STAR");
 
