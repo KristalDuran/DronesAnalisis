@@ -17,8 +17,9 @@ import Model.Schedule.DividAndConquer;
 import Model.Schedule.Probabilistic;
 import Model.TripMethods;
 import Model.TripVariables;
-import Model.hilo;
-import Model.painter;
+import Model.GraphPainter;
+import Model.Painter;
+import Model.ThreadManager;
 import View.Event;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -66,18 +67,12 @@ public class ControllerEvent implements ActionListener{
                     if (event.jRadioProbabilistic.isSelected()) {
                         Probabilistic probabilistic = new Probabilistic(); //arreglar
                         ArrayList<ArrayList<Path>> result = probabilistic.AirTrafficController(arr, time);
-                        ArrayList<Integer> asd = new ArrayList();
-                        asd.add(1);
-                        asd.add(0);
-                        asd.add(120);
-                        asd.add(121);
-                        new painter(asd,event.planoCartesiano.getGraphics());
-                        drawGraphs(prepareResultToMakeTheGraphics(result));
+                        new ThreadManager(event.planoCartesiano,prepareResultToMakeTheGraphics(result),graphMethods.getLinesToDraw(),graphMethods.getNodes());
 
                     }else if (event.jRadioBackTracking.isSelected()) {
                         BackTracking back = new BackTracking();
                         ArrayList<ArrayList<Path>> result = back.AirTrafficController(arr, time);
-                        drawGraphs(prepareResultToMakeTheGraphics(result));
+                        new ThreadManager(event.planoCartesiano,prepareResultToMakeTheGraphics(result),graphMethods.getLinesToDraw(),graphMethods.getNodes());
                     }
                 }
 
@@ -95,51 +90,40 @@ public class ControllerEvent implements ActionListener{
         ArrayList<ArrayList<Integer>> toDraw = new ArrayList();
         Path temp;
         Node node;
+        int indexInsert = 0;
         for(int i = 0; i < result.size();i++){
-                for(int j = 0; j < result.get(i).size();j++){
-                    temp = result.get(i).get(j);
-
-                    if(toDraw.size() <= j){
-                        for(int l = 0; l <= (j - toDraw.size());l++){
-                            toDraw.add(new ArrayList<Integer>());
-                        }
+            for(int j = 0; j < result.get(i).size();j++){
+                //System.out.println("j vale:" + j);
+                temp = result.get(i).get(j);
+                //System.out.println("viaje:" + temp.getPath().toString());
+                if(toDraw.size() <= indexInsert){
+                    for(int l = 0; l <= (indexInsert - toDraw.size());l++){
+                        toDraw.add(new ArrayList<Integer>());
                     }
-
-                    node = graphMethods.getGraph().getNodeByName(temp.getPath().get(0));
-                    toDraw.get(j).add(node.getX());
-                    toDraw.get(j).add(node.getY());
-
-                    for(int k = 1; k < temp.getPath().size() - 1;k++){
-                        node = graphMethods.getGraph().getNodeByName(temp.getPath().get(k));
-                        toDraw.get(j).add(node.getX());
-                        toDraw.get(j).add(node.getY());
-                        toDraw.get(j).add(node.getX());
-                        toDraw.get(j).add(node.getY());
-                    }
-
-                    node = graphMethods.getGraph().getNodeByName(temp.getPath().get(temp.getPath().size() - 1));
-                    toDraw.get(j).add(node.getX());
-                    toDraw.get(j).add(node.getY());
                 }
+                
+                node = graphMethods.getGraph().getNodeByName(temp.getPath().get(0));
+                toDraw.get(indexInsert).add(node.getX());
+                toDraw.get(indexInsert).add(node.getY());
+
+                for(int k = 1; k < temp.getPath().size() - 1;k++){
+                    node = graphMethods.getGraph().getNodeByName(temp.getPath().get(k));
+                    toDraw.get(indexInsert).add(node.getX());
+                    toDraw.get(indexInsert).add(node.getY());
+                    toDraw.get(indexInsert).add(node.getX());
+                    toDraw.get(indexInsert).add(node.getY());
+                }
+
+                node = graphMethods.getGraph().getNodeByName(temp.getPath().get(temp.getPath().size() - 1));
+                toDraw.get(indexInsert).add(node.getX());
+                toDraw.get(indexInsert).add(node.getY());
+                indexInsert++;
             }
+        }
         
         return toDraw;
     
     }
-    
-    
-    
-    public void drawGraphs(ArrayList<ArrayList<Integer>> toDraw){
-    
-        new hilo(graphMethods.getNodes(),graphMethods.getLinesToDraw(),event.planoCartesiano.getGraphics());
-        for(int i = 0; i < toDraw.size(); i++){
-            new painter(toDraw.get(i),event.planoCartesiano.getGraphics());
-        }
-              
-    
-    }
-    
-    
     
     private boolean isAllowToPlace(ArrayList<Restriction> restrictions, int toEvaluate){
         
@@ -199,10 +183,9 @@ public class ControllerEvent implements ActionListener{
             grafico.drawOval(x,y,20,20);
             String numberOfNode = "" + (nodesToDraw+1);
             grafico.drawChars(numberOfNode.toCharArray(),0, numberOfNode.toCharArray().length, x+4, y+15);
-            //guardar en un array los puntos x+10,y+10///////////////////////////////////////////////
         }
-        graphMethods.MakeGraph(graphMethods);//crea los arcos
-        drawArray(graphMethods.getLinesToDraw());//dibuja las lineas de los archos
+        graphMethods.MakeGraph(graphMethods);
+        drawArray(graphMethods.getLinesToDraw());
         //graphMethods.setCantPistas();
 //        graphMethods.setShortestPath();
     

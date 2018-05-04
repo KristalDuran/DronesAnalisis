@@ -17,7 +17,7 @@ import javax.swing.JPanel;
  *
  * @author USUARIO
  */
-public class painter implements Runnable{
+public class Painter implements Runnable{
     
     
     public Thread t;
@@ -30,15 +30,16 @@ public class painter implements Runnable{
     int xB;
     int yB;
     
-    int size = 8;
-    int sleep = 10;
-    Random random = new Random();
+    int dotSize = 10;
     
-    public painter(ArrayList<Integer> coords,Graphics g){
+    Random random = new Random();
+    int sleep = 8;
+    
+    public Painter(ArrayList<Integer> coords,Graphics g){
         this.coords = coords;
         this.g = g;
-        this.g.setColor(Color.BLACK);
-        setSleepTime();
+        Color rand = new Color(random.nextInt(255),random.nextInt(255),random.nextInt(255), 255);
+        this.g.setColor(rand);
         t = new Thread(this);
         t.start();
     }
@@ -54,15 +55,12 @@ public class painter implements Runnable{
                 
                 if(Math.abs(xA - xB) >= Math.abs(yA - yB)){
                     pivot = Math.abs(xA - xB) / Math.abs(yA - yB);
-                    //pivot = Math.round(Math.abs(coords.get(i) - coords.get(i + 2)) / Math.abs(coords.get(i + 1) - coords.get(i + 3)));
                 }
                 if(Math.abs(xA - xB) <= Math.abs(yA - yB)){
                     pivot = Math.abs(yA - yB) / Math.abs(xA - xB);
-                    //pivot = Math.round(Math.abs(coords.get(i + 1) - coords.get(i + 3)) / Math.abs(coords.get(i) - coords.get(i + 2)));
                 }
                 if(xA <= xB && yA <= yB){
                     if(Math.abs(xA - xB) >= Math.abs(yA - yB)){
-                        // upper = 1 significa que el pivot se sacó de la diferencia de x > y
                         drawNorEste(xA, yA, xB, yB , pivot, 1);
                     }
                     else{
@@ -109,7 +107,7 @@ public class painter implements Runnable{
         try{
         while(x1 <= x2 || y1 <= y2){
             Thread.sleep(sleep);
-            this.g.fillOval(x1, y1, size, size);
+            this.g.fillOval(x1, y1, dotSize, dotSize);
             if(upper == 1){
                 if(x1 <= x2){
                    x1++;
@@ -144,7 +142,7 @@ public class painter implements Runnable{
         try{
         while(x1 <= x2 || y1 >= y2){
             Thread.sleep(sleep);
-            this.g.fillOval(x1, y1, size, size);
+            this.g.fillOval(x1, y1, dotSize, dotSize);
             
             if(upper == 1){
                 if(x1 <= x2){
@@ -181,7 +179,7 @@ public class painter implements Runnable{
         try{
         while(x1 >= x2 || y1 <= y2){
             Thread.sleep(sleep);
-            this.g.fillOval(x1, y1, size, size);
+            this.g.fillOval(x1, y1, dotSize, dotSize);
             
             if(upper == 1){
                 if(x1 >= x2){
@@ -217,7 +215,7 @@ public class painter implements Runnable{
         try{
         while(x1 >= x2 || y1 >= y2){
             Thread.sleep(sleep);
-            this.g.fillOval(x1, y1, size, size);
+            this.g.fillOval(x1, y1, dotSize, dotSize);
             
             if(upper == 1){
                 if(x1 >= x2){
@@ -248,18 +246,12 @@ public class painter implements Runnable{
     }
     
     
-    public void setSleepTime(){
-        sleep = 0;
+    public void soutDistancia(){
         int distance = 0;
         for(int i = 0; i < coords.size() - 3; i += 4){
             distance = (int) (distance + Math.sqrt(Math.pow(coords.get(i) - coords.get(i + 2),2) + Math.pow(coords.get(i + 1) - coords.get(i + 3),2)));
-            System.out.print("[" + coords.get(i) + "," + coords.get(i + 1) + "]" + " " + "[" + coords.get(i + 2) + "," + coords.get(i + 3) + "]" + " distancia: " + distance);
-            System.out.println("");
         }
-
-        sleep = (distance / 120) * 10;//km/h
         System.out.println("distancia: " + distance);
-        System.out.println("sleep: " + sleep);
     }
     
     

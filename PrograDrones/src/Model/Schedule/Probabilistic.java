@@ -25,21 +25,18 @@ public class Probabilistic implements Schedule,IConstants {
         
     }
     
-    
-
-    
-    
     public ArrayList<ArrayList<Path>> CalcProbabilistic(ArrayList<Path> totalPaths, int time) {
-
         Path actual;
         int rand;
         ArrayList<ArrayList<Path>> result = new ArrayList<ArrayList<Path>>(totalPaths.size());
+        time = (time*3600)*1000; //de horas a milisegundos
+        
         while(totalPaths.size() > 0){
 
             if(totalPaths.size() == 1){
                 actual = totalPaths.get(0);
                 //90 milisegundos * offset + tiempo en llegar + 2worst time to get to te top
-                if((((actual.getOffset() + 1) * 90) + ((actual.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP)) > ((time * 3600)*1000)){
+                if((((actual.getOffset() + 1) * 90) + ((actual.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP)) > time){
                     System.out.println("no alcanzó el tiempo de simulación");
                     return null;
                 }
@@ -60,7 +57,7 @@ public class Probabilistic implements Schedule,IConstants {
                     actual = totalPaths.get(getRand.nextInt(totalPaths.size()));
                 }
                 //90 milisegundos * offset + tiempo en llegar + 2worst time to get to te top
-                if((((actual.getOffset() + 1) * 90) + ((actual.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP)) > ((time * 3600)*1000)){
+                if((((actual.getOffset() + 1) * 90) + ((actual.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP)) > time){
                     System.out.println("no alcanzo el tiempo de simulación");
                     return null;
                 }
@@ -98,9 +95,10 @@ public class Probabilistic implements Schedule,IConstants {
 
     @Override
     public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int time) throws Exceptions{
-        if (CalcProbabilistic(totalPaths,time) == null) {
+        ArrayList<ArrayList<Path>> result = CalcProbabilistic(totalPaths,time);
+        if (result == null) {
             throw new Exceptions(excetions.msg(2));
         }
-        return CalcProbabilistic(totalPaths,time);
+        return result;
     }
 }

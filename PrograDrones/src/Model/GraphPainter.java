@@ -19,7 +19,7 @@ import javax.swing.JPanel;
  *
  * @author USUARIO
  */
-public class hilo implements Runnable{
+public class GraphPainter implements Runnable{
 
     public Thread t;
     
@@ -27,7 +27,7 @@ public class hilo implements Runnable{
     ArrayList<Integer> linesToDraw;
     Graphics g;
     
-    public hilo(Node nodos[], ArrayList<Integer> linesToDraw, Graphics g){
+    public GraphPainter(Node nodos[], ArrayList<Integer> linesToDraw, Graphics g){
         this.nodos= nodos;
         this.linesToDraw = linesToDraw;
         this.g = g;
@@ -38,12 +38,12 @@ public class hilo implements Runnable{
     public void run() {
         while(true){
             try {
-                Thread.sleep(250);
+                Thread.sleep(120);
                 g.clearRect(0, 0, 2000, 2000);
                 drawNodes(g);
                 drawLines(g);
             } catch (InterruptedException ex) {
-                Logger.getLogger(hilo.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GraphPainter.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
