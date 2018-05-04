@@ -170,7 +170,7 @@ public class TripMethods extends TripVariables implements IConstants{
 //            }
             trips.add(pathPorRealizar);
         }
-        //printTrips();
+        printTrips();
         return trips;
     }
 

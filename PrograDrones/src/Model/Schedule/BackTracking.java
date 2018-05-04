@@ -32,7 +32,6 @@ public class BackTracking implements Schedule, IConstants{
             sendTrips();
             return lineOfTime;
         }
-        System.out.println("No alcanzo el tiempo");
         throw new Exceptions(excetions.msg(2));
     }
     

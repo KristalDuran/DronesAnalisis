@@ -5,6 +5,7 @@
  */
 package Model.Schedule;
 
+import Model.Exceptions;
 import Model.Path;
 import Model.IConstants;
 import Model.Schedule.Schedule;
@@ -28,7 +29,7 @@ public class Probabilistic implements Schedule,IConstants {
 
     
     
-    public ArrayList<ArrayList<Path>> CalcProbabilistic(ArrayList<Path> totalPaths, int time){
+    public ArrayList<ArrayList<Path>> CalcProbabilistic(ArrayList<Path> totalPaths, int time) {
 
         Path actual;
         int rand;
@@ -96,7 +97,10 @@ public class Probabilistic implements Schedule,IConstants {
     }
 
     @Override
-    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int time) {
+    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int time) throws Exceptions{
+        if (CalcProbabilistic(totalPaths,time) == null) {
+            throw new Exceptions(excetions.msg(2));
+        }
         return CalcProbabilistic(totalPaths,time);
     }
 }
