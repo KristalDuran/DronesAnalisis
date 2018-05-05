@@ -58,18 +58,19 @@ public class ControllerEvent implements ActionListener{
                 
                 if (event.jRadioDivide.isSelected()) {
                     DividAndConquer divide = new DividAndConquer();
-                    divide.AirTrafficController(arr, time);
+                    ArrayList<ArrayList<Path>> result = divide.AirTrafficController(arr, time);
+                    new ThreadManager(event.tripsByTheMoment,event.numberOfDronesByTheMoment,event.planoCartesiano,prepareResultToMakeTheGraphics(result),graphMethods.getLinesToDraw(),graphMethods.getNodes(),(int)tripMethods.getCantDronesByIndividualTrip(),tripMethods.getNumberOfTrips(), tripMethods.getTimeReal());
 
                 }else{
                     if (event.jRadioProbabilistic.isSelected()) {
                         Probabilistic probabilistic = new Probabilistic(); //arreglar
                         ArrayList<ArrayList<Path>> result = probabilistic.AirTrafficController(arr, time);
-                        new ThreadManager(event.planoCartesiano,prepareResultToMakeTheGraphics(result),graphMethods.getLinesToDraw(),graphMethods.getNodes());
+                        new ThreadManager(event.tripsByTheMoment,event.numberOfDronesByTheMoment,event.planoCartesiano,prepareResultToMakeTheGraphics(result),graphMethods.getLinesToDraw(),graphMethods.getNodes(),(int)tripMethods.getCantDronesByIndividualTrip(),tripMethods.getNumberOfTrips(), tripMethods.getTimeReal());
 
                     }else if (event.jRadioBackTracking.isSelected()) {
                         BackTracking back = new BackTracking();
                         ArrayList<ArrayList<Path>> result = back.AirTrafficController(arr, time);
-                        new ThreadManager(event.planoCartesiano,prepareResultToMakeTheGraphics(result),graphMethods.getLinesToDraw(),graphMethods.getNodes());
+                        new ThreadManager(event.tripsByTheMoment,event.numberOfDronesByTheMoment,event.planoCartesiano,prepareResultToMakeTheGraphics(result),graphMethods.getLinesToDraw(),graphMethods.getNodes(),(int)tripMethods.getCantDronesByIndividualTrip(),tripMethods.getNumberOfTrips(), tripMethods.getTimeReal());
                     }
                 }
 

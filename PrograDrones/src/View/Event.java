@@ -48,6 +48,9 @@ public class Event extends javax.swing.JFrame {
         jRadioBackTracking = new javax.swing.JRadioButton();
         trips = new javax.swing.JLabel();
         totalTime = new javax.swing.JLabel();
+        numberOfDronesByTheMoment = new javax.swing.JLabel();
+        tripsByTheMoment = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,7 +71,7 @@ public class Event extends javax.swing.JFrame {
         );
         planoCartesianoLayout.setVerticalGroup(
             planoCartesianoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 665, Short.MAX_VALUE)
+            .addGap(0, 661, Short.MAX_VALUE)
         );
 
         jLabel3.setText("Type of algorithm:");
@@ -83,9 +86,11 @@ public class Event extends javax.swing.JFrame {
         buttonGroup1.add(jRadioBackTracking);
         jRadioBackTracking.setText("Backtracking");
 
-        trips.setText("Trips:");
+        trips.setText("Trips sent:");
 
         totalTime.setText("Total time:");
+
+        jLabel2.setText("Count:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -100,7 +105,14 @@ public class Event extends javax.swing.JFrame {
                         .addGap(203, 203, 203)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(totalTime)
-                            .addComponent(trips))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(trips)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(tripsByTheMoment, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel2)
+                                .addGap(16, 16, 16)
+                                .addComponent(numberOfDronesByTheMoment, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
@@ -121,11 +133,18 @@ public class Event extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(trips))
-                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(trips)
+                            .addComponent(tripsByTheMoment, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(numberOfDronesByTheMoment, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel2)))
+                .addGap(18, 18, 18)
                 .addComponent(totalTime)
                 .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,12 +172,15 @@ public class Event extends javax.swing.JFrame {
     public javax.swing.JButton jBBack;
     public javax.swing.JButton jBStar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     public javax.swing.JRadioButton jRadioBackTracking;
     public javax.swing.JRadioButton jRadioDivide;
     public javax.swing.JRadioButton jRadioProbabilistic;
+    public javax.swing.JLabel numberOfDronesByTheMoment;
     public javax.swing.JPanel planoCartesiano;
     private javax.swing.JLabel totalTime;
     private javax.swing.JLabel trips;
+    public javax.swing.JLabel tripsByTheMoment;
     // End of variables declaration//GEN-END:variables
 }

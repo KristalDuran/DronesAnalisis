@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -20,26 +21,33 @@ import javax.swing.JPanel;
 public class Painter implements Runnable{
     
     
-    public Thread t;
-    public ArrayList<Integer> coords;
-    Graphics g;
+    private Thread t;
+    private ArrayList<Integer> coords;
+    private Graphics g;
     
-    int pivot;
-    int xA;
-    int yA;
-    int xB;
-    int yB;
+    private int pivot;
+    private int xA;
+    private int yA;
+    private int xB;
+    private int yB;
     
-    int dotSize = 10;
+    private int dotSize = 10;
     
-    Random random = new Random();
-    int sleep = 8;
+    private Random random = new Random();
+    private int sleep = 8;
+    private int dronesBySet;
+    private int totalDrones;
+    private JLabel numberOfDronesByNow;
     
-    public Painter(ArrayList<Integer> coords,Graphics g){
+    public Painter(ArrayList<Integer> coords,Graphics g,int hourInRealSeconds,JLabel numberOfDronesByNow,int dronesBySet,int totalDrones){
         this.coords = coords;
         this.g = g;
         Color rand = new Color(random.nextInt(255),random.nextInt(255),random.nextInt(255), 255);
         this.g.setColor(rand);
+        this.sleep = sleep * hourInRealSeconds;
+        this.numberOfDronesByNow = numberOfDronesByNow;
+        this.dronesBySet = dronesBySet;
+        this.totalDrones = totalDrones; 
         t = new Thread(this);
         t.start();
     }
@@ -93,6 +101,15 @@ public class Painter implements Runnable{
                     }  
                 }  
             }
+            int currentNumber = Integer.parseInt(numberOfDronesByNow.getText()) + dronesBySet;
+            if(currentNumber > totalDrones){
+                currentNumber = currentNumber - (currentNumber - totalDrones);
+                numberOfDronesByNow.setText(Integer.toString(currentNumber));
+            }
+            else{
+                numberOfDronesByNow.setText(Integer.toString(currentNumber));
+            }
+            
         }catch(Exception ex){
         }
         
