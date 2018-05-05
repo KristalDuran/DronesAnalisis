@@ -148,7 +148,7 @@ public class TripMethods extends TripVariables implements IConstants{
             cantRestanteViajes -= cantDronesByIndividualTrip;
             trips.add(pathPorRealizar);
         }
-        printTrips();
+        //printTrips();
         return trips;
     }
 

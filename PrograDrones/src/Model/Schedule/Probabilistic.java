@@ -44,7 +44,6 @@ public class Probabilistic implements Schedule,IConstants {
                         result.add(new ArrayList<Path>());
                     }
                 }
-                System.out.println("termina");
                 result.get(actual.getOffset()).add(actual);
                 actual.setOffset(actual.getOffset() + 1);
                 break;

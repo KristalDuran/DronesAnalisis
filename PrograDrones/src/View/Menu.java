@@ -107,7 +107,7 @@ public class Menu extends javax.swing.JFrame {
 
         TimeProx.setText("25");
 
-        jButton1.setText("STAR");
+        jButton1.setText("START");
 
         jLabel8.setText("Height:");
 
@@ -149,7 +149,7 @@ public class Menu extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(171, 171, 171)
                                 .addComponent(jButton1)
-                                .addGap(127, 161, Short.MAX_VALUE))
+                                .addGap(127, 155, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel10)
