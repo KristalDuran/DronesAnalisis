@@ -11,9 +11,9 @@ package Model;
  */
 public class Exceptions extends Exception{
     
-    private String[] arrayExceptions = {"Se ha ingresado un dato que no es numérico",
-                                        "El tamaño de las pistas es demasiado pequeño con respecto a la cantidad de estaciones",
-                                        "No es posible enviar la cantidad de drones solicitados en el tiempo asignado"};
+    private String[] arrayExceptions = {"A data that is not numeric has been entered",
+                                        "The size of the tracks is too small with respect to the number of stations",
+                                        "It is not possible to send the requested number of drones in the allotted time"};
     private int numberException;
     
     public Exceptions(int numExcpetion) {
