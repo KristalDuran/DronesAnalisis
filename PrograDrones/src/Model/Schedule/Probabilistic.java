@@ -19,7 +19,7 @@ import java.util.Random;
  */
 public class Probabilistic implements Schedule,IConstants {
 
-    Random getRand = new Random();
+    private Random getRand = new Random();
     
     public Probabilistic(){
         
@@ -44,7 +44,6 @@ public class Probabilistic implements Schedule,IConstants {
                         result.add(new ArrayList<Path>());
                     }
                 }
-                System.out.println("termina");
                 result.get(actual.getOffset()).add(actual);
                 actual.setOffset(actual.getOffset() + 1);
                 break;
