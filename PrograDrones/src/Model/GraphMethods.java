@@ -53,9 +53,9 @@ public class GraphMethods implements IConstants {
         return numberOfTracksByStation;
     }
 
-    public void setNumberOfTracksByStation(String numberOfTracksByStation) throws ownException{
+    public void setNumberOfTracksByStation(String numberOfTracksByStation) throws OwnException{
         if (excetions.isNumeric(numberOfTracksByStation)) {
-            throw new ownException(excetions.msg(0));
+            throw new OwnException(excetions.msg(0));
         }
         this.numberOfTracksByStation = Integer.parseInt(numberOfTracksByStation);
     }
@@ -65,9 +65,9 @@ public class GraphMethods implements IConstants {
         return numberOfStations;
     }
 
-    public void setNumberOfStations(String numberOfStations) throws ownException {
+    public void setNumberOfStations(String numberOfStations) throws OwnException {
         if (excetions.isNumeric(numberOfStations)) {
-            throw new ownException(excetions.msg(0));
+            throw new OwnException(excetions.msg(0));
         }
         this.numberOfStations = Integer.parseInt(numberOfStations);
     }

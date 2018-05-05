@@ -5,7 +5,7 @@
  */
 package Model.Schedule;
 
-import Model.ownException;
+import Model.OwnException;
 import Model.Path;
 import Model.IConstants;
 import Model.Schedule.Schedule;
@@ -77,10 +77,10 @@ public class Probabilistic implements Schedule,IConstants {
     
 
     @Override
-    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int time) throws ownException{
+    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int time) throws OwnException{
         ArrayList<ArrayList<Path>> result = CalcProbabilistic(totalPaths,time);
         if (result == null) {
-            throw new ownException(excetions.msg(2));
+            throw new OwnException(excetions.msg(2));
         }
         return result;
     }
