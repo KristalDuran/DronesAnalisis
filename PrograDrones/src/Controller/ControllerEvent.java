@@ -68,6 +68,7 @@ public class ControllerEvent implements ActionListener{
                     new ThreadManager(event.tripsByTheMoment,event.numberOfDronesByTheMoment,event.planoCartesiano,prepareResultToMakeTheGraphics(result),graphMethods.getLinesToDraw(),graphMethods.getNodes(),(int)tripMethods.getCantDronesByIndividualTrip(),tripMethods.getNumberOfTrips(), tripMethods.getTimeReal());
                     event.leftoverTime.setText(Integer.toString(tripMethods.getTimeRemaining(result, time)));
                     event.fitTrips.setText(Double.toString(DURACION_MS));
+                    event.record.setText(tripMethods.soutResult(result));
                     
                 }else{
                     if (event.jRadioProbabilistic.isSelected()) {
@@ -80,6 +81,7 @@ public class ControllerEvent implements ActionListener{
                         new ThreadManager(event.tripsByTheMoment,event.numberOfDronesByTheMoment,event.planoCartesiano,prepareResultToMakeTheGraphics(result),graphMethods.getLinesToDraw(),graphMethods.getNodes(),(int)tripMethods.getCantDronesByIndividualTrip(),tripMethods.getNumberOfTrips(), tripMethods.getTimeReal());
                         event.leftoverTime.setText(Integer.toString(tripMethods.getTimeRemaining(result, time)));
                         event.fitTrips.setText(Double.toString(DURACION_MS));
+                        event.record.setText(tripMethods.soutResult(result));
 
                     }else if (event.jRadioBackTracking.isSelected()) {
                         BackTracking back = new BackTracking();
@@ -91,6 +93,7 @@ public class ControllerEvent implements ActionListener{
                         new ThreadManager(event.tripsByTheMoment,event.numberOfDronesByTheMoment,event.planoCartesiano,prepareResultToMakeTheGraphics(result),graphMethods.getLinesToDraw(),graphMethods.getNodes(),(int)tripMethods.getCantDronesByIndividualTrip(),tripMethods.getNumberOfTrips(), tripMethods.getTimeReal());
                         event.leftoverTime.setText(Integer.toString(tripMethods.getTimeRemaining(result, time)));
                         event.fitTrips.setText(Double.toString(DURACION_MS));
+                        event.record.setText(tripMethods.soutResult(result));
                     }
                 }
 

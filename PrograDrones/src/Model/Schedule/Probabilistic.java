@@ -69,26 +69,12 @@ public class Probabilistic implements Schedule,IConstants {
             }    
         }
         
-        soutResult(result);
         return result;
         
     }
     
     
-    public void soutResult(ArrayList<ArrayList<Path>> result){
-        Path a;
-        
-        for(int i = 0; i < result.size();i++){
-            System.out.println("Tiempo: " + i + " salen");
-            for(int j = 0; j < result.get(i).size();j++){
-                a = result.get(i).get(j);
-                System.out.println(a.getPath().toString());
-            }
-        }
-        
-        
-        
-    }
+    
 
     @Override
     public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int time) throws OwnException{
