@@ -34,5 +34,5 @@ public class TripVariables {
     public int timeProx;
     public int cantDronesXPista;
   
-    public double cantDronesByIndividualTrip;
+    public int cantDronesByIndividualTrip;
 }

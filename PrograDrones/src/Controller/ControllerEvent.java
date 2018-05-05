@@ -58,7 +58,7 @@ public class ControllerEvent implements ActionListener{
                 createGraph();
                 tripMethods.setTotalPaths(graphMethods.setShortestPath());
                 ArrayList<Path> arr = tripMethods.calculateTrip(graphMethods.getNodes());
-
+                
                 if (event.jRadioDivide.isSelected()) {
                     DividAndConquer divide = new DividAndConquer();
                     divide.AirTrafficController(arr, time);
@@ -91,13 +91,13 @@ public class ControllerEvent implements ActionListener{
         Path temp;
         Node node;
         int indexInsert = 0;
-        for(int i = 0; i < result.size();i++){
-            for(int j = 0; j < result.get(i).size();j++){
+        for(int getIOfPath = 0; getIOfPath < result.size();getIOfPath++){
+            for(int getJOfPath = 0; getJOfPath < result.get(getIOfPath).size();getJOfPath++){
                 //System.out.println("j vale:" + j);
-                temp = result.get(i).get(j);
+                temp = result.get(getIOfPath).get(getJOfPath);
                 //System.out.println("viaje:" + temp.getPath().toString());
                 if(toDraw.size() <= indexInsert){
-                    for(int l = 0; l <= (indexInsert - toDraw.size());l++){
+                    for(int resize = 0; resize <= (indexInsert - toDraw.size());resize++){
                         toDraw.add(new ArrayList<Integer>());
                     }
                 }
@@ -106,8 +106,8 @@ public class ControllerEvent implements ActionListener{
                 toDraw.get(indexInsert).add(node.getX());
                 toDraw.get(indexInsert).add(node.getY());
 
-                for(int k = 1; k < temp.getPath().size() - 1;k++){
-                    node = graphMethods.getGraph().getNodeByName(temp.getPath().get(k));
+                for(int getCoordsOfJumps = 1; getCoordsOfJumps < temp.getPath().size() - 1;getCoordsOfJumps++){
+                    node = graphMethods.getGraph().getNodeByName(temp.getPath().get(getCoordsOfJumps));
                     toDraw.get(indexInsert).add(node.getX());
                     toDraw.get(indexInsert).add(node.getY());
                     toDraw.get(indexInsert).add(node.getX());
@@ -179,15 +179,12 @@ public class ControllerEvent implements ActionListener{
             restrictionsY.add(new Restriction(y-30,y+30));
             
             graphMethods.MakeStation(nodesToDraw+1, x, y);
-            //nodesToDraw+1 para no iniciar en 0
             grafico.drawOval(x,y,20,20);
             String numberOfNode = "" + (nodesToDraw+1);
             grafico.drawChars(numberOfNode.toCharArray(),0, numberOfNode.toCharArray().length, x+4, y+15);
         }
         graphMethods.MakeGraph(graphMethods);
         drawArray(graphMethods.getLinesToDraw());
-        //graphMethods.setCantPistas();
-//        graphMethods.setShortestPath();
     
     }
     

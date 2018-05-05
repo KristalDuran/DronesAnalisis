@@ -13,21 +13,7 @@ import java.util.Random;
  *
  * @author Kris
  */
-//<<<<<<< HEAD
-//public class TripMethods {
-//    private int numberOfTrips;
-//    private int trackHeight;
-//    private int trackWidth;
-//    private ArrayList<Path> totalPaths;
-//    
-//    private ArrayList<Path> trips = new ArrayList<>();
-//    
-//    private int timeReal;
-//    private int timeProx;
-//    private int cantDronesXPista;
-//  
-//    private double cantDronesByIndividualTrip;
-//=======
+
 public class TripMethods extends TripVariables implements IConstants{
 //    
     
@@ -35,7 +21,6 @@ public class TripMethods extends TripVariables implements IConstants{
         super();
     }
 
-//>>>>>>> 5da2cc44d5300833c068208ef1f5f79571965965
     public void setNumberOfStations(String numberOfStations)throws Exceptions{
         if (excetions.isNumeric(numberOfStations)) {
             throw new Exceptions(excetions.msg(0));
@@ -121,7 +106,8 @@ public class TripMethods extends TripVariables implements IConstants{
     }
     
     public void setCantDronesByIndividualTrip(int cantStations) throws Exceptions{
-        cantDronesByIndividualTrip = calculateNumOfDronesBySet()/(2*Math.pow(cantStations,2)) - (2 * cantStations);
+        cantDronesByIndividualTrip = (int)(calculateNumOfDronesBySet()/(2*Math.pow(cantStations,2)) - (2 * cantStations));
+        System.out.println("cantidad de drones por viaje son:" + cantDronesByIndividualTrip);
         if(cantDronesByIndividualTrip < 1){
             throw new Exceptions(excetions.msg(1));
         }
@@ -159,16 +145,7 @@ public class TripMethods extends TripVariables implements IConstants{
         while(cantRestanteViajes > 0){
             int indiceDelViaje = rand.nextInt(totalPaths.size());
             Path pathPorRealizar = totalPaths.get(indiceDelViaje);
-            cantRestanteViajes -= cantDronesByIndividualTrip;//----------------------------------marca de cómo estába antes
-            //cantRestanteViajes--;
-//            cantRestanteViajes -= calculateNumOfDronesBySet(); 
-            //donde se define el total de distancia 
-//            int timeTotal = 0;    
-//            for (int stacion = 0; stacion < pathPorRealizar.getPath().size()-1; stacion++) {
-//                int stationActual = pathPorRealizar.getPath().get(stacion);
-//                int stationSiguietne= pathPorRealizar.getPath().get(stacion+1);
-//                                    
-//            }
+            cantRestanteViajes -= cantDronesByIndividualTrip;
             trips.add(pathPorRealizar);
         }
         printTrips();
