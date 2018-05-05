@@ -189,11 +189,9 @@ public class TripMethods extends TripVariables implements IConstants{
         Path a;
         String toPaste = "";
         for(int i = 0; i < result.size();i++){
-            System.out.println("Tiempo: " + i + " salen");
             toPaste = toPaste + "Tiempo: " + i + " salen" + "\n";
             for(int j = 0; j < result.get(i).size();j++){
                 a = result.get(i).get(j);
-                System.out.println(a.getPath().toString());
                 toPaste = toPaste + a.getPath().toString() + "\n";
             }
         }

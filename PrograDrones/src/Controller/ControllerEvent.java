@@ -65,10 +65,7 @@ public class ControllerEvent implements ActionListener{
                     ArrayList<ArrayList<Path>> result = divide.AirTrafficController(arr, time);
                     long DURACION_MS = System.currentTimeMillis() - INICIO_MS;
                     
-                    new ThreadManager(event.tripsByTheMoment,event.numberOfDronesByTheMoment,event.planoCartesiano,prepareResultToMakeTheGraphics(result),graphMethods.getLinesToDraw(),graphMethods.getNodes(),(int)tripMethods.getCantDronesByIndividualTrip(),tripMethods.getNumberOfTrips(), tripMethods.getTimeReal());
-                    event.leftoverTime.setText(Integer.toString(tripMethods.getTimeRemaining(result, time)));
-                    event.fitTrips.setText(Double.toString(DURACION_MS));
-                    event.record.setText(tripMethods.soutResult(result));
+                    setValuesInView(result, DURACION_MS);
                     
                 }else{
                     if (event.jRadioProbabilistic.isSelected()) {
@@ -78,10 +75,7 @@ public class ControllerEvent implements ActionListener{
                         ArrayList<ArrayList<Path>> result = probabilistic.AirTrafficController(arr, time);
                         long DURACION_MS = System.currentTimeMillis() - INICIO_MS;
                         
-                        new ThreadManager(event.tripsByTheMoment,event.numberOfDronesByTheMoment,event.planoCartesiano,prepareResultToMakeTheGraphics(result),graphMethods.getLinesToDraw(),graphMethods.getNodes(),(int)tripMethods.getCantDronesByIndividualTrip(),tripMethods.getNumberOfTrips(), tripMethods.getTimeReal());
-                        event.leftoverTime.setText(Integer.toString(tripMethods.getTimeRemaining(result, time)));
-                        event.fitTrips.setText(Double.toString(DURACION_MS));
-                        event.record.setText(tripMethods.soutResult(result));
+                        setValuesInView(result, DURACION_MS);
 
                     }else if (event.jRadioBackTracking.isSelected()) {
                         BackTracking back = new BackTracking();
@@ -89,11 +83,8 @@ public class ControllerEvent implements ActionListener{
                         long INICIO_MS = System.currentTimeMillis();
                         ArrayList<ArrayList<Path>> result = back.AirTrafficController(arr, time);
                         long DURACION_MS = System.currentTimeMillis() - INICIO_MS;
-
-                        new ThreadManager(event.tripsByTheMoment,event.numberOfDronesByTheMoment,event.planoCartesiano,prepareResultToMakeTheGraphics(result),graphMethods.getLinesToDraw(),graphMethods.getNodes(),(int)tripMethods.getCantDronesByIndividualTrip(),tripMethods.getNumberOfTrips(), tripMethods.getTimeReal());
-                        event.leftoverTime.setText(Integer.toString(tripMethods.getTimeRemaining(result, time)));
-                        event.fitTrips.setText(Double.toString(DURACION_MS));
-                        event.record.setText(tripMethods.soutResult(result));
+                        setValuesInView(result, DURACION_MS);
+                        
                     }
                 }
 
@@ -106,6 +97,16 @@ public class ControllerEvent implements ActionListener{
         
         
     }
+    
+    public void setValuesInView(ArrayList<ArrayList<Path>> result, long DURACION_MS){
+        
+        new ThreadManager(event.tripsByTheMoment,event.numberOfDronesByTheMoment,event.planoCartesiano,prepareResultToMakeTheGraphics(result),graphMethods.getLinesToDraw(),graphMethods.getNodes(),(int)tripMethods.getCantDronesByIndividualTrip(),tripMethods.getNumberOfTrips(), tripMethods.getTimeReal());
+        event.leftoverTime.setText(Integer.toString(tripMethods.getTimeRemaining(result, time)));
+        event.fitTrips.setText(Double.toString(DURACION_MS));
+        event.record.setText("Drones por set: " + (int)tripMethods.getCantDronesByIndividualTrip() + "\n" + tripMethods.soutResult(result));
+    
+    }
+    
     
     public ArrayList<ArrayList<Integer>> prepareResultToMakeTheGraphics(ArrayList<ArrayList<Path>> result){
         ArrayList<ArrayList<Integer>> toDraw = new ArrayList();
