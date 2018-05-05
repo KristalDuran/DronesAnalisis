@@ -1,7 +1,7 @@
 
 package Model.Schedule;
 
-import Model.Exceptions;
+import Model.ownException;
 import Model.IConstants;
 import static Model.IConstants.WORSE_TIME_TO_GET_TO_THE_TOP;
 import Model.Path;
@@ -21,7 +21,7 @@ public class DividAndConquer implements Schedule, IConstants{
     
     
     @Override
-    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int timeExpected )throws Exceptions{
+    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int timeExpected )throws ownException{
         
         divide(totalPaths, 0, totalPaths.size()-1, 0);
         
@@ -30,8 +30,12 @@ public class DividAndConquer implements Schedule, IConstants{
             tripsSlots.get(totalPaths.get(totalPaths.size()/2).getOffset()).add(totalPaths.get(totalPaths.size()/2));
         }
         
+        if (totalPaths.size() <= 1) {
+            tripsSlots.add(totalPaths );
+        }
+        
         if (timeTotal > ((timeExpected * 3600)*1000)) {   
-            throw new Exceptions(excetions.msg(2));
+            throw new ownException(excetions.msg(2));
         }
         
         return tripsSlots;

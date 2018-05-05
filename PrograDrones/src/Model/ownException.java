@@ -1,27 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Model;
 
 /**
- *
+ * This clase extends of Exception 
  * @author Kris
  */
-public class Exceptions extends Exception{
+public class ownException extends Exception{
     
     private String[] arrayExceptions = {"A data that is not numeric has been entered",
                                         "The size of the tracks is too small with respect to the number of stations",
                                         "It is not possible to send the requested number of drones in the allotted time"};
     private int numberException;
     
-    public Exceptions(int numExcpetion) {
+    public ownException(int numExcpetion) {
         String message = msg(numExcpetion);
         
     }
     
-    public Exceptions(String msg){
+    public ownException(String msg){
         super(msg);
     }
     

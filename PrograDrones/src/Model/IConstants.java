@@ -13,5 +13,5 @@ public interface IConstants {
     public final static int SPEED = 120; //velocidad
     public final static int MILLISECOND = 1000;
     public final static double  WORSE_TIME_TO_GET_TO_THE_TOP = (double)(3.997/(double)SPEED)*3600000;
-    public final static Exceptions excetions = new Exceptions(0);
+    public final static ownException excetions = new ownException(0);
 }
