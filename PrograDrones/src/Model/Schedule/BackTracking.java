@@ -15,9 +15,10 @@ import Model.Path;
  */
 public class BackTracking implements Schedule, IConstants{
     
-    ArrayList<Path> totalPaths;
-    ArrayList<ArrayList<Path>> lineOfTime;
-    int time;
+    private ArrayList<Path> totalPaths;
+    private ArrayList<ArrayList<Path>> lineOfTime;
+    private int time;
+    private int timeTotal = 0;
     
     public BackTracking() {
         
@@ -82,22 +83,25 @@ public class BackTracking implements Schedule, IConstants{
         }
         
         if (lineOfTime.size()-1 < index) {
-//            System.out.println("c " + (index - lineOfTime.size()));
 //            for (int i = 0; i <= index - lineOfTime.size(); i++) {
                 lineOfTime.add(new ArrayList<>());
 //            }
-            
         }
         
         lineOfTime.get(index).add(path);  
         path.setOffset(path.getOffset()+1);
         return true;        
     }
-    int timeTotal = 0;
-    //creo que esta mal, probar bien 
+    
+    /**
+     * This method 
+     * @param path
+     * @param timeExpected
+     * @return 
+     */ 
     public boolean validarTime( Path path, int timeExpected){
         
-        if (path.getOffset() == 0) {
+        if (path.getOffset() == 1) {
             timeTotal += (((path.getOffset()) * 90) + ((path.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP));
         }else{
             timeTotal += 90; // ese tiempo que dura subiendose el mismo creo que esta mal

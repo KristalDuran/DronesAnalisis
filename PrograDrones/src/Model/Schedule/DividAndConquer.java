@@ -6,6 +6,8 @@
 package Model.Schedule;
 
 import Model.Exceptions;
+import Model.IConstants;
+import static Model.IConstants.WORSE_TIME_TO_GET_TO_THE_TOP;
 import Model.Path;
 import java.util.ArrayList;
 
@@ -13,48 +15,56 @@ import java.util.ArrayList;
  *
  * @author Kris
  */
-public class DividAndConquer implements Schedule{
-ArrayList<ArrayList<Path>> tripsSlots = new ArrayList<ArrayList<Path>>();
+public class DividAndConquer implements Schedule, IConstants{
+    private ArrayList<ArrayList<Path>> tripsSlots = new ArrayList<ArrayList<Path>>();
+    private int timeTotal = 0;
+    
     @Override
-    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int time) throws Exceptions{
+    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int timeExpected )throws Exceptions{
 
-        divide(totalPaths, 0, totalPaths.size()-1);
-        for (int i = 0; i < tripsSlots.size(); i++) {
-            for (int j = 0; j < tripsSlots.get(i).size(); j++) {
-                System.out.println("Viaje en tiempo: " + i);
-                for (int k = 0; k < tripsSlots.get(i).get(j).getPath().size(); k++) {
-                    System.out.println(tripsSlots.get(i).get(j).getPath().get(k) + " ");
-                }
-            }
+
+        divide(totalPaths, 0, totalPaths.size()-1, 0);
+        if (totalPaths.size()%2 != 0) {
+            addTime(totalPaths.get(totalPaths.size()/2));
+            tripsSlots.get(totalPaths.get(totalPaths.size()/2).getOffset()).add(totalPaths.get(totalPaths.size()/2));
+
         }
+        
+        if (timeTotal > ((timeExpected * 3600)*1000)) {
+            
+            throw new Exceptions(excetions.msg(2));
+        }
+        
         return tripsSlots;
     }
 
-    public ArrayList<ArrayList<Path>> divide(ArrayList<Path> trips, int low, int high){
+    public ArrayList<ArrayList<Path>> divide(ArrayList<Path> trips, int low, int high, int cont){
         if (low < high){
             
             int middle = (low + high) /2;
-            
-            if(Math.abs(low - high) == 1){
-                unir(trips,low,middle,high);
-                return null;
-            }
-            
-            divide(trips, low, middle);
 
-            divide(trips, middle+1, high);
+            divide(trips, low, middle,cont );
 
-            //unir(trips, low, middle, high);
+            divide(trips, middle+1, high, cont );
+
+            unir(trips, low, middle, high, cont);
         }
         
         return null;
     }
     
-    public void unir(ArrayList<Path> arr, int low, int middle, int high){
-
+    public void unir(ArrayList<Path> arr, int low, int middle, int high, int cont){
+        
+        
         Path[] helper = new Path[arr.size()];
 	for (int i = low; i <= high; i++) {
-		helper[i] = arr.get(i);
+            helper[i] = arr.get(i);
+            
+            if (helper[i].getOffset() > 0 ) {
+                restTime(helper[i]);
+                tripsSlots.get(arr.get(i).getOffset()-1).remove(arr.get(i));
+                arr.get(i).setOffset(arr.get(i).getOffset()-1);
+            }            
 	}
        
         if (tripsSlots.size() <= high) {
@@ -68,58 +78,43 @@ ArrayList<ArrayList<Path>> tripsSlots = new ArrayList<ArrayList<Path>>();
 	int current = low;
 	
 	while (helperLeft <= middle && helperRight <= high) {
-            if (!tripsSlots.get(arr.get(helperLeft).getOffset()).contains(arr.get(helperLeft))) {
-                tripsSlots.get(arr.get(helperLeft).getOffset()).add(arr.get(helperLeft));
-                arr.get(helperLeft).setOffset(arr.get(helperLeft).getOffset()+1);
-//                    arr.remove(arr.get(helperLeft));
-                System.out.println("i Agrego el path: " );
-                for (int n = 0; n < arr.get(helperLeft).getPath().size(); n++) {
-                    System.out.print(arr.get(helperLeft).getPath().get(n) + " ");
-                }
-                System.out.println("en la pocision " + arr.get(helperLeft).getOffset()+"\n");
+
+//            if (!tripsSlots.get(helper[helperLeft].getOffset()).contains(helper[helperLeft])) {
+                tripsSlots.get(helper[helperLeft].getOffset()).add(helper[helperLeft]);
+                helper[helperLeft].setOffset(helper[helperLeft].getOffset()+1);
+                addTime(helper[helperLeft]);
                 helperLeft++;
-            }
+
+//            }
             
-            if (!tripsSlots.get(arr.get(helperRight).getOffset()).contains(arr.get(helperRight))) {
-                tripsSlots.get(arr.get(helperRight).getOffset()).add(arr.get(helperRight));
-                arr.get(helperRight).setOffset(arr.get(helperRight).getOffset()+1);
-//                    arr.remove(arr.get(helperRight));
-                System.out.println("j Agrego el path: " );
-                for (int n = 0; n < arr.get(helperRight).getPath().size(); n++) {
-                    System.out.print(arr.get(helperRight).getPath().get(n) + " ");
-                }
-                System.out.println("en la pocision " + arr.get(helperRight).getOffset()+"\n");
+//            if (!tripsSlots.get(helper[helperRight].getOffset()).contains(helper[helperRight])) {
+                tripsSlots.get(helper[helperRight].getOffset()).add(helper[helperRight]);
+                helper[helperRight].setOffset(helper[helperRight].getOffset()+1);
+                addTime(helper[helperRight]);
                 helperRight++;
-            }
+
+//            }
             current ++;
-//            }
-
-
-            
-            //helper[helperLeft].equals(helper[helperRight].getOffset())
-//            if(helper[helperLeft].getOffset() <= helper[helperRight].getOffset()){
-//                arr.remove(helper[helperLeft]);
-//                    arr.add(current, helper[helperLeft]);
-//                    
-////			array[current] = helper[helperLeft];
-//                    helperLeft++;
-//
-//            }else{
-//                arr.remove(helper[helperRight]);
-//                    arr.add(current, helper[helperRight]);
-////			array[current] = helper[helperRight];
-//                    helperRight++;
-//            }
-//            current ++;		
+		
 	}
 	
-//	int remaining = middle - helperLeft;
-//	for (int i = 0; i <= remaining; i++) {
-//            arr.add(current+1, helper[helperLeft+ i]);
-////		array[current+i] = helper[helperLeft+ i];
-//	} 
-    }
  
+        
+    }
+    
+    public void addTime(Path path){
+        if (path.getOffset() == 1) {
+            timeTotal += (((path.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP));
+        }else
+            timeTotal += 90;   //----------------------------------------lo que dura subiendose
+    }
+    
+    public void restTime(Path path){
+        if (path.getOffset() == 1) {
+            timeTotal -= (((path.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP));
+        }else
+            timeTotal -= 90;   //----------------------------------------lo que dura subiendose
+    }
 
     
 }
