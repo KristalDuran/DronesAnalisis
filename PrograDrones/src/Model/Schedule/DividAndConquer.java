@@ -112,9 +112,7 @@ ArrayList<ArrayList<Path>> tripsSlots = new ArrayList<ArrayList<Path>>();
 //	for (int i = 0; i <= remaining; i++) {
 //            arr.add(current+1, helper[helperLeft+ i]);
 ////		array[current+i] = helper[helperLeft+ i];
-//	}
-//    
- 
+//	} 
     }
  
 

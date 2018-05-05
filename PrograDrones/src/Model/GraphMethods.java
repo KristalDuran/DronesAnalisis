@@ -15,16 +15,19 @@ import java.util.Set;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Kris
+ * This class manipulate the graph
+ * @author Jose and Kristal
  */
 public class GraphMethods implements IConstants {
     
+    //it is an accountant
     private int idTrip = 0;
     
+    //the user defines these variables
     private int numberOfTracksByStation;
     private int numberOfStations;
     
+    //these arrays are required to make a graph and have all the nodes, and finally to print the graph
     Graph graph = new Graph();
     ArrayList<Integer> linesToDraw = new ArrayList();
     Node[] nodes;
@@ -102,7 +105,6 @@ public class GraphMethods implements IConstants {
         
         Node create = new Node(name, x, y);
         nodes[(name.intValue()-1)] = create;
-        //arrayNode.add(create);
     }
     
     /**
@@ -110,8 +112,7 @@ public class GraphMethods implements IConstants {
      * @param graph 
      */
     public void MakeGraph(GraphMethods graph){        
-        //elegir aleatoriamente el que no tenga arco, si todos tienen, elegir los mas cercanos 
-//        graph.mergesort(graph.getNodes(), 0, graph.getNodes().length);
+
         linesToDraw.clear();
         ArrayList<Integer> arrayList = new ArrayList<>();
         for (int subNode = 0; subNode < graph.getNodes().length; subNode++) {
@@ -166,7 +167,7 @@ public class GraphMethods implements IConstants {
     }
     
     /**
-     * This method 
+     * This method add all node to the graph 
      */
     public void addGraph(){
         for (int i = 0; i < nodes.length; i++) {
@@ -174,6 +175,12 @@ public class GraphMethods implements IConstants {
         }
     }
     
+    /**
+     * This method define which is the nearest node
+     * @param graph
+     * @param currentNode
+     * @return Node
+     */
     public Node defineBestNode(GraphMethods graph, int currentNode){
         
         Node currentNod = nodes[currentNode];
@@ -188,17 +195,19 @@ public class GraphMethods implements IConstants {
                 
         for (i = 0; i < nodes.length; i++) {
             if (i != currentNode) {
-//                System.out.println("Definir Mayor: " + defineDistance(currentNod, bestNode) + " Menor: " + defineDistance(currentNod, nodes[i]));
-                if (defineDistance(currentNod, nodes[i]) < defineDistance(currentNod, bestNode)) {                    
+              if (defineDistance(currentNod, nodes[i]) < defineDistance(currentNod, bestNode)) {                    
                     bestNode = nodes[i];
                 }
             }
         }
-//        System.out.println("Eleccion " + defineDistance(currentNod, bestNode));
         return bestNode;
         
     }
-    
+    /**
+     * This method define what the adjacent node will be
+     * @param graph
+     * @param currentNode 
+     */
     public void defineTheClosets(GraphMethods graph, int currentNode){
         Node destineNode = defineBestNode(graph,currentNode);
         int distancia = defineDistance(graph.getNodes()[currentNode], destineNode);
