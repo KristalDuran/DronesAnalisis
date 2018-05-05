@@ -21,7 +21,7 @@ ArrayList<ArrayList<Path>> tripsSlots = new ArrayList<ArrayList<Path>>();
         divide(totalPaths, 0, totalPaths.size()-1);
         for (int i = 0; i < tripsSlots.size(); i++) {
             for (int j = 0; j < tripsSlots.get(i).size(); j++) {
-                System.out.println("Viaje: ");
+                System.out.println("Viaje en tiempo: " + i);
                 for (int k = 0; k < tripsSlots.get(i).get(j).getPath().size(); k++) {
                     System.out.println(tripsSlots.get(i).get(j).getPath().get(k) + " ");
                 }
@@ -32,14 +32,19 @@ ArrayList<ArrayList<Path>> tripsSlots = new ArrayList<ArrayList<Path>>();
 
     public ArrayList<ArrayList<Path>> divide(ArrayList<Path> trips, int low, int high){
         if (low < high){
-
-            int middle = (low+ high) /2;
-
+            
+            int middle = (low + high) /2;
+            
+            if(Math.abs(low - high) == 1){
+                unir(trips,low,middle,high);
+                return null;
+            }
+            
             divide(trips, low, middle);
 
             divide(trips, middle+1, high);
 
-            unir(trips, low, middle, high);
+            //unir(trips, low, middle, high);
         }
         
         return null;
@@ -59,10 +64,10 @@ ArrayList<ArrayList<Path>> tripsSlots = new ArrayList<ArrayList<Path>>();
         }
         
         int helperLeft = low;
-	int helperRight = middle+1;
+	int helperRight = middle + 1;
 	int current = low;
 	
-	while (helperLeft <= middle && helperRight <=high) {
+	while (helperLeft <= middle && helperRight <= high) {
             if (!tripsSlots.get(arr.get(helperLeft).getOffset()).contains(arr.get(helperLeft))) {
                 tripsSlots.get(arr.get(helperLeft).getOffset()).add(arr.get(helperLeft));
                 arr.get(helperLeft).setOffset(arr.get(helperLeft).getOffset()+1);
@@ -74,7 +79,7 @@ ArrayList<ArrayList<Path>> tripsSlots = new ArrayList<ArrayList<Path>>();
                 System.out.println("en la pocision " + arr.get(helperLeft).getOffset()+"\n");
                 helperLeft++;
             }
-
+            
             if (!tripsSlots.get(arr.get(helperRight).getOffset()).contains(arr.get(helperRight))) {
                 tripsSlots.get(arr.get(helperRight).getOffset()).add(arr.get(helperRight));
                 arr.get(helperRight).setOffset(arr.get(helperRight).getOffset()+1);
