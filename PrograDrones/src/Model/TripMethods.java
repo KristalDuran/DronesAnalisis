@@ -21,9 +21,9 @@ public class TripMethods extends TripVariables implements IConstants{
         super();
     }
 
-    public void setNumberOfStations(String numberOfStations)throws Exceptions{
+    public void setNumberOfStations(String numberOfStations)throws ownException{
         if (excetions.isNumeric(numberOfStations)) {
-            throw new Exceptions(excetions.msg(0));
+            throw new ownException(excetions.msg(0));
         }
         this.numberOfStations = Integer.parseInt(numberOfStations);
     }
@@ -32,9 +32,9 @@ public class TripMethods extends TripVariables implements IConstants{
         return numberOfTrips;
     }
 
-    public void setNumberOfTrips(String cant) throws Exceptions{
+    public void setNumberOfTrips(String cant) throws ownException{
         if (excetions.isNumeric(cant)) {
-            throw new Exceptions(excetions.msg(0));
+            throw new ownException(excetions.msg(0));
         }
         this.numberOfTrips = Integer.parseInt(cant);
     }
@@ -43,9 +43,9 @@ public class TripMethods extends TripVariables implements IConstants{
         return trackHeight;
     }
 
-    public void setPistaHeight(String trackHeight) throws Exceptions{
+    public void setPistaHeight(String trackHeight) throws ownException{
         if (excetions.isNumeric(trackHeight)) {
-            throw new Exceptions(excetions.msg(0));
+            throw new ownException(excetions.msg(0));
         }
         this.trackHeight = Integer.parseInt(trackHeight);
         
@@ -55,9 +55,9 @@ public class TripMethods extends TripVariables implements IConstants{
         return trackWidth;
     }
 
-    public void setPistaWidth(String trackWidth) throws Exceptions{
+    public void setPistaWidth(String trackWidth) throws ownException{
         if (excetions.isNumeric(trackWidth)) {
-            throw new Exceptions(excetions.msg(0));
+            throw new ownException(excetions.msg(0));
         }
         this.trackWidth = Integer.parseInt(trackWidth);
 
@@ -73,7 +73,7 @@ public class TripMethods extends TripVariables implements IConstants{
 
     public void setTimeReal(String timeReal) throws Exception{
         if (excetions.isNumeric(timeReal)) {
-            throw new Exceptions(excetions.msg(0));
+            throw new ownException(excetions.msg(0));
         }
         this.timeReal = Integer.parseInt(timeReal);
     }
@@ -82,9 +82,9 @@ public class TripMethods extends TripVariables implements IConstants{
         return timeProx;
     }
     
-    public void setTimeProx(String timeProx) throws Exceptions{
+    public void setTimeProx(String timeProx) throws ownException{
         if (excetions.isNumeric(timeProx)) {
-            throw new Exceptions(excetions.msg(0));
+            throw new ownException(excetions.msg(0));
         }
         this.timeProx = Integer.parseInt(timeProx);
     }
@@ -105,11 +105,11 @@ public class TripMethods extends TripVariables implements IConstants{
         return cantDronesByIndividualTrip;
     }
     
-    public void setCantDronesByIndividualTrip(int cantStations) throws Exceptions{
+    public void setCantDronesByIndividualTrip(int cantStations) throws ownException{
         cantDronesByIndividualTrip = (int)(calculateNumOfDronesBySet()/(2*Math.pow(cantStations,2)) - (2 * cantStations));
         System.out.println("cantidad de drones por viaje son:" + cantDronesByIndividualTrip);
         if(cantDronesByIndividualTrip < 1){
-            throw new Exceptions(excetions.msg(1));
+            throw new ownException(excetions.msg(1));
         }
     }
     
@@ -135,7 +135,7 @@ public class TripMethods extends TripVariables implements IConstants{
         return cuantosDronesPorSet;
     }
     
-    public ArrayList<Path> calculateTrip(Node[] nodes) throws Exceptions{
+    public ArrayList<Path> calculateTrip(Node[] nodes) throws ownException{
         
         setCantDronesByIndividualTrip(numberOfStations);
         

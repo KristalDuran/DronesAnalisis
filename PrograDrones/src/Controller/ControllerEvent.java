@@ -6,7 +6,7 @@
 package Controller;
 
 
-import Model.Exceptions;
+import Model.ownException;
 import Model.Graph;
 import Model.GraphMethods;
 import Model.Node;
@@ -95,7 +95,7 @@ public class ControllerEvent implements ActionListener{
                 }
 
             }
-        } catch (Exceptions exception) {
+        } catch (ownException exception) {
             event.setVisible(false);
             graphMethods.setGraph(new Graph());
             JOptionPane.showMessageDialog(null, exception.getMessage());

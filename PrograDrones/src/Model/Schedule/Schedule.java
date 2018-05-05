@@ -5,7 +5,7 @@
  */
 package Model.Schedule;
 
-import Model.Exceptions;
+import Model.ownException;
 import Model.Path;
 import java.util.ArrayList;
 
@@ -15,5 +15,5 @@ import java.util.ArrayList;
  */
 public interface Schedule{
     
-    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int time) throws Exceptions;
+    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int time) throws ownException;
 }

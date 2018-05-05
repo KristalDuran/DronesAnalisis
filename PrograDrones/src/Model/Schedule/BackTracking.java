@@ -1,7 +1,7 @@
 
 package Model.Schedule;
 
-import Model.Exceptions;
+import Model.ownException;
 import Model.IConstants;
 import java.util.ArrayList;
 import Model.Path;
@@ -23,7 +23,7 @@ public class BackTracking implements Schedule, IConstants{
     }
     
     @Override
-    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int time) throws Exceptions{
+    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int time) throws ownException{
         this.totalPaths = totalPaths;
         this.time = time;
         lineOfTime = new ArrayList<ArrayList<Path>>(totalPaths.size());
@@ -32,7 +32,7 @@ public class BackTracking implements Schedule, IConstants{
             //sendTrips();
             return lineOfTime;
         }
-        throw new Exceptions(excetions.msg(2));
+        throw new ownException(excetions.msg(2));
     }
     
      /**
