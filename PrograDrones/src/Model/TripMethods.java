@@ -154,9 +154,10 @@ public class TripMethods extends TripVariables implements IConstants{
         setCantDronesByIndividualTrip(numberOfStations);
         
         int cantRestanteViajes = numberOfTrips;
+        Random rand = new Random();
         
         while(cantRestanteViajes > 0){
-            int indiceDelViaje = (int)(Math.random()*(totalPaths.size()-1));
+            int indiceDelViaje = rand.nextInt(totalPaths.size());
             Path pathPorRealizar = totalPaths.get(indiceDelViaje);
             //cantRestanteViajes -= cantDronesByIndividualTrip;----------------------------------marca de cómo estába antes
             cantRestanteViajes--;

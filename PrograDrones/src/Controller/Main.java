@@ -19,10 +19,5 @@ public class Main {
         
         menu.fijarControlador(new ControllerMenu(menu, new GraphMethods()));
     }
-//    Menu menu = new Menu();
-//    menu.new 
-//    
-//    Menu menu = new Menu();
-//        menu.fijarControlador(new ControllerMenu(menu, new GraphMethods(), new TripMethods()));
-//        
+ 
 }
