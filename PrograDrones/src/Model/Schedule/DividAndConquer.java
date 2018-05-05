@@ -17,16 +17,16 @@ public class DividAndConquer implements Schedule, IConstants{
     
     
     private ArrayList<ArrayList<Path>> tripsSlots = new ArrayList<ArrayList<Path>>();
-    private int timeTotal = 0;
+    private int timeExpected;
     
     
     @Override
     public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int timeExpected )throws ownException{
-        
-        divide(totalPaths, 0, totalPaths.size()-1, 0);
+        this.timeExpected = timeExpected;
+        divide(totalPaths, 0, totalPaths.size()-1);
         
         if (totalPaths.size() > 1 && totalPaths.size()%2 != 0) {
-            addTime(totalPaths.get(totalPaths.size()/2));
+            validateTime(totalPaths.get(totalPaths.size()/2));
             tripsSlots.get(totalPaths.get(totalPaths.size()/2).getOffset()).add(totalPaths.get(totalPaths.size()/2));
         }
         
@@ -34,31 +34,28 @@ public class DividAndConquer implements Schedule, IConstants{
             tripsSlots.add(totalPaths );
         }
         
-        if (timeTotal > ((timeExpected * 3600)*1000)) {   
-            throw new ownException(excetions.msg(2));
-        }
-        
         return tripsSlots;
     }
 
     /**
      * This method divides the travel list recursively 
+     * The O big is: O(n log n)
+     * T(n) = 
      * @param trips
      * @param low
      * @param high
-     * @param cont
      * @return ArrayList<ArrayList<>>
      */
-    public ArrayList<ArrayList<Path>> divide(ArrayList<Path> trips, int low, int high, int cont){
-        if (low < high){
+    public ArrayList<ArrayList<Path>> divide(ArrayList<Path> trips, int low, int high) throws ownException{
+        if (low < high){ //times: n
             
-            int middle = (low + high) /2;
+            int middle = (low + high) /2; //times: n-1
 
-            divide(trips, low, middle,cont );
+            divide(trips, low, middle ); // times: n/2
 
-            divide(trips, middle+1, high, cont );
+            divide(trips, middle+1, high); // times: n/2
 
-            merge(trips, low, middle, high, cont);
+            merge(trips, low, middle, high); // times: n/2
         }
         
         return null;
@@ -66,28 +63,28 @@ public class DividAndConquer implements Schedule, IConstants{
     
     /**
      * This method merges the array and that inserts the trips in the correct place of departure
+     * El O grande es de: O(n)
+
      * @param arr
      * @param low
      * @param middle
      * @param high
-     * @param cont 
      */
-    public void merge(ArrayList<Path> arr, int low, int middle, int high, int cont){
+    public void merge(ArrayList<Path> arr, int low, int middle, int high) throws ownException{
         
+        Path[] helper = new Path[arr.size()]; //times: 1
         
-        Path[] helper = new Path[arr.size()];
-	for (int indexArray = low; indexArray <= high; indexArray++) {
-            helper[indexArray] = arr.get(indexArray);
+	for (int indexArray = low; indexArray <= high; indexArray++) { //times: high - low
+            helper[indexArray] = arr.get(indexArray); //times: high - low -1
             
-            if (helper[indexArray].getOffset() > 0 ) {
-                restTime(helper[indexArray]);
+            if (helper[indexArray].getOffset() > 0 ) { //times: high - low -1
                 tripsSlots.get(arr.get(indexArray).getOffset()-1).remove(arr.get(indexArray));
                 arr.get(indexArray).setOffset(arr.get(indexArray).getOffset()-1);
             }            
 	}
        
-        if (tripsSlots.size() <= high) {
-            for (int legthTrips = 0; legthTrips <= high; legthTrips++) {
+        if (tripsSlots.size() <= high) { //times: 1
+            for (int legthTrips = 0; legthTrips <= high; legthTrips++) { //times: high
                 tripsSlots.add(new ArrayList<>());
             } 
         }
@@ -96,51 +93,43 @@ public class DividAndConquer implements Schedule, IConstants{
 	int helperRight = middle + 1;
 	int current = low;
 	
-	while (helperLeft <= middle && helperRight <= high) {
+	while (helperLeft <= middle && helperRight <= high) { //times: 
 
-//            if (!tripsSlots.get(helper[helperLeft].getOffset()).contains(helper[helperLeft])) {
-                tripsSlots.get(helper[helperLeft].getOffset()).add(helper[helperLeft]);
-                helper[helperLeft].setOffset(helper[helperLeft].getOffset()+1);
-                addTime(helper[helperLeft]);
-                helperLeft++;
-
-//            }
+            tripsSlots.get(helper[helperLeft].getOffset()).add(helper[helperLeft]);
             
-//            if (!tripsSlots.get(helper[helperRight].getOffset()).contains(helper[helperRight])) {
-                tripsSlots.get(helper[helperRight].getOffset()).add(helper[helperRight]);
-                helper[helperRight].setOffset(helper[helperRight].getOffset()+1);
-                addTime(helper[helperRight]);
-                helperRight++;
+            if (!validateTime(helper[helperRight])) {
+                throw new ownException(excetions.msg(2));
+            }
+            
+            helper[helperLeft].setOffset(helper[helperLeft].getOffset()+1);
+            
+            helperLeft++;
 
-//            }
+            tripsSlots.get(helper[helperRight].getOffset()).add(helper[helperRight]);
+
+            if (!validateTime(helper[helperRight])) {
+                throw new ownException(excetions.msg(2));
+            }
+            helper[helperRight].setOffset(helper[helperRight].getOffset()+1);
+            helperRight++;
+
             current ++;
 		
 	}
 	
- 
-        
     }
     
     /**
      * This method adds the time of agreement offSet
      * @param path 
      */
-    public void addTime(Path path){
-        if (path.getOffset() == 1) {
-            timeTotal += (((path.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP));
-        }else
-            timeTotal += 90;   //----------------------------------------lo que dura subiendose
-    }
-    
-    /**
-     * This method subtracts the time of agreement offSet
-     * @param path 
-     */
-    public void restTime(Path path){
-        if (path.getOffset() == 1) {
-            timeTotal -= (((path.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP));
-        }else
-            timeTotal -= 90;   //----------------------------------------lo que dura subiendose
+    public boolean validateTime(Path path){
+        
+        if ((((path.getOffset()) * 90) + ((path.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP)) 
+                > timeExpected*3600000) {
+            return false;
+        }
+        return true;
     }
 
     
