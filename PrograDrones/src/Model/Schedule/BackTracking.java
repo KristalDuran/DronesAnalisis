@@ -38,6 +38,9 @@ public class BackTracking implements Schedule, IConstants{
      /**
      * This method make a controller of the trips, it is recursive, 
      * it chooses the trips that can be added in the current slot 
+     * The O big is: O(n^2)
+     * T(n) = a. O(n^2)       if all trips are the same
+     *        b. 
      * @param indexListOfAllTrips
      * @param listOfTrips
      * @param indexList
@@ -48,10 +51,11 @@ public class BackTracking implements Schedule, IConstants{
         if (counterTripsadded == listOfTrips.size()) {
             return true;
         }else{
+            //el while se hara n veces, siendo n la cantidad de viajes, solo sera menor si se excede el tiempo
             while (indexList <= listOfTrips.size()-1) { 
                 if (insertTrip(indexListOfAllTrips, listOfTrips.get(indexList))) {
                     counterTripsadded++;
-                    if (!validateTime(listOfTrips.get(indexList), time)) {
+                    if (!validateTime(listOfTrips.get(indexList))) {
                         return false;
                     }
                     if (indexList >= listOfTrips.size()-1) {
@@ -71,6 +75,7 @@ public class BackTracking implements Schedule, IConstants{
     
     /**
      * This methos insertThe trips in the correct block
+     * O(c)
      * @param indexListOfAllTrips
      * @param path
      * @return boolean
@@ -82,9 +87,7 @@ public class BackTracking implements Schedule, IConstants{
         }
         
         if (lineOfTime.size()-1 < indexListOfAllTrips) {
-//            for (int i = 0; i <= index - lineOfTime.size(); i++) {
-                lineOfTime.add(new ArrayList<>());
-//            }
+            lineOfTime.add(new ArrayList<>());
         }
         
         lineOfTime.get(indexListOfAllTrips).add(path);  
@@ -94,19 +97,14 @@ public class BackTracking implements Schedule, IConstants{
     
     /**
      * This method validates and define the time
+     * O(c)
      * @param path
-     * @param timeExpected
      * @return boolean
      */ 
-    public boolean validateTime( Path path, int timeExpected){
+    public boolean validateTime( Path path){
         
-        if (path.getOffset() == 1) {
-            timeTotal += (((path.getOffset()) * 90) + ((path.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP));
-        }else{
-            timeTotal += 90; // ese tiempo que dura subiendose el mismo creo que esta mal
-        }
-        
-        if (timeTotal > ((timeExpected * 3600)*1000)) {
+        if ((((path.getOffset() + 1) * 90) + ((path.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP)) 
+                > time*3600000) {
             return false;
         }
         return true;
