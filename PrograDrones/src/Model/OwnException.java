@@ -5,7 +5,7 @@ package Model;
  * This clase extends of Exception 
  * @author Kris
  */
-public class ownException extends Exception{
+public class OwnException extends Exception{
     
     //This array has the messaje of all exceptions
     private String[] arrayExceptions = {"A data that is not numeric has been entered",
@@ -14,12 +14,12 @@ public class ownException extends Exception{
     
     private int numberException;
     
-    public ownException(int numExcpetion) {
+    public OwnException(int numExcpetion) {
         String message = msg(numExcpetion);
         
     }
     
-    public ownException(String msg){
+    public OwnException(String msg){
         super(msg);
     }
     

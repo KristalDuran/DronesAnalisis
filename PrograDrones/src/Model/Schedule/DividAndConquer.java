@@ -1,7 +1,7 @@
 
 package Model.Schedule;
 
-import Model.ownException;
+import Model.OwnException;
 import Model.IConstants;
 import static Model.IConstants.WORSE_TIME_TO_GET_TO_THE_TOP;
 import Model.Path;
@@ -21,7 +21,7 @@ public class DividAndConquer implements Schedule, IConstants{
     
     
     @Override
-    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int timeExpected )throws ownException{
+    public ArrayList<ArrayList<Path>> AirTrafficController(ArrayList<Path> totalPaths, int timeExpected )throws OwnException{
         this.timeExpected = timeExpected;
         divide(totalPaths, 0, totalPaths.size()-1);
         
@@ -40,13 +40,13 @@ public class DividAndConquer implements Schedule, IConstants{
     /**
      * This method divides the travel list recursively 
      * The O big is: O(n log n)
-     * T(n) = 
+     * T(n) = sumatoria de n/2 hasta cero
      * @param trips
      * @param low
      * @param high
      * @return ArrayList<ArrayList<>>
      */
-    public ArrayList<ArrayList<Path>> divide(ArrayList<Path> trips, int low, int high) throws ownException{
+    public ArrayList<ArrayList<Path>> divide(ArrayList<Path> trips, int low, int high) throws OwnException{
         if (low < high){ //times: n
             
             int middle = (low + high) /2; //times: n-1
@@ -70,7 +70,7 @@ public class DividAndConquer implements Schedule, IConstants{
      * @param middle
      * @param high
      */
-    public void merge(ArrayList<Path> arr, int low, int middle, int high) throws ownException{
+    public void merge(ArrayList<Path> arr, int low, int middle, int high) throws OwnException{
         
         Path[] helper = new Path[arr.size()]; //times: 1
         
@@ -98,7 +98,7 @@ public class DividAndConquer implements Schedule, IConstants{
             tripsSlots.get(helper[helperLeft].getOffset()).add(helper[helperLeft]);
             
             if (!validateTime(helper[helperRight])) {
-                throw new ownException(excetions.msg(2));
+                throw new OwnException(excetions.msg(2));
             }
             
             helper[helperLeft].setOffset(helper[helperLeft].getOffset()+1);
@@ -108,7 +108,7 @@ public class DividAndConquer implements Schedule, IConstants{
             tripsSlots.get(helper[helperRight].getOffset()).add(helper[helperRight]);
 
             if (!validateTime(helper[helperRight])) {
-                throw new ownException(excetions.msg(2));
+                throw new OwnException(excetions.msg(2));
             }
             helper[helperRight].setOffset(helper[helperRight].getOffset()+1);
             helperRight++;
