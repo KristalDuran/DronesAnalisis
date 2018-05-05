@@ -28,8 +28,9 @@ public class BackTracking implements Schedule, IConstants{
         this.totalPaths = totalPaths;
         this.time = time;
         lineOfTime = new ArrayList<ArrayList<Path>>(totalPaths.size());
-        if (backtracking(0, totalPaths, 0, new ArrayList<Integer>() , 0)) {
-            sendTrips();
+        boolean cantDoTrips = backtracking(0, totalPaths, 0 , 0);
+        if (cantDoTrips) {
+            //sendTrips();
             return lineOfTime;
         }
         throw new Exceptions(excetions.msg(2));
@@ -42,7 +43,7 @@ public class BackTracking implements Schedule, IConstants{
      * @param indexList
      * @return boolean
      */
-    public boolean backtracking( int indexMatriz, ArrayList<Path> listOfTrips, int indexList, ArrayList<Integer> ma, int cont){        
+    public boolean backtracking( int indexMatriz, ArrayList<Path> listOfTrips, int indexList, int cont){        
         
         if (cont == listOfTrips.size()) {
             return true;
@@ -50,18 +51,18 @@ public class BackTracking implements Schedule, IConstants{
             while (indexList <= listOfTrips.size()-1) { 
                 if (insertTrip(indexMatriz, listOfTrips.get(indexList))) {
                     cont++;
-                    if (!validarTime(ma, listOfTrips.get(indexList), time)) {
+                    if (!validarTime( listOfTrips.get(indexList), time)) {
                         return false;
                     }
                     if (indexList >= listOfTrips.size()-1) {
-                        backtracking(indexMatriz+1, listOfTrips, 0, ma, cont);
+                        backtracking(indexMatriz+1, listOfTrips, 0, cont);
                         break;
                     }
                 }
                 indexList++;
             }
             if (cont < listOfTrips.size()-1 && indexList > listOfTrips.size()-1) {
-                backtracking(indexMatriz+1, listOfTrips, 0, ma, cont);        
+                backtracking(indexMatriz+1, listOfTrips, 0, cont);        
             }else{ return true; }
         }
         return true;
@@ -81,21 +82,28 @@ public class BackTracking implements Schedule, IConstants{
         }
         
         if (lineOfTime.size()-1 < index) {
-            lineOfTime.add(new ArrayList<>());
+//            System.out.println("c " + (index - lineOfTime.size()));
+//            for (int i = 0; i <= index - lineOfTime.size(); i++) {
+                lineOfTime.add(new ArrayList<>());
+//            }
+            
         }
         
         lineOfTime.get(index).add(path);  
         path.setOffset(path.getOffset()+1);
         return true;        
     }
-    
+    int timeTotal = 0;
     //creo que esta mal, probar bien 
-    public boolean validarTime(ArrayList<Integer> ma, Path path, int timeExpected){
-        if (ma.size()-1 < path.getOffset()) {
-            ma.add(0);
+    public boolean validarTime( Path path, int timeExpected){
+        
+        if (path.getOffset() == 0) {
+            timeTotal += (((path.getOffset()) * 90) + ((path.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP));
+        }else{
+            timeTotal += 90; // ese tiempo que dura subiendose el mismo creo que esta mal
         }
-        ma.set(path.getOffset()-1, (int)(ma.get(path.getOffset()-1)+ (((path.getOffset()) * 90) + ((path.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP))));
-        if (ma.get(path.getOffset()-1) > ((timeExpected * 3600)*1000)) {
+        
+        if (timeTotal > ((timeExpected * 3600)*1000)) {
             return false;
         }
         return true;
