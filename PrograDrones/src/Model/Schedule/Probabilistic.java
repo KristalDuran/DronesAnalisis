@@ -19,7 +19,7 @@ import java.util.Random;
  */
 public class Probabilistic implements Schedule,IConstants {
 
-    Random getRand = new Random();
+    private Random getRand = new Random();
     
     public Probabilistic(){
         

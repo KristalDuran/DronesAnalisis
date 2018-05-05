@@ -32,10 +32,12 @@ import javax.swing.JOptionPane;
  */
 public class ControllerEvent implements ActionListener{
 
-    Event event;
-    GraphMethods graphMethods;
-    TripMethods tripMethods;
-    int time;
+    private Event event;
+    private GraphMethods graphMethods;
+    private TripMethods tripMethods;
+    private int time;
+    
+
     
     public ControllerEvent(Event event, GraphMethods graphMethods, TripMethods tripMethods) {
         this.event = event;
@@ -58,19 +60,37 @@ public class ControllerEvent implements ActionListener{
                 
                 if (event.jRadioDivide.isSelected()) {
                     DividAndConquer divide = new DividAndConquer();
+                    
+                    long INICIO_MS = System.currentTimeMillis();
                     ArrayList<ArrayList<Path>> result = divide.AirTrafficController(arr, time);
+                    long DURACION_MS = System.currentTimeMillis() - INICIO_MS;
+                    
                     new ThreadManager(event.tripsByTheMoment,event.numberOfDronesByTheMoment,event.planoCartesiano,prepareResultToMakeTheGraphics(result),graphMethods.getLinesToDraw(),graphMethods.getNodes(),(int)tripMethods.getCantDronesByIndividualTrip(),tripMethods.getNumberOfTrips(), tripMethods.getTimeReal());
-
+                    event.leftoverTime.setText(Integer.toString(tripMethods.getTimeRemaining(result, time)));
+                    event.fitTrips.setText(Double.toString(DURACION_MS));
+                    
                 }else{
                     if (event.jRadioProbabilistic.isSelected()) {
                         Probabilistic probabilistic = new Probabilistic(); //arreglar
+                        
+                        long INICIO_MS = System.currentTimeMillis();
                         ArrayList<ArrayList<Path>> result = probabilistic.AirTrafficController(arr, time);
+                        long DURACION_MS = System.currentTimeMillis() - INICIO_MS;
+                        
                         new ThreadManager(event.tripsByTheMoment,event.numberOfDronesByTheMoment,event.planoCartesiano,prepareResultToMakeTheGraphics(result),graphMethods.getLinesToDraw(),graphMethods.getNodes(),(int)tripMethods.getCantDronesByIndividualTrip(),tripMethods.getNumberOfTrips(), tripMethods.getTimeReal());
+                        event.leftoverTime.setText(Integer.toString(tripMethods.getTimeRemaining(result, time)));
+                        event.fitTrips.setText(Double.toString(DURACION_MS));
 
                     }else if (event.jRadioBackTracking.isSelected()) {
                         BackTracking back = new BackTracking();
+                        
+                        long INICIO_MS = System.currentTimeMillis();
                         ArrayList<ArrayList<Path>> result = back.AirTrafficController(arr, time);
+                        long DURACION_MS = System.currentTimeMillis() - INICIO_MS;
+
                         new ThreadManager(event.tripsByTheMoment,event.numberOfDronesByTheMoment,event.planoCartesiano,prepareResultToMakeTheGraphics(result),graphMethods.getLinesToDraw(),graphMethods.getNodes(),(int)tripMethods.getCantDronesByIndividualTrip(),tripMethods.getNumberOfTrips(), tripMethods.getTimeReal());
+                        event.leftoverTime.setText(Integer.toString(tripMethods.getTimeRemaining(result, time)));
+                        event.fitTrips.setText(Double.toString(DURACION_MS));
                     }
                 }
 

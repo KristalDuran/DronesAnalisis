@@ -12,8 +12,8 @@ import java.util.ArrayList;
  * @author Kris
  */
 public class Restriction {
-    int from;
-    int to;
+    private int from;
+    private int to;
 //    int stationsRestricted[] = null;
     
     public Restriction(int from, int to){

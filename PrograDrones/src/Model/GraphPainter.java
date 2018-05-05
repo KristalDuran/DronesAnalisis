@@ -21,11 +21,10 @@ import javax.swing.JPanel;
  */
 public class GraphPainter implements Runnable{
 
-    public Thread t;
-    
-    Node nodos[];
-    ArrayList<Integer> linesToDraw;
-    Graphics g;
+    private Thread t;
+    private Node nodos[];
+    private ArrayList<Integer> linesToDraw;
+    private Graphics g;
     
     public GraphPainter(Node nodos[], ArrayList<Integer> linesToDraw, Graphics g){
         this.nodos= nodos;
@@ -59,7 +58,6 @@ public class GraphPainter implements Runnable{
         
         
     }
-    
     
     public void drawLines(Graphics g){
         for(int drawPoints = 0; drawPoints <= linesToDraw.size()-3;drawPoints += 4){

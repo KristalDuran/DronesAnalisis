@@ -170,4 +170,19 @@ public class TripMethods extends TripVariables implements IConstants{
         return(int) ((double)((double)distance/(double)SPEED)*3600000);
     }
         
+    public int getTimeRemaining(ArrayList<ArrayList<Path>> result, int totalTime){
+        totalTime = (totalTime*3600)*1000;
+        ArrayList<Path> lastSlot = result.get(result.size()-1);
+        Path larger = new Path();
+        larger.setTotalWeight(0);
+        
+        for(int getLargerTrip = 0; getLargerTrip < lastSlot.size();getLargerTrip++){
+            if(lastSlot.get(getLargerTrip).getTotalWeight() > larger.getTotalWeight()){
+                larger = lastSlot.get(getLargerTrip);
+            }
+        }
+        int timeToEndLastTrip = (int)((90 * (larger.getOffset() + 1)) + ((larger.getTotalWeight()/120)*3600000) + (2*WORSE_TIME_TO_GET_TO_THE_TOP));
+        return totalTime - timeToEndLastTrip;
+    }
+    
 }
